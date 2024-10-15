@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import {
   Disclosure,
@@ -9,19 +11,42 @@ import {
   MenuItems,
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useEffect } from "react";
+import { clientStore } from "@/stores/clientStore";
+import { useRouter } from "next/navigation";
+import supabaseClient from "@/services/supabase";
 
 export default function Home() {
+  const { session } = clientStore();
+  const router = useRouter();
+  console.log("session from home page is", session);
+
+  // Checking the session
+  useEffect(() => {
+    if (session?.access_token) {
+      console.log("running");
+      router.push("/signin");
+    }
+  }, []);
+
+  const signMeOut = async () => {
+    const { error } = await supabaseClient.auth.signOut();
+    if (error) {
+      throw error;
+    }
+    router.push("/signin");
+  };
 
   function classNames(...classes: any[]) {
-    return classes.filter(Boolean).join(' ')
+    return classes.filter(Boolean).join(" ");
   }
 
   const navigation = [
-    { name: 'Dashboard', href: '#', current: true },
-    { name: 'Team', href: '#', current: false },
-    { name: 'Projects', href: '#', current: false },
-    { name: 'Calendar', href: '#', current: false },
-  ]
+    { name: "Dashboard", href: "#", current: true },
+    { name: "Team", href: "#", current: false },
+    { name: "Projects", href: "#", current: false },
+    { name: "Calendar", href: "#", current: false },
+  ];
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -114,12 +139,12 @@ export default function Home() {
                   </a>
                 </MenuItem>
                 <MenuItem>
-                  <a
-                    href="#"
+                  <button
                     className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
+                    onClick={signMeOut}
                   >
                     Sign out
-                  </a>
+                  </button>
                 </MenuItem>
               </MenuItems>
             </Menu>
