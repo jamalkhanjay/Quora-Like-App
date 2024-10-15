@@ -7,6 +7,7 @@ import React, { useState } from "react";
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // const [userName, setUserName] = useState("") ;
   const router = useRouter();
 
   const handleSignIn = async () => {
@@ -35,7 +36,7 @@ const SignIn = () => {
         </h2>
       </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm space-y-8">
         <div>
           <label
             htmlFor="email"

@@ -24,7 +24,7 @@ const Auth = () => {
     getMeSession();
   }, []);
 
-  return <div>A</div>;
+  return null;
 };
 
 export default Auth;
