@@ -1,27 +1,16 @@
 "use client";
 
 import Header from "@/components/shared/Header";
+import Sidebar from "@/components/shared/Sidebar";
 import { getAllData } from "@/lib/supabaseMethods";
 import { clientStore } from "@/stores/clientStore";
 import Image from "next/image";
-import { useEffect } from "react";
-// import {
-//   Disclosure,
-//   DisclosureButton,
-//   DisclosurePanel,
-//   Menu,
-//   MenuButton,
-//   MenuItem,
-//   MenuItems,
-// } from "@headlessui/react";
-// import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-// import { useEffect } from "react";
-// import { clientStore } from "@/stores/clientStore";
-// import { useRouter } from "next/navigation";
-// import supabaseClient from "@/services/supabase";
+import { useEffect, useState } from "react";
+
 
 export default function Home() {
   // console.log("session from home page is", session);
+  const [loading, isLoading] = useState(false);
 
   const { setUserData, userData } = clientStore();
   // Checking the session
@@ -42,12 +31,11 @@ export default function Home() {
     fetchingData();
   }, []);
 
-  console.log("The feed data is ", userData);
-
   return (
     <>
       <Header />
-      <div className="w-full flex flex-col gap-5 justify-center items-center mt-6">
+      <Sidebar />
+      <div className="ml-64 flex flex-col gap-5 justify-center items-center mt-6">
         {userData?.map((item) => (
           <div
             className="w-[70%] p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-700 dark:border-gray-950"
@@ -63,7 +51,7 @@ export default function Home() {
             {/* Comments and votes section area */}
             <div className="flex gap-10">
               <div className="flex gap-4">
-                <button className="flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <button className="flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-950">
                   Upvote - {item.votes}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -81,7 +69,7 @@ export default function Home() {
                   </svg>
                 </button>
 
-                <button className="flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <button className="flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-950">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -99,7 +87,7 @@ export default function Home() {
                 </button>
               </div>
 
-              <button className="flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              <button className="flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-950">
                 Comments - {item.comments}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
