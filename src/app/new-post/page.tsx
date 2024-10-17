@@ -2,7 +2,7 @@
 
 import Header from "@/components/shared/Header";
 import Sidebar from "@/components/shared/Sidebar";
-import { addPost, getUserId } from "@/lib/supabaseMethods";
+import { addPost, getUserIdAndName } from "@/lib/supabaseMethods";
 import { clientStore } from "@/stores/clientStore";
 import React, { useState } from "react";
 import Auth from "../Auth";
@@ -17,7 +17,7 @@ const AddPost = () => {
   console.log("session", session);
 
   const handleSubmit = async () => {
-    const result = await getUserId(userId);
+    const result = await getUserIdAndName(userId);
     console.log("result is -> ", result);
     if (result) {
       const { uuid, username } = result;
@@ -47,7 +47,9 @@ const AddPost = () => {
               onChange={(e) => setTitle(e.target.value)}
               type="text"
               id="small-input"
-              className="block w-full p-2 text-white border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Enter Title"
+              required
+              className="block w-full p-2 text-white border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
 
@@ -71,7 +73,9 @@ const AddPost = () => {
               onChange={(e) => setDescription(e.target.value)}
               type="text"
               id="large-input"
-              className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Write some description"
+              required
+              className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
 

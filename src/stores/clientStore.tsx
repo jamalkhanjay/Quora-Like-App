@@ -2,13 +2,10 @@ import { Session } from "@supabase/supabase-js";
 import { create } from "zustand";
 
 interface Data {
-  id: number;
+  uuid: string;
   created_at: string;
   post_title: string;
   description: string;
-  votes: number;
-  comments: number;
-  time: string;
   post_added_by: string
 }
 

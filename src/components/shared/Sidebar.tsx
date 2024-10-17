@@ -33,7 +33,7 @@ const Sidebar = () => {
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            clip-rule="evenodd"
+            clipRule="evenodd"
             fill-rule="evenodd"
             d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
           ></path>
@@ -50,7 +50,7 @@ const Sidebar = () => {
             <li onClick={() => router.push("/new-post")}>
               <button className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <FaPlus />
-                <span className="ms-3">Add new Post</span>
+                <span className="ms-2">Add new Post</span>
               </button>
             </li>
             <li onClick={() => router.push("/")}>
@@ -59,7 +59,7 @@ const Sidebar = () => {
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                <GoHome />
-                <span className="flex-1 ms-3 whitespace-nowrap">Feed</span>
+                <span className="flex-1 ms-2 whitespace-nowrap">Feed</span>
                 <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
                   Feed
                 </span>
@@ -72,7 +72,7 @@ const Sidebar = () => {
               onClick={signMeOut}
             >
               <GoSignOut />
-              <span className="ms-3">Sign Out</span>
+              <span className="ms-2">Sign Out</span>
             </button>
           </div>
         </div>

@@ -46,6 +46,10 @@ const SignUp = () => {
       }
 
       // setUserId()
+      setEmail("");
+      setPassword('');
+      setUserName('');
+      router.push('/signin')
     }
   };
 
