@@ -1,5 +1,6 @@
 "use client";
 
+import CommentsModal from "@/components/CommentsModal";
 import Header from "@/components/shared/Header";
 import Sidebar from "@/components/shared/Sidebar";
 import { getAllData } from "@/lib/supabaseMethods";
@@ -10,8 +11,9 @@ import { useEffect, useState } from "react";
 export default function Home() {
   // console.log("session from home page is", session);
   const [loading, isLoading] = useState(false);
+  const [isShowing, setIsShowing] = useState(false);
 
-  const { setUserData, userData} = clientStore();
+  const { setUserData, userData } = clientStore();
   // Checking the session
   // useEffect(() => {
   //   if (!session?.access_token) {
@@ -30,7 +32,9 @@ export default function Home() {
     fetchingData();
   }, []);
 
-  
+  const handleModal = () => {
+    setIsShowing(!isShowing);
+  };
 
   return (
     <>
@@ -39,17 +43,19 @@ export default function Home() {
       <div className="ml-64 flex flex-col gap-5 justify-center items-center mt-6">
         {userData?.map((item) => (
           <div
-            className="w-[70%] p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-700 dark:border-gray-950"
+            className="w-[70%] p-6 mb-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-700 dark:border-gray-950"
             key={item.id}
           >
             {/* User name and time of post */}
             <div className="flex items-center gap-2 text-white">
               <div className="w-8 h-8 bg-gray-950 rounded-full"></div>
-              <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">{item.post_added_by}</h5>
-              <p>{item.time}</p>
+              <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                {item.post_added_by}
+              </h5>
+              <p className="text-sm text-gray-500">{item.created_at}</p>
             </div>
-            
-            <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+
+            <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-gray-200">
               {item.post_title}
             </h5>
             <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
@@ -95,7 +101,10 @@ export default function Home() {
                 </button>
               </div>
 
-              <button className="flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-950">
+              <button
+                onClick={handleModal}
+                className="flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-950"
+              >
                 Comments - {item.comments}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -116,6 +125,7 @@ export default function Home() {
           </div>
         ))}
       </div>
+      {isShowing && <CommentsModal />}
     </>
   );
 }
