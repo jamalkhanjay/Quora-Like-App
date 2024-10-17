@@ -10,16 +10,14 @@ import {
   updateVoteType,
 } from "@/lib/supabaseMethods";
 import { clientStore } from "@/stores/clientStore";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { PiEmpty } from "react-icons/pi";
+import Auth from "./Auth";
 
 export default function Home() {
-  // console.log("session from home page is", session);
   const [loading, setLoading] = useState(false);
   const [isShowing, setIsShowing] = useState(false);
   const [isVoteBtnClicked, setIsVoteBtnClicked] = useState(false);
-  // let tempVotBtn = true;
 
   const { setUserData, userData, session } = clientStore();
   // Checking the session
@@ -42,21 +40,39 @@ export default function Home() {
     fetchingPostData();
   }, []);
 
-
   // Handling votes
   const handleUpvotes = async (post_id: string) => {
-    // When a buttons is not clicked new row will be inserted
+    const userId = session?.user.id;
+
+    if (!userId) {
+      console.log("No user found. Cannot upvote");
+    }
+
+    // Insert a new vote if the button was not previously clicked
     if (!isVoteBtnClicked) {
-      setIsVoteBtnClicked(!isVoteBtnClicked);
-      const userId = await getUserId(session?.user.id);
-      await addVote(post_id, isVoteBtnClicked, userId);
+      // Add vote with vote_type as true
+      await addVote(post_id, true, userId);
+    } else {
+      // If clicked, update the vote_type to false
+      await updateVoteType(false, post_id, userId);
     }
-    // if it is clicked then update the current row boolean value to false
-    else {
-      setIsVoteBtnClicked(!isVoteBtnClicked);
-      await updateVoteType(isVoteBtnClicked, post_id);
-    }
+
+    setIsVoteBtnClicked(!isVoteBtnClicked);
   };
+
+  // const handleUpvotes = async (post_id: string) => {
+  //   // When a buttons is not clicked new row will be inserted
+  //   if (!isVoteBtnClicked) {
+  //     setIsVoteBtnClicked(!isVoteBtnClicked);
+  //     const userId = await getUserId(session?.user.id);
+  //     await addVote(post_id, isVoteBtnClicked, userId);
+  //   }
+  //   // if it is clicked then update the current row boolean value to false
+  //   else {
+  //     setIsVoteBtnClicked(!isVoteBtnClicked);
+  //     await updateVoteType(isVoteBtnClicked, post_id);
+  //   }
+  // };
 
   const handleModal = () => {
     setIsShowing(!isShowing);
@@ -64,6 +80,7 @@ export default function Home() {
 
   return (
     <>
+      <Auth />
       <Header />
       <Sidebar />
       <div className="ml-64 flex flex-col gap-5 justify-center items-center mt-6">
@@ -119,9 +136,10 @@ export default function Home() {
                 <div className="flex gap-4">
                   <button
                     onClick={() => handleUpvotes(item.uuid)}
-                    className="flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-950"
+                    className="flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-800 rounded-lg hover:bg-gray-900"
                   >
-                    Upvote - {item.votes}
+                    {/* Upvote - {item.votes} */}
+                    Upvote
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -138,7 +156,7 @@ export default function Home() {
                     </svg>
                   </button>
 
-                  <button className="flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-950">
+                  <button className="flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-800 rounded-lg hover:bg-gray-900">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -160,7 +178,8 @@ export default function Home() {
                   onClick={handleModal}
                   className="flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-950"
                 >
-                  Comments - {item.comments}
+                  Comments
+                  {/* Comments - {item.comments} */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"

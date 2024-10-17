@@ -40,6 +40,7 @@ export const getUserId = async (sessionId: any) => {
   return data[0]?.uuid;
 };
 
+// Adding a new post 
 export const addPost = async (
   title: string,
   description: string,
@@ -79,7 +80,7 @@ export const addPost = async (
 export const addVote = async (
   post_id: string,
   vote_type: boolean,
-  user_id: string
+  user_id: string | undefined
 ) => {
   const { error } = await supabaseClient
     .from("votes")
@@ -92,14 +93,19 @@ export const addVote = async (
   console.log("Upvote ");
 };
 
-// UPDATE VOTE TYPE TO WHEN IT IS NOT CLICKED
-export const updateVoteType = async (vote_type: boolean, post_id: string) => {
+// UPDATE VOTE TYPE WHEN IT IS Already CLICKED
+export const updateVoteType = async (
+  vote_type: boolean,
+  post_id: string,
+  user_id: string | undefined
+) => {
   const { error } = await supabaseClient
     .from("votes")
     .update({ vote_type })
-    .eq("post_id", post_id);
+    .eq("post_id", post_id)
+    .eq("user_id", user_id);
 
-    if (error) {
-      console.log("Error white updating Vote types", error.message);
-    }
+  if (error) {
+    console.log("Error white updating Vote types", error.message);
+  }
 };
