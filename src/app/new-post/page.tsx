@@ -1,23 +1,38 @@
 "use client";
 
 import Header from "@/components/shared/Header";
-import { addPost } from "@/lib/supabaseMethods";
+import Sidebar from "@/components/shared/Sidebar";
+import { addPost, getUserId } from "@/lib/supabaseMethods";
+import { clientStore } from "@/stores/clientStore";
 import React, { useState } from "react";
+import Auth from "../Auth";
 
 const AddPost = () => {
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
 
+  const { session } = clientStore();
+
+  const userId = session?.user.id;
+  console.log("session", session);
+
   const handleSubmit = async () => {
-    await addPost(title, description);
+    const result = await getUserId(userId);
+    console.log("result is -> ", result);
+    if (result) {
+      const { uuid, username } = result;
+      await addPost(title, description, uuid, username);
+    }
     setTitle("");
     setDescription("");
   };
 
   return (
     <>
+      <Auth />
       <Header />
-      <div className="w-full flex flex-col justify-center items-center">
+      <Sidebar />
+      <div className="ml-64 flex flex-col justify-center items-center">
         <div className="w-[80%] mt-5 space-y-5">
           <div className="tex">
             <h1 className="text-2xl font-bold">Add New Post</h1>

@@ -16,13 +16,23 @@ const Auth = () => {
     }
     else {
         setSession(data.session);
-        
     }
   };
 
   useEffect(() => {
     getMeSession();
   }, []);
+
+  // const gettingSession = async () => {
+  //   await getMeSession();
+  //   if (gettingSession) {
+  //     setSession(gettingSession);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   gettingSession();
+  // });
 
   return null;
 };

@@ -3,19 +3,49 @@
 import supabaseClient from "@/services/supabase";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { clientStore } from "@/stores/clientStore";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState("");
   const router = useRouter();
+
+  // const { userId, setUserId } = clientStore();
 
   const createAccount = async () => {
     const { data, error } = await supabaseClient.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          userName,
+        },
+      },
     });
     if (error) {
       throw error;
+    }
+
+    console.log("DATA.USER id-> ", data?.user?.id);
+
+    // Storing New user data in User table
+    if (data?.user) {
+      const {
+        email,
+        user_metadata: { userName },
+        id
+      } = data.user;
+
+      const { error } = await supabaseClient
+        .from("users")
+        .insert({ username: userName, email,  main_userId: id});
+
+      if (error) {
+        console.log("Error while inserting user detail", error.message);
+      }
+
+      // setUserId()
     }
   };
 
@@ -34,64 +64,86 @@ const SignUp = () => {
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm space-y-8">
         {/* Email field */}
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Email address
-            </label>
-            <div className="mt-2">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
+        <div>
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+            Full Name
+          </label>
+          <div className="mt-2">
+            <input
+              id="username"
+              name="username"
+              type="text"
+              required
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              placeholder="Full Name"
+              className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
           </div>
+        </div>
+
+        {/* Email field */}
+        <div>
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+            Email address
+          </label>
+          <div className="mt-2">
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
+          </div>
+        </div>
 
         {/* Password field */}
-          <div>
-            <div className="flex items-center justify-between">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Password
-              </label>
-            </div>
-            <div className="mt-2">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                placeholder="Password"
-                className="block w-full rounded-md border-0 py-1.5  px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-
-          <div>
-            <button
-              // type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              onClick={createAccount}
+        <div>
+          <div className="flex items-center justify-between">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Sign Up
-            </button>
+              Password
+            </label>
           </div>
+          <div className="mt-2">
+            <input
+              id="password"
+              name="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              placeholder="Password"
+              className="block w-full rounded-md border-0 py-1.5  px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
+          </div>
+        </div>
+
+        <div>
+          <button
+            // type="submit"
+            className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onClick={createAccount}
+          >
+            Sign Up
+          </button>
+        </div>
         {/* </form> */}
 
         <p className="mt-10 text-center text-sm text-gray-500">
-          Already have an account.{" "}
+          Already have an account.
           <button
             onClick={() => router.push("/signin")}
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"

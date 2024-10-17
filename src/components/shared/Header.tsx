@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import { clientStore } from "@/stores/clientStore";
 
 const Header = () => {
-  const { session } = clientStore();
+  const { setSession } = clientStore();
   const router = useRouter();
 
   const signMeOut = async () => {
@@ -65,7 +65,7 @@ const Header = () => {
                 className="h-8 w-auto"
               />
             </div>
-            <div className="hidden sm:ml-6 sm:block">
+            {/* <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
                 <button
                   className="text-white cursor-pointer"
@@ -80,7 +80,7 @@ const Header = () => {
                   Add new Post
                 </button>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <button

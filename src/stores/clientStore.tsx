@@ -8,6 +8,8 @@ interface Data {
   description: string;
   votes: number;
   comments: number;
+  time: string;
+  post_added_by: string
 }
 
 interface clientStore {
@@ -15,6 +17,7 @@ interface clientStore {
   setSession: (session: Session | null) => void;
   userData: Data[];
   setUserData: (userData: Data[]) => void;
+
 }
 
 export const clientStore = create<clientStore>((set) => ({

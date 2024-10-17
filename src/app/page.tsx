@@ -7,12 +7,11 @@ import { clientStore } from "@/stores/clientStore";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-
 export default function Home() {
   // console.log("session from home page is", session);
   const [loading, isLoading] = useState(false);
 
-  const { setUserData, userData } = clientStore();
+  const { setUserData, userData} = clientStore();
   // Checking the session
   // useEffect(() => {
   //   if (!session?.access_token) {
@@ -31,6 +30,8 @@ export default function Home() {
     fetchingData();
   }, []);
 
+  
+
   return (
     <>
       <Header />
@@ -41,7 +42,14 @@ export default function Home() {
             className="w-[70%] p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-700 dark:border-gray-950"
             key={item.id}
           >
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            {/* User name and time of post */}
+            <div className="flex items-center gap-2 text-white">
+              <div className="w-8 h-8 bg-gray-950 rounded-full"></div>
+              <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">{item.post_added_by}</h5>
+              <p>{item.time}</p>
+            </div>
+            
+            <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
               {item.post_title}
             </h5>
             <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
