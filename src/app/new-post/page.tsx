@@ -14,13 +14,14 @@ const AddPost = () => {
   const { session } = clientStore();
 
   const userId = session?.user.id;
-  console.log("session", session);
+  const userName = session?.user.user_metadata.userName
 
-  // const handleSubmit = async () => {
-  //     // await addPost(title, description);
-  //   }
-  setTitle("");
-  setDescription("");
+  const handleSubmit = async () => {
+      await addPost(title, description, userId, userName);
+      setTitle("");
+      setDescription("");
+    }
+
   return (
     <>
       <Auth />
@@ -76,7 +77,7 @@ const AddPost = () => {
           <div>
             <button
               className="cursor-pointer bg-gray-900 text-white px-4 py-2 rounded-md"
-              // onClick={handleSubmit}
+              onClick={handleSubmit}
             >
               Submit
             </button>

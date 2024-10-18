@@ -108,7 +108,7 @@ export default function Home() {
         ) : userData.length === 0 ? (
           <div className="w-full p-6 mb-4 text-xl flex items-center justify-center gap-2">
             <PiEmpty />
-            No Post are added
+            No Posts are added
           </div>
         ) : (
           userData?.map((item) => (
