@@ -2,7 +2,7 @@
 
 import Header from "@/components/shared/Header";
 import Sidebar from "@/components/shared/Sidebar";
-import { addPost, getUserIdAndName } from "@/lib/supabaseMethods";
+import { addPost } from "@/lib/supabaseMethods";
 import { clientStore } from "@/stores/clientStore";
 import React, { useState } from "react";
 import Auth from "../Auth";
@@ -16,17 +16,11 @@ const AddPost = () => {
   const userId = session?.user.id;
   console.log("session", session);
 
-  const handleSubmit = async () => {
-    const result = await getUserIdAndName(userId);
-    console.log("result is -> ", result);
-    if (result) {
-      const { uuid, username } = result;
-      await addPost(title, description, uuid, username);
-    }
-    setTitle("");
-    setDescription("");
-  };
-
+  // const handleSubmit = async () => {
+  //     // await addPost(title, description);
+  //   }
+  setTitle("");
+  setDescription("");
   return (
     <>
       <Auth />
@@ -52,7 +46,7 @@ const AddPost = () => {
               className="block w-full p-2 text-white border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
-      
+
           {/* <div className="mb-5">
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">
             Base input
@@ -82,7 +76,7 @@ const AddPost = () => {
           <div>
             <button
               className="cursor-pointer bg-gray-900 text-white px-4 py-2 rounded-md"
-              onClick={handleSubmit}
+              // onClick={handleSubmit}
             >
               Submit
             </button>

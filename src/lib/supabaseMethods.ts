@@ -10,37 +10,7 @@ export const getPostData = async () => {
   return data;
 };
 
-// Getting user Id and name by passing a session id in params
-export const getUserIdAndName = async (sessionId: string | undefined) => {
-  const { data, error } = await supabaseClient
-    .from("users")
-    .select("uuid, username")
-    .eq("main_userId", sessionId);
-
-  if (error || !data || data.length === 0) {
-    console.log("User not found or error fetching user", error?.message);
-    return null;
-  }
-
-  return { uuid: data[0].uuid, username: data[0].username };
-};
-
-// Getting UUID of a user by passing a UUID of Post Table
-export const getUserId = async (sessionId: any) => {
-  const { data, error } = await supabaseClient
-    .from("users")
-    .select("uuid")
-    .eq("main_userId", sessionId);
-
-  if (error || !data) {
-    console.log("User not found or error fetching user", error?.message);
-    return null;
-  }
-
-  return data[0]?.uuid;
-};
-
-// Adding a new post 
+// Adding a new post
 export const addPost = async (
   title: string,
   description: string,
@@ -76,6 +46,27 @@ export const addPost = async (
 //   }
 // };
 
+// Fetch Vote data
+export const fetchVoteData = async (post_id: string, user_id: string | undefined) => {
+  const { data, error } = await supabaseClient
+    .from("votes")
+    .select("post_id, user_id")
+    .eq("post_id", post_id)
+    .eq("user_id", user_id);
+
+  if (error) {
+    console.log("Error while fetching Vote data", error.message);
+    throw error;
+  }
+
+  if(data){
+    return {postId: data[0]?.post_id, userSessionId: data[0]?.user_id};
+  }
+
+  return {post_id: null, userSessionId: null};
+
+};
+
 // INSERT VOTE DATA
 export const addVote = async (
   post_id: string,
@@ -107,5 +98,25 @@ export const updateVoteType = async (
 
   if (error) {
     console.log("Error white updating Vote types", error.message);
+  }
+};
+
+export const fetchVoteType = async (
+  post_id: string,
+  user_id: string | undefined
+) => {
+  const { data, error } = await supabaseClient
+    .from("votes")
+    .select("vote_type")
+    .eq("post_id", post_id)
+    .eq("user_id", user_id);
+
+  if (error) {
+    console.log("Error white fetching type of vote", error.message);
+    return false;
+  }
+
+  if (data) {
+    return data[0]?.vote_type;
   }
 };

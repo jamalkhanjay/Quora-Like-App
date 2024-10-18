@@ -27,29 +27,11 @@ const SignUp = () => {
       throw error;
     }
 
-    console.log("DATA.USER id-> ", data?.user?.id);
-
-    // Storing New user data in User table
-    if (data?.user) {
-      const {
-        email,
-        user_metadata: { userName },
-        id
-      } = data.user;
-
-      const { error } = await supabaseClient
-        .from("users")
-        .insert({ username: userName, email,  main_userId: id});
-
-      if (error) {
-        console.log("Error while inserting user detail", error.message);
-      }
-
-      // setUserId()
+    if (data) {
       setEmail("");
-      setPassword('');
-      setUserName('');
-      router.push('/signin')
+      setPassword("");
+      setUserName("");
+      router.push("/signin");
     }
   };
 

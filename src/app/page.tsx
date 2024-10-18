@@ -5,8 +5,9 @@ import Header from "@/components/shared/Header";
 import Sidebar from "@/components/shared/Sidebar";
 import {
   addVote,
+  fetchVoteData,
+  fetchVoteType,
   getPostData,
-  getUserId,
   updateVoteType,
 } from "@/lib/supabaseMethods";
 import { clientStore } from "@/stores/clientStore";
@@ -18,6 +19,8 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [isShowing, setIsShowing] = useState(false);
   const [isVoteBtnClicked, setIsVoteBtnClicked] = useState(false);
+
+  const [voteType, setVoteType] = useState(false);
 
   const { setUserData, userData, session } = clientStore();
   // Checking the session
@@ -48,31 +51,29 @@ export default function Home() {
       console.log("No user found. Cannot upvote");
     }
 
-    // Insert a new vote if the button was not previously clicked
-    if (!isVoteBtnClicked) {
-      // Add vote with vote_type as true
-      await addVote(post_id, true, userId);
-    } else {
-      // If clicked, update the vote_type to false
-      await updateVoteType(false, post_id, userId);
+    const { postId, userSessionId } = await fetchVoteData(post_id, userId);
+    console.log("postID and usersesionID", postId, userSessionId);
+
+    // If vote table is empty
+    if (!postId && !userSessionId) {
+       
     }
 
-    setIsVoteBtnClicked(!isVoteBtnClicked);
-  };
+    // Insert a new vote if the button was not previously clicked
+    // else if (!isVoteBtnClicked ) {
+    else if (postId === post_id && userSessionId === userId) {
+      setIsVoteBtnClicked(!isVoteBtnClicked);
 
-  // const handleUpvotes = async (post_id: string) => {
-  //   // When a buttons is not clicked new row will be inserted
-  //   if (!isVoteBtnClicked) {
-  //     setIsVoteBtnClicked(!isVoteBtnClicked);
-  //     const userId = await getUserId(session?.user.id);
-  //     await addVote(post_id, isVoteBtnClicked, userId);
-  //   }
-  //   // if it is clicked then update the current row boolean value to false
-  //   else {
-  //     setIsVoteBtnClicked(!isVoteBtnClicked);
-  //     await updateVoteType(isVoteBtnClicked, post_id);
-  //   }
-  // };
+      // If clicked, update the vote_type to false
+      await updateVoteType(isVoteBtnClicked, post_id, userId);
+    } else {
+      // Add vote with vote_type as true
+      await addVote(post_id, true, userId);
+    }
+
+    setVoteType( await fetchVoteType(post_id, userId));
+    console.log("Vote type is", voteType);
+  };
 
   const handleModal = () => {
     setIsShowing(!isShowing);
@@ -132,11 +133,13 @@ export default function Home() {
               </p>
 
               {/* Comments and votes section area */}
-              <div className="flex gap-10">
-                <div className="flex gap-4">
+              <div className="flex gap-5">
+                <div className="flex gap-2">
                   <button
                     onClick={() => handleUpvotes(item.uuid)}
-                    className="flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-800 rounded-lg hover:bg-gray-900"
+                    className={`flex gap-2 items-center px-3 py-2 text-sm font-medium text-center ${
+                      voteType ? "text-blue-700" : "text-white"
+                    } bg-gray-800 rounded-lg hover:bg-gray-900`}
                   >
                     {/* Upvote - {item.votes} */}
                     Upvote
@@ -156,22 +159,6 @@ export default function Home() {
                     </svg>
                   </button>
 
-                  <button className="flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-800 rounded-lg hover:bg-gray-900">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="size-4"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3"
-                      />
-                    </svg>
-                  </button>
                 </div>
 
                 <button
