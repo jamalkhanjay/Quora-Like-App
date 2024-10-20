@@ -3,78 +3,64 @@
 import CommentsModal from "@/components/CommentsModal";
 import Header from "@/components/shared/Header";
 import Sidebar from "@/components/shared/Sidebar";
-import {
-  addVote,
-  fetchVoteData,
-  fetchVoteType,
-  getPostData,
-  updateVoteType,
-} from "@/lib/supabaseMethods";
+import { manageVote, getPostData } from "@/lib/supabaseMethods";
 import { clientStore } from "@/stores/clientStore";
 import { useEffect, useState } from "react";
 import { PiEmpty } from "react-icons/pi";
 import Auth from "./Auth";
+import { GoArrowDown, GoArrowUp } from "react-icons/go";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [isShowing, setIsShowing] = useState(false);
-  const [isVoteBtnClicked, setIsVoteBtnClicked] = useState(false);
-
-  const [voteType, setVoteType] = useState(false);
-
   const { setUserData, userData, session } = clientStore();
-  // Checking the session
-  // useEffect(() => {
-  //   if (!session?.access_token) {
-  //     console.log("running");
-  //     router.push("/signin");
-  //   }
-  // }, []);
 
+  // Post logic
   useEffect(() => {
     const fetchingPostData = async () => {
       setLoading(true);
       const fetchedData = await getPostData();
       if (fetchedData) {
-        setUserData(fetchedData);
+        const postData = fetchedData.reverse();
+        setUserData(postData);
         setLoading(false);
       }
     };
     fetchingPostData();
   }, []);
 
+  // ----- * A Toast for notifying a user * -----------
+  const duplicateVote = () =>
+    toast.error("You have already voted for this post");
+  const voteAdded = () => toast.success("Your vote has been recorded");
+  const voteRemoved = () => toast.success("Your vote has been removed");
+  const errorAddingVote = () => toast.error("Error while adding vote");
+
   // Handling votes
-  const handleUpvotes = async (post_id: string) => {
+  const handleVotes = async (post_id: string, remove: boolean = false) => {
     const userId = session?.user.id;
 
     if (!userId) {
       console.log("No user found. Cannot upvote");
+      return;
     }
 
-    const { postId, userSessionId } = await fetchVoteData(post_id, userId);
-    console.log("postID and usersesionID", postId, userSessionId);
+    const vote = await manageVote(post_id, userId, remove);
 
-    // If vote table is empty
-    if (!postId && !userSessionId) {
-       
-    }
-
-    // Insert a new vote if the button was not previously clicked
-    // else if (!isVoteBtnClicked ) {
-    else if (postId === post_id && userSessionId === userId) {
-      setIsVoteBtnClicked(!isVoteBtnClicked);
-
-      // If clicked, update the vote_type to false
-      await updateVoteType(isVoteBtnClicked, post_id, userId);
+    if (vote === "23505") {
+      duplicateVote();
+    } else if (vote) {
+      voteAdded();
+    } else if (!vote) {
+      voteRemoved();
+      1;
     } else {
-      // Add vote with vote_type as true
-      await addVote(post_id, true, userId);
+      errorAddingVote();
     }
-
-    setVoteType( await fetchVoteType(post_id, userId));
-    console.log("Vote type is", voteType);
   };
 
+  // Handling Comments
   const handleModal = () => {
     setIsShowing(!isShowing);
   };
@@ -86,6 +72,7 @@ export default function Home() {
       <Sidebar />
       <div className="ml-64 flex flex-col gap-5 justify-center items-center mt-6">
         {loading ? (
+          // Loading
           <div role="status">
             <svg
               aria-hidden="true"
@@ -111,38 +98,60 @@ export default function Home() {
             No Posts are added
           </div>
         ) : (
-          userData?.map((item) => (
+          userData?.map((post) => (
             <div
-              className="w-[70%] p-6 mb-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-700 dark:border-gray-950"
-              key={item.uuid}
+              className="w-[70%] flex items-center gap-5 p-6 mb-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-700 dark:border-gray-950"
+              key={post.uuid}
             >
-              {/* User name and time of post */}
-              <div className="flex items-center gap-2 mb-4 text-white">
-                <div className="w-8 h-8 bg-gray-950 rounded-full"></div>
-                <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                  {item.post_added_by}
-                </h5>
-                <p className="text-sm text-gray-500">{item.created_at}</p>
+              {/* Upvote - Down vote container */}
+              <div className="flex flex-col gap-2 text-white items-center">
+                <button
+                  onClick={() => handleVotes(post.uuid)}
+                  className={`flex gap-2 items-center px-3 py-3 text-sm font-medium text-center 
+                      text-white
+                     bg-gray-800 rounded-lg hover:bg-gray-900`}
+                >
+                  {/* Upvote - {item.votes} */}
+                  <GoArrowUp />
+                </button>
+                <Toaster />
+                <span>{post?.votes?.length}</span>
+
+                <button
+                  className={`flex gap-2 items-center px-3 py-3 text-sm font-medium text-center 
+                      text-white
+                     bg-gray-800 rounded-lg hover:bg-gray-900`}
+                  onClick={() => handleVotes(post.uuid, true)}
+                >
+                  <GoArrowDown />
+                </button>
               </div>
 
-              <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-gray-200">
-                {item.post_title}
-              </h5>
-              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                {item.description}
-              </p>
+              <div>
+                {/* User name and time of post */}
+                <div className="flex items-center gap-2 mb-4 text-white">
+                  <div className="w-8 h-8 bg-gray-950 rounded-full"></div>
+                  <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    {post.post_added_by}
+                  </h5>
+                  <p className="text-sm text-gray-500">{post.created_at}</p>
+                </div>
 
-              {/* Comments and votes section area */}
-              <div className="flex gap-5">
-                <div className="flex gap-2">
+                <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-gray-200">
+                  {post.post_title}
+                </h5>
+                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                  {post.description}
+                </p>
+
+                {/* Comments and votes section area */}
+                <div className="flex gap-5">
                   <button
-                    onClick={() => handleUpvotes(item.uuid)}
-                    className={`flex gap-2 items-center px-3 py-2 text-sm font-medium text-center ${
-                      voteType ? "text-blue-700" : "text-white"
-                    } bg-gray-800 rounded-lg hover:bg-gray-900`}
+                    onClick={handleModal}
+                    className="flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-950"
                   >
-                    {/* Upvote - {item.votes} */}
-                    Upvote
+                    Comments
+                    {/* Comments - {item.comments} */}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -154,34 +163,11 @@ export default function Home() {
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"
+                        d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
                       />
                     </svg>
                   </button>
-
                 </div>
-
-                <button
-                  onClick={handleModal}
-                  className="flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-950"
-                >
-                  Comments
-                  {/* Comments - {item.comments} */}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="size-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
-                    />
-                  </svg>
-                </button>
               </div>
             </div>
           ))

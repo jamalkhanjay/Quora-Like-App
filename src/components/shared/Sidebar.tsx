@@ -1,11 +1,14 @@
 import supabaseClient from "@/services/supabase";
 import { useRouter } from "next/navigation";
 import React from "react";
+// import toast, { Toaster } from "react-hot-toast";
 import { FaPlus } from "react-icons/fa";
 import { GoHome, GoSignOut } from "react-icons/go";
 
 const Sidebar = () => {
   const router = useRouter();
+
+  // const notify = () => toast.success("Signed Out Successfully");
 
   const signMeOut = async () => {
     const { error } = await supabaseClient.auth.signOut();
@@ -13,10 +16,12 @@ const Sidebar = () => {
       throw error;
     }
     router.push("/signin");
+    // notify();
   };
 
   return (
     <div>
+      
       <button
         data-drawer-target="default-sidebar"
         data-drawer-toggle="default-sidebar"
@@ -58,7 +63,7 @@ const Sidebar = () => {
                 href="#"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
-               <GoHome />
+                <GoHome />
                 <span className="flex-1 ms-2 whitespace-nowrap">Feed</span>
                 <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
                   Feed
@@ -71,6 +76,7 @@ const Sidebar = () => {
               className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               onClick={signMeOut}
             >
+              {/* <Toaster toastOptions={{ duration: 7000 }} /> */}
               <GoSignOut />
               <span className="ms-2">Sign Out</span>
             </button>

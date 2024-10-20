@@ -4,15 +4,13 @@ import supabaseClient from "@/services/supabase";
 import { clientStore } from "@/stores/clientStore";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import Auth from "../Auth";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [userName, setUserName] = useState("") ;
   const router = useRouter();
 
-  const { setSession } = clientStore();
+  // const notify = () => toast.success("Successfully Logged in");
 
   const handleSignIn = async () => {
     const { error } = await supabaseClient.auth.signInWithPassword({
@@ -24,7 +22,7 @@ const SignIn = () => {
       throw error;
     } else {
       router.push("/");
-      clientStore;
+      // notify();
     }
   };
 
@@ -102,6 +100,7 @@ const SignIn = () => {
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Sign in
+              {/* <Toaster toastOptions={{ duration: 5000 }} /> */}
             </button>
           </div>
 

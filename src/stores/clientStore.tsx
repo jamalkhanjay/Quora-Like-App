@@ -6,7 +6,8 @@ interface Data {
   created_at: string;
   post_title: string;
   description: string;
-  post_added_by: string
+  post_added_by: string,
+  votes: [],
 }
 
 interface clientStore {

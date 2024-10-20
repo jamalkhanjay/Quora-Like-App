@@ -4,6 +4,7 @@ import supabaseClient from "@/services/supabase";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { clientStore } from "@/stores/clientStore";
+import toast, { Toaster } from "react-hot-toast";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -12,6 +13,8 @@ const SignUp = () => {
   const router = useRouter();
 
   // const { userId, setUserId } = clientStore();
+
+  // const notify = () => toast.success("Account Created Successfully");
 
   const createAccount = async () => {
     const { data, error } = await supabaseClient.auth.signUp({
@@ -32,6 +35,7 @@ const SignUp = () => {
       setPassword("");
       setUserName("");
       router.push("/signin");
+      // notify();
     }
   };
 
@@ -124,6 +128,7 @@ const SignUp = () => {
             onClick={createAccount}
           >
             Sign Up
+            {/* <Toaster toastOptions={{ duration: 5000 }} /> */}
           </button>
         </div>
         {/* </form> */}

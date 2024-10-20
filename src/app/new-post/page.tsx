@@ -6,6 +6,7 @@ import { addPost } from "@/lib/supabaseMethods";
 import { clientStore } from "@/stores/clientStore";
 import React, { useState } from "react";
 import Auth from "../Auth";
+import toast, { Toaster } from "react-hot-toast";
 
 const AddPost = () => {
   const [description, setDescription] = useState("");
@@ -14,13 +15,16 @@ const AddPost = () => {
   const { session } = clientStore();
 
   const userId = session?.user.id;
-  const userName = session?.user.user_metadata.userName
+  const userName = session?.user.user_metadata.userName;
+
+  const notify = () => toast.success("Post Added Successfully");
 
   const handleSubmit = async () => {
-      await addPost(title, description, userId, userName);
-      setTitle("");
-      setDescription("");
-    }
+    await addPost(title, description, userId, userName);
+    notify();
+    setTitle("");
+    setDescription("");
+  };
 
   return (
     <>
@@ -74,14 +78,14 @@ const AddPost = () => {
             />
           </div>
 
-          <div>
-            <button
-              className="cursor-pointer bg-gray-900 text-white px-4 py-2 rounded-md"
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
-          </div>
+          <button
+            className="cursor-pointer disabled:cursor-not-allowed disabled:bg-gray-500 bg-gray-900 text-white px-4 py-2 rounded-md"
+            disabled={!title && !description}
+            onClick={handleSubmit}
+          >
+            Submit
+            <Toaster />
+          </button>
         </div>
       </div>
     </>
