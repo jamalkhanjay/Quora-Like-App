@@ -73,7 +73,7 @@ export default function Home() {
       <div className="ml-64 flex flex-col gap-5 justify-center items-center mt-6">
         {loading ? (
           // Loading
-          <div role="status">
+          <div role="status" className="h-[80vh] flex items-center justify-center">
             <svg
               aria-hidden="true"
               className="w-20 h-20 text-gray-200 animate-spin dark:text-gray-600 fill-gray-400"
