@@ -1,4 +1,4 @@
-import { createStore } from "zustand";
+import { create } from "zustand";
 
 interface VoteData {
   vote_type: boolean;
@@ -12,7 +12,7 @@ interface VoteStore {
   setUpvotes: (upvotes: VoteData[]) => void;
 }
 
-export const voteStore = createStore<VoteStore>((set) => ({
+export const voteStore = create<VoteStore>((set) => ({
   upvotes: [],
   setUpvotes: (upvotes) => set({ upvotes }),
 }));

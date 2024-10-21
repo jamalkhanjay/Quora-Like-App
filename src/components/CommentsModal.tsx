@@ -9,9 +9,17 @@ import {
 } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { FiSend } from "react-icons/fi";
+import { clientStore } from "@/stores/clientStore";
 
-export default function CommentsModal() {
+export default function CommentsModal(post_id: any) {
   const [open, setOpen] = useState(true);
+  const [comment, setComment] = useState("");
+
+  const { session } = clientStore();
+
+  const handleComments = async () => {
+    const userId = session?.user.id;
+  };
 
   return (
     <Dialog open={open} onClose={setOpen} className="relative z-10">
@@ -31,8 +39,10 @@ export default function CommentsModal() {
               <input
                 className="bg-gray-300 w-full p-1"
                 placeholder="Enter new Comment"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
               />
-              <FiSend  />
+              <FiSend />
             </div>
           </DialogPanel>
         </div>

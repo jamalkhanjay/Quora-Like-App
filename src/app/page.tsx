@@ -3,26 +3,29 @@
 import CommentsModal from "@/components/CommentsModal";
 import Header from "@/components/shared/Header";
 import Sidebar from "@/components/shared/Sidebar";
-import { manageVote, getPostData } from "@/lib/supabaseMethods";
+import { manageVotes, getPostData } from "@/lib/supabaseMethods";
 import { clientStore } from "@/stores/clientStore";
 import { useEffect, useState } from "react";
 import { PiEmpty } from "react-icons/pi";
 import Auth from "./Auth";
 import { GoArrowDown, GoArrowUp } from "react-icons/go";
 import toast, { Toaster } from "react-hot-toast";
+import Comments from "@/components/Comments";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [isShowing, setIsShowing] = useState(false);
+  const [postID, setPostID] = useState("");
   const { setUserData, userData, session } = clientStore();
 
-  // Post logic
+  // Post fetching logic
   useEffect(() => {
     const fetchingPostData = async () => {
       setLoading(true);
       const fetchedData = await getPostData();
       if (fetchedData) {
         const postData = fetchedData.reverse();
+        // console.log("The post data is recieving", postData[0].comments)
         setUserData(postData);
         setLoading(false);
       }
@@ -46,7 +49,7 @@ export default function Home() {
       return;
     }
 
-    const vote = await manageVote(post_id, userId, remove);
+    const vote = await manageVotes(post_id, userId, remove);
 
     if (vote === "23505") {
       duplicateVote();
@@ -61,7 +64,8 @@ export default function Home() {
   };
 
   // Handling Comments
-  const handleModal = () => {
+  const handleModal = (postID: string) => {
+    setPostID(postID);
     setIsShowing(!isShowing);
   };
 
@@ -73,7 +77,10 @@ export default function Home() {
       <div className="ml-64 flex flex-col gap-5 justify-center items-center mt-6">
         {loading ? (
           // Loading
-          <div role="status" className="h-[80vh] flex items-center justify-center">
+          <div
+            role="status"
+            className="h-[80vh] flex items-center justify-center"
+          >
             <svg
               aria-hidden="true"
               className="w-20 h-20 text-gray-200 animate-spin dark:text-gray-600 fill-gray-400"
@@ -100,80 +107,84 @@ export default function Home() {
         ) : (
           userData?.map((post) => (
             <div
-              className="w-[70%] flex items-center gap-5 p-6 mb-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-700 dark:border-gray-950"
+              className="w-[70%] flex flex-col items-center gap-5 p-6 mb-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-700 dark:border-gray-950"
               key={post.uuid}
             >
-              {/* Upvote - Down vote container */}
-              <div className="flex flex-col gap-2 text-white items-center">
-                <button
-                  onClick={() => handleVotes(post.uuid)}
-                  className={`flex gap-2 items-center px-3 py-3 text-sm font-medium text-center 
-                      text-white
-                     bg-gray-800 rounded-lg hover:bg-gray-900`}
-                >
-                  {/* Upvote - {item.votes} */}
-                  <GoArrowUp />
-                </button>
-                <Toaster />
-                <span>{post?.votes?.length}</span>
-
-                <button
-                  className={`flex gap-2 items-center px-3 py-3 text-sm font-medium text-center 
-                      text-white
-                     bg-gray-800 rounded-lg hover:bg-gray-900`}
-                  onClick={() => handleVotes(post.uuid, true)}
-                >
-                  <GoArrowDown />
-                </button>
-              </div>
-
-              <div>
-                {/* User name and time of post */}
-                <div className="flex items-center gap-2 mb-4 text-white">
-                  <div className="w-8 h-8 bg-gray-950 rounded-full"></div>
-                  <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    {post.post_added_by}
-                  </h5>
-                  <p className="text-sm text-gray-500">{post.created_at}</p>
-                </div>
-
-                <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-gray-200">
-                  {post.post_title}
-                </h5>
-                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                  {post.description}
-                </p>
-
-                {/* Comments and votes section area */}
-                <div className="flex gap-5">
+              <div className="flex gap-5 items-center w-full">
+                {/* Upvote - Down vote container */}
+                <div className="flex flex-col gap-2 text-white items-center">
                   <button
-                    onClick={handleModal}
-                    className="flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-950"
+                    onClick={() => handleVotes(post.uuid)}
+                    className={`flex gap-2 items-center px-3 py-3 text-sm font-medium text-center 
+                      text-white
+                     bg-gray-800 rounded-lg hover:bg-gray-900`}
                   >
-                    Comments
-                    {/* Comments - {item.comments} */}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="size-4"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
-                      />
-                    </svg>
+                    {/* Upvote - {item.votes} */}
+                    <GoArrowUp />
+                  </button>
+                  <Toaster />
+                  <span>{post?.votes?.length}</span>
+
+                  <button
+                    className={`flex gap-2 items-center px-3 py-3 text-sm font-medium text-center 
+                      text-white
+                     bg-gray-800 rounded-lg hover:bg-gray-900`}
+                    onClick={() => handleVotes(post.uuid, true)}
+                  >
+                    <GoArrowDown />
                   </button>
                 </div>
+
+                <div className="w-full">
+                  {/* User name and time of post */}
+                  <div className="flex items-center gap-2 mb-4 text-white">
+                    <div className="w-8 h-8 bg-gray-950 rounded-full"></div>
+                    <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                      {post.post_added_by}
+                    </h5>
+                    <p className="text-sm text-gray-500">{post.created_at}</p>
+                  </div>
+
+                  <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-gray-200">
+                    {post.post_title}
+                  </h5>
+                  <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                    {post.description}
+                  </p>
+
+                  {/* Comments section area */}
+                  <div className="flex gap-5">
+                    <button
+                      onClick={() => handleModal(post.uuid)}
+                      className="flex gap-2 w-fit items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-950"
+                    >
+                      Comments
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="size-4"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
               </div>
+              {isShowing && postID === post.uuid && (
+                <Comments postID={post.uuid} />
+              )}
             </div>
           ))
         )}
       </div>
-      {isShowing && <CommentsModal />}
+      {/* {isShowing && <CommentsModal post_id={postID}/>} */}
     </>
   );
 }

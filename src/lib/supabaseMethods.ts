@@ -2,13 +2,15 @@ import supabaseClient from "@/services/supabase";
 
 // ----------------- *** Get Post Table Data *** -------------------------------------
 export const getPostData = async () => {
-  const { data, error } = await supabaseClient.from("posts").select("*, votes(*)");
+  const { data, error } = await supabaseClient
+    .from("posts")
+    .select("*, votes(*), comments(*)");
 
   if (error) {
     console.log("Error updating the post data", error.message);
     return [];
   }
-  console.log(data)
+  console.log(data);
   return data;
 };
 
@@ -37,21 +39,21 @@ export const addPost = async (
 
 // ----------------- *** Getting vote Data *** -------------------------------------
 
-export const fetchVoteData = async () => {
-  const { data, error } = await supabaseClient.from("votes").select("*");
+// export const fetchVoteData = async () => {
+//   const { data, error } = await supabaseClient.from("votes").select("*");
 
-  if (error) {
-    console.log("Error while fetching Vote data", error.message);
-    throw error;
-  }
+//   if (error) {
+//     console.log("Error while fetching Vote data", error.message);
+//     throw error;
+//   }
 
-  if (data) {
-    return data;
-  }
-};
+//   if (data) {
+//     return data;
+//   }
+// };
 
-// ----------------- *** Mange Vote vote data *** -------------------------------------
-export const manageVote = async (
+// ----------------- *** Manage Vote vote data *** -------------------------------------
+export const manageVotes = async (
   post_id: string,
   user_id: string | undefined,
   removeVote: boolean
@@ -90,4 +92,38 @@ export const manageVote = async (
     console.log("the added data is ", data);
     return true;
   }
+};
+
+// ---------- *** Add new Comment *** ---------------
+// export const fetchComments = async () => {
+//   const {}
+// }
+
+// ---------- *** Add new Comment *** ---------------
+export const addComment = async (
+  post_id: string,
+  user_id: string | undefined,
+  contents: string,
+  commented_by: string
+) => {
+  const { data, error } = await supabaseClient
+    .from("comments")
+    .insert({ post_id, user_id, contents, commented_by });
+
+  if (error) {
+    console.log("Error while fetching comments", error.message);
+  }
+};
+
+export const fetchComments = async (post_id: string) => {
+  const { data, error } = await supabaseClient
+    .from("comments")
+    .select("contents, commented_by")
+    .eq("post_id", post_id);
+
+    if (error) {
+      console.log("Error fetcing this comments")
+    }
+
+   return data;
 };
