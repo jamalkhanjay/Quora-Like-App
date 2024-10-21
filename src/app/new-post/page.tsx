@@ -31,8 +31,8 @@ const AddPost = () => {
       <Auth />
       <Header />
       <Sidebar />
-      <div className="ml-64 flex flex-col justify-center items-center">
-        <div className="w-[80%] mt-5 space-y-5">
+      <div className="ml-64 mt-16 flex flex-col justify-center items-center">
+        <div className="w-[80%] mt-5 space-y-5 bg-gray-400 p-16 rounded-xl">
           <div className="tex">
             <h1 className="text-2xl font-bold">Add New Post</h1>
           </div>
@@ -79,7 +79,7 @@ const AddPost = () => {
           </div>
 
           <button
-            className="cursor-pointer disabled:cursor-not-allowed disabled:bg-gray-500 bg-gray-900 text-white px-4 py-2 rounded-md"
+            className="cursor-pointer disabled:cursor-not-allowed disabled:bg-gray-600 bg-gray-900 text-white px-4 py-2 rounded-md"
             disabled={!title && !description}
             onClick={handleSubmit}
           >
