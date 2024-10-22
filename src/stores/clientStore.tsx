@@ -7,6 +7,8 @@ interface Data {
   post_title: string;
   description: string;
   post_added_by: string,
+  post_img_url: string,
+  user_image: string,
   votes: [],
 }
 

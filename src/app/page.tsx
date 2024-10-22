@@ -10,6 +10,7 @@ import Auth from "./Auth";
 import { GoArrowDown, GoArrowUp } from "react-icons/go";
 import toast, { Toaster } from "react-hot-toast";
 import Comments from "@/components/Comments";
+import Image from "next/image";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -135,15 +136,31 @@ export default function Home() {
                 </div>
 
                 <div className="w-full">
-                  {/* User name and time of post */}
+                  {/* User name, time and Image of post */}
                   <div className="flex items-center gap-2 mb-4 text-white">
-                    <div className="w-8 h-8 bg-gray-950 rounded-full"></div>
+                    <img
+                      src={post.user_image}
+                      className="text-xs bg-black rounded-full"
+                      alt="user"
+                      width={"40"}
+                      height={"40"}
+                    />
                     <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
                       {post.post_added_by}
                     </h5>
                     <p className="text-sm text-gray-500">{post.created_at}</p>
                   </div>
 
+                  {/* Post Image */}
+                  {post.post_img_url && (
+                    <img
+                      className="text-xs bg-black w-full h-96 object-cover rounded-xl"
+                      src={post.post_img_url}
+                      alt="user"
+                      // width={"200"}
+                      // height={"200"}
+                    />
+                  )}
                   <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-gray-200">
                     {post.post_title}
                   </h5>

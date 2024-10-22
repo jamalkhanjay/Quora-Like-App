@@ -26,6 +26,7 @@ const AddPost = () => {
 
   const userId = session?.user.id;
   const userName = session?.user.user_metadata.userName;
+  const profileImgUrl = session?.user.user_metadata.avatar_url;
 
   const notify = () => toast.success("Post Added Successfully");
 
@@ -58,7 +59,8 @@ const AddPost = () => {
         description,
         userId,
         userName,
-        newImageUrl
+        newImageUrl,
+        profileImgUrl
       );
 
       if (error) {
