@@ -108,21 +108,23 @@ export const addComment = async (
   post_id: string,
   user_id: string | undefined,
   contents: string,
-  commented_by: string
+  commented_by: string,
+  user_image: string,
 ) => {
-  const { data, error } = await supabaseClient
+  const { error } = await supabaseClient
     .from("comments")
-    .insert({ post_id, user_id, contents, commented_by });
+    .insert({ post_id, user_id, contents, commented_by, user_image});
 
   if (error) {
     console.log("Error while fetching comments", error.message);
   }
 };
 
+// Fetching comments 
 export const fetchComments = async (post_id: string) => {
   const { data, error } = await supabaseClient
     .from("comments")
-    .select("contents, commented_by")
+    .select("*")
     .eq("post_id", post_id);
 
   if (error) {

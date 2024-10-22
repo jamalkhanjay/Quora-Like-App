@@ -3,8 +3,9 @@ import { create } from "zustand";
 interface CommentsData {
   contents: string;
   // post_id: string;
-  // user_id: string;
+  created_at: string;
   commented_by: string;
+  user_image: string,
 }
 
 interface CommentStore {

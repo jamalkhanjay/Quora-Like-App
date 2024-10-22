@@ -15,6 +15,7 @@ import supabaseClient from "@/services/supabase";
 import { useRouter } from "next/navigation";
 import { clientStore } from "@/stores/clientStore";
 import upload_placeholder from "@/assets/upload_placeholder.jpg";
+import { Avatar } from "@chakra-ui/react";
 
 const Header = () => {
   const { session } = clientStore();
@@ -92,10 +93,8 @@ const Header = () => {
             <Menu as="div" className="relative ml-3">
               <div>
                 <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                  <span className="absolute -inset-1.5" />
-                  <span className="sr-only">Open user menu</span>
-                  <img
-                    alt=""
+                  <Avatar
+                    name={session?.user.user_metadata.userName}
                     src={session?.user.user_metadata.avatar_url || upload_placeholder}
                     className="h-8 w-8 rounded-full"
                   />

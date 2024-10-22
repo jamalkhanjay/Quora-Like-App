@@ -3,6 +3,7 @@
 import { addComment, fetchComments } from "@/lib/supabaseMethods";
 import { clientStore } from "@/stores/clientStore";
 import { commentStore } from "@/stores/commentStore";
+import { Avatar } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { FiSend } from "react-icons/fi";
 
@@ -17,9 +18,10 @@ const Comments = (props: any) => {
 
   const userID = session?.user.id;
   const commentedBy = session?.user.user_metadata.userName;
+  const profileImgUrl = session?.user.user_metadata.avatar_url;
 
   const sumbitComment = async () => {
-    await addComment(props.postID, userID, comment, commentedBy);
+    await addComment(props.postID, userID, comment, commentedBy, profileImgUrl);
     setComment("");
   };
 
@@ -38,13 +40,17 @@ const Comments = (props: any) => {
     <div className="flex flex-col gap-4 text-white w-full border border-gray-400 p-4 rounded-xl">
       <h3 className="font-bold text-2xl">Comments</h3>
       {/* <div> */}
-      {comments?.map((comment, index) => (
-        <div key={index}>
-          <div className="flex gap-2">
-            <div className="w-8 h-8 rounded-full bg-black"></div>
-            <h2 className="font-bold">{comment.commented_by}</h2>
+      {comments?.map((cmnt, index) => (
+        <div key={index} className="space-y-4">
+          <div className="flex items-center gap-2">
+            <Avatar
+              src={cmnt.user_image}
+              name={cmnt.commented_by}
+            />
+            <h2 className="font-bold">{cmnt.commented_by}</h2>
+            <span className="text-sm text-gray-400">{cmnt.created_at.split("T")[0]}</span>
           </div>
-          <div className="ml-10">{comment.contents}</div>
+          <div className="ml-12">{cmnt.contents}</div>
         </div>
       ))}
       {/* </div> */}

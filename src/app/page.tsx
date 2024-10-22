@@ -11,6 +11,7 @@ import { GoArrowDown, GoArrowUp } from "react-icons/go";
 import toast, { Toaster } from "react-hot-toast";
 import Comments from "@/components/Comments";
 import Image from "next/image";
+import { Avatar } from "@chakra-ui/react";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -119,7 +120,6 @@ export default function Home() {
                       text-white
                      bg-gray-800 rounded-lg hover:bg-gray-900`}
                   >
-                    {/* Upvote - {item.votes} */}
                     <GoArrowUp />
                   </button>
                   <Toaster />
@@ -138,17 +138,14 @@ export default function Home() {
                 <div className="w-full">
                   {/* User name, time and Image of post */}
                   <div className="flex items-center gap-2 mb-4 text-white">
-                    <img
+                    <Avatar
                       src={post.user_image}
-                      className="text-xs bg-black rounded-full"
-                      alt="user"
-                      width={"40"}
-                      height={"40"}
+                      name={post.post_added_by}
                     />
                     <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
                       {post.post_added_by}
                     </h5>
-                    <p className="text-sm text-gray-500">{post.created_at}</p>
+                    <p className="text-sm text-gray-400">{post.created_at}</p>
                   </div>
 
                   {/* Post Image */}
@@ -164,7 +161,7 @@ export default function Home() {
                   <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-gray-200">
                     {post.post_title}
                   </h5>
-                  <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                  <p className="mb-3 font-normal text-gray-700 dark:text-gray-300">
                     {post.description}
                   </p>
 
