@@ -16,25 +16,27 @@ export const getPostData = async () => {
 
 // ----------------- *** Adding a new post *** -------------------------------------
 export const addPost = async (
-  title: string,
-  description: string,
-  uuid: string | undefined,
-  username: string | undefined
+  title?: string,
+  description?: string,
+  uuid?: string | undefined,
+  username?: string | undefined,
+  imageUrl?: string
 ) => {
   const { error } = await supabaseClient.from("posts").insert({
     post_title: title,
     description,
     user_id: uuid,
     post_added_by: username,
+    post_img_url: imageUrl,
   });
 
   if (error) {
     console.log("Error updating the post data", error.message);
-    return false;
+    return { isPostAdded: false, error };
   }
 
   console.log("data added");
-  return true;
+  return { isPostAdded: true, error: null };
 };
 
 // ----------------- *** Getting vote Data *** -------------------------------------
@@ -121,9 +123,40 @@ export const fetchComments = async (post_id: string) => {
     .select("contents, commented_by")
     .eq("post_id", post_id);
 
-    if (error) {
-      console.log("Error fetcing this comments")
-    }
+  if (error) {
+    console.log("Error fetcing this comments");
+  }
 
-   return data;
+  return data;
+};
+
+// Updating the Credentials
+export const updateCredentials = async (
+  newName?: string,
+  newAvatarUrl?: string
+) => {
+  const updateData: {
+    data?: {
+      userName?: string;
+      avatar_url?: string;
+    };
+  } = {};
+
+  if (newName || newAvatarUrl) {
+    updateData.data = {};
+    if (newName) updateData.data.userName = newName;
+    if (newAvatarUrl) updateData.data.avatar_url = newAvatarUrl;
+  }
+
+  if (Object.keys(updateData).length === 0) {
+    console.log("No data to update");
+  }
+
+  const { error } = await supabaseClient.auth.updateUser(updateData);
+
+  if (error) {
+    console.error("Error updating user:", error.message);
+    return { isUserUpdated: false, error };
+  }
+  return { isUserUpdated: true, error: null };
 };

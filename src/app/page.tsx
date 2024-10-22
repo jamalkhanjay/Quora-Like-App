@@ -1,6 +1,5 @@
 "use client";
 
-import CommentsModal from "@/components/CommentsModal";
 import Header from "@/components/shared/Header";
 import Sidebar from "@/components/shared/Sidebar";
 import { manageVotes, getPostData } from "@/lib/supabaseMethods";

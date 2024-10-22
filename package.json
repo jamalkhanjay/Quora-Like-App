@@ -9,9 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.10.3",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@headlessui/react": "^2.1.10",
     "@heroicons/react": "^2.1.5",
     "@supabase/supabase-js": "^2.45.4",
+    "framer-motion": "^11.11.9",
     "next": "14.2.15",
     "react": "^18",
     "react-dom": "^18",
