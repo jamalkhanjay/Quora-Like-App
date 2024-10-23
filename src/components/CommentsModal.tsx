@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   Dialog,
   DialogBackdrop,
@@ -8,18 +7,41 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { FiSend } from "react-icons/fi";
-import { clientStore } from "@/stores/clientStore";
 
-export default function CommentsModal(post_id: any) {
+import { addComment, fetchComments } from "@/lib/supabaseMethods";
+import { clientStore } from "@/stores/clientStore";
+import { commentStore } from "@/stores/commentStore";
+import { Avatar } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { FiSend } from "react-icons/fi";
+
+export default function CommentsModal(props: any) {
   const [open, setOpen] = useState(true);
   const [comment, setComment] = useState("");
 
   const { session } = clientStore();
 
-  const handleComments = async () => {
-    const userId = session?.user.id;
+  const { comments, setComments } = commentStore();
+
+  // let fetched: any[] = [] |;
+
+  const userID = session?.user.id;
+  const commentedBy = session?.user.user_metadata.userName;
+  const profileImgUrl = session?.user.user_metadata.avatar_url;
+
+  const sumbitComment = async () => {
+    await addComment(props.postID, userID, comment, commentedBy, profileImgUrl);
+    setComment("");
   };
+
+  useEffect(() => {
+    const fetchingComments = async () => {
+      const fetched = await fetchComments(props.postID);
+      setComments(fetched || []);
+      console.log("fetched comments - ", comments);
+    };
+    fetchingComments();
+  }, []);
 
   return (
     <Dialog open={open} onClose={setOpen} className="relative z-10">
@@ -34,15 +56,38 @@ export default function CommentsModal(post_id: any) {
             transition
             className="relative transform h-[70vh] p-4 flex flex-col justify-between overflow-hidden rounded-lg bg-gray-200 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-lg data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
           >
-            <div className="h-full overflow-y-auto">Comments area</div>
-            <div className="flex items-center justify-between gap-2 bg-gray-300 w-full p-2 rounded-md">
-              <input
-                className="bg-gray-300 w-full p-1"
-                placeholder="Enter new Comment"
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-              />
-              <FiSend />
+            <div className="flex flex-col gap-4 text-black w-full p-4 rounded-xl">
+              <h3 className="font-bold text-2xl">Comments</h3>
+              {/* <div> */}
+              {comments?.map((cmnt, index) => (
+                <div key={index} className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <Avatar src={cmnt.user_image} name={cmnt.commented_by} />
+                    <h2 className="font-bold">{cmnt.commented_by}</h2>
+                    <span className="text-sm text-gray-400">
+                      {cmnt.created_at.split("T")[0]}
+                    </span>
+                  </div>
+                  <div className="ml-12">{cmnt.contents}</div>
+                </div>
+              ))}
+              {/* </div> */}
+
+              <div className="fixed bottom-0 left-0 flex items-center justify-between gap-2 bg-gray-300 w-full p-2 rounded-md">
+                <input
+                  className="bg-gray-300 w-full text-black p-1"
+                  placeholder="Enter new Comment"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                />
+                <button
+                  onClick={sumbitComment}
+                  disabled={!comment}
+                  className="disabled:cursor-not-allowed cursor-pointer"
+                >
+                  <FiSend className="text-black cursor-pointer disabled:text-gray-500  hover:text-gray-800 text-xl" />
+                </button>
+              </div>
             </div>
           </DialogPanel>
         </div>

@@ -114,8 +114,8 @@ const AddPost = () => {
             <Image
               src={previewImageUrl || upload_placeholder}
               alt="Upload a post"
-              height={"250"}
-              width={"250"}
+              height={"150"}
+              width={"150"}
               className="rounded-xl"
               onClick={handlePostImage}
             />

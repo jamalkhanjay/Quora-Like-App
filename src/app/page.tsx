@@ -12,6 +12,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Comments from "@/components/Comments";
 import Image from "next/image";
 import { Avatar } from "@chakra-ui/react";
+import CommentsModal from "@/components/CommentsModal";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -52,6 +53,7 @@ export default function Home() {
 
     const vote = await manageVotes(post_id, userId, remove);
 
+    // Toaster
     if (vote === "23505") {
       duplicateVote();
     } else if (vote) {
@@ -69,8 +71,6 @@ export default function Home() {
     setPostID(postID);
     setIsShowing(!isShowing);
   };
-
-  
 
   return (
     <>
@@ -114,29 +114,6 @@ export default function Home() {
               key={post.uuid}
             >
               <div className="flex gap-5 items-center w-full">
-                {/* Upvote - Down vote container */}
-                <div className="flex flex-col gap-2 text-white items-center">
-                  <button
-                    onClick={() => handleVotes(post.uuid)}
-                    className={`flex gap-2 items-center px-3 py-3 text-sm font-medium text-center 
-                      text-white
-                     bg-orange-800 rounded-lg hover:bg-orange-900`}
-                  >
-                    <GoArrowUp />
-                  </button>
-                  <Toaster />
-                  <span>{post?.votes?.length}</span>
-
-                  <button
-                    className={`flex gap-2 items-center px-3 py-3 text-sm font-medium text-center 
-                      text-white
-                     bg-orange-800 rounded-lg hover:bg-orange-900`}
-                    onClick={() => handleVotes(post.uuid, true)}
-                  >
-                    <GoArrowDown />
-                  </button>
-                </div>
-
                 <div className="w-full space-y-4">
                   {/* User name, time and Image of post */}
                   <div className="flex items-center gap-2 mb-4 text-white">
@@ -167,8 +144,28 @@ export default function Home() {
                     </p>
                   </div>
 
-                  {/* Comments section area */}
+                  {/* Comments section Upvote - Down vote container */}
                   <div className="flex gap-5">
+                    <div className="flex gap-2 text-white items-center">
+                      <button
+                        onClick={() => handleVotes(post.uuid)}
+                        className={`flex gap-2 items-center px-3 py-3 text-sm font-medium text-center 
+                      text-white bg-orange-800 rounded-lg hover:bg-orange-900`}
+                      >
+                        <GoArrowUp />
+                      </button>
+                      <Toaster />
+                      <span>{post?.votes?.length}</span>
+
+                      <button
+                        className={`flex gap-2 items-center px-3 py-3 text-sm font-medium text-center 
+                      text-white
+                     bg-orange-800 rounded-lg hover:bg-orange-900`}
+                        onClick={() => handleVotes(post.uuid, true)}
+                      >
+                        <GoArrowDown />
+                      </button>
+                    </div>
                     <button
                       onClick={() => handleModal(post.uuid)}
                       className="flex gap-2 w-fit items-center px-3 py-2 text-sm font-medium text-center text-white bg-orange-700 rounded-lg hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-orange-800 dark:hover:bg-orange-900 dark:focus:ring-orange-950"
@@ -193,7 +190,7 @@ export default function Home() {
                 </div>
               </div>
               {isShowing && postID === post.uuid && (
-                <Comments postID={post.uuid} />
+                <CommentsModal postID={post.uuid} />
               )}
             </div>
           ))
