@@ -2,7 +2,7 @@
 
 import supabaseClient from "@/services/supabase";
 import { clientStore } from "@/stores/clientStore";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 const Auth = () => {
   const { setSession, session } = clientStore();

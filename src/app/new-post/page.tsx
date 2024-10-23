@@ -104,8 +104,8 @@ const AddPost = () => {
       <Auth />
       <Header />
       <Sidebar />
-      <div className="ml-64 mt-16 flex flex-col justify-center items-center">
-        <div className="w-[80%] space-y-5 bg-gray-400 p-16 rounded-xl">
+      <div className="ml-64 my-10 flex flex-col justify-center items-center">
+        <div className="w-[80%] space-y-5 bg-gray-800 text-orange-600 px-16 py-10 rounded-xl">
           <div>
             <h1 className="text-2xl font-bold">Add New Post</h1>
           </div>
@@ -129,7 +129,7 @@ const AddPost = () => {
           </div>
 
           <div>
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">
+            <label className="block mb-2 text-sm font-medium text-orange-600 dark:text-orange-600">
               Post Title
             </label>
             <input
@@ -144,7 +144,7 @@ const AddPost = () => {
           </div>
 
           <div className="mb-5">
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">
+            <label className="block mb-2 text-sm font-medium text-orange-600 dark:text-orange-600">
               Description
             </label>
             <input

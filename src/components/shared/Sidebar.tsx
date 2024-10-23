@@ -20,8 +20,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div>
-      
+    <div> 
       <button
         data-drawer-target="default-sidebar"
         data-drawer-toggle="default-sidebar"
@@ -47,38 +46,37 @@ const Sidebar = () => {
 
       <aside
         id="default-sidebar"
-        className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 border-r"
         aria-label="Sidebar"
       >
         <div className="h-full flex flex-col justify-between px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
           <ul className="space-y-2 font-medium">
-            <li onClick={() => router.push("/new-post")}>
-              <button className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                <FaPlus />
-                <span className="ms-2">Add new Post</span>
-              </button>
+            <li onClick={() => router.push("/new-post")} className="cursor-pointer">
+              <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <FaPlus className="text-orange-600" />
+                <span className="ms-2 text-orange-600">Add new Post</span>
+              </a>
             </li>
-            <li onClick={() => router.push("/")}>
+            <li onClick={() => router.push("/")} className="cursor-pointer">
               <a
-                href="#"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
-                <GoHome />
-                <span className="flex-1 ms-2 whitespace-nowrap">Feed</span>
-                <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                <GoHome className="text-orange-600" />
+                <span className="flex-1 ms-2 whitespace-nowrap text-orange-600">Feed</span>
+                <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-orange-600">
                   Feed
                 </span>
               </a>
             </li>
           </ul>
-          <div className="">
+          <div className="w-full">
             <button
-              className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              className="flex w-full items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               onClick={signMeOut}
             >
               {/* <Toaster toastOptions={{ duration: 7000 }} /> */}
-              <GoSignOut />
-              <span className="ms-2">Sign Out</span>
+              <GoSignOut className="text-orange-600" />
+              <span className="ms-2 text-orange-600">Sign Out</span>
             </button>
           </div>
         </div>

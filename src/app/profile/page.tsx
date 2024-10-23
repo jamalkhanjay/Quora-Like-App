@@ -129,61 +129,62 @@ const Profile = () => {
     <>
       <Header />
       <Sidebar />
-      <VStack m={"10"}>
-        <Heading>Profile</Heading>
-        <VStack position={"relative"}>
-          <Avatar size="2xl" src={previewAvatarUrl || avatarUrl} />
-          <IconButton
-            position={"absolute"}
-            bottom={"0"}
-            right={"0"}
-            icon={<MdEditSquare />}
-            colorScheme="teal"
-            border={"3px solid white"}
-            aria-label="Change Profile image"
-            onClick={handleProfileImage}
+      <VStack ml={"64"} mt={"5"} >
+        <VStack spacing={"10"} w={"90%"} bgColor={"gray.600"} py={"20"} textColor={"orange.500"} rounded={"2xl"}>
+          <Heading>Profile</Heading>
+          <VStack position={"relative"}>
+            <Avatar size="2xl" src={previewAvatarUrl || avatarUrl} />
+            <IconButton
+              position={"absolute"}
+              bottom={"0"}
+              right={"0"}
+              icon={<MdEditSquare />}
+              colorScheme="orange"
+              border={"3px solid white"}
+              aria-label="Change Profile image"
+              onClick={handleProfileImage}
+            />
+          </VStack>
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            accept="image/*"
+            style={{ display: "none" }}
           />
-        </VStack>
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileChange}
-          accept="image/*"
-          style={{ display: "none" }}
-        />
 
-        <VStack w={"50%"} gap={3} align={"center"}>
-          <HStack w={"full"}>
-            <Text w={["25%", "25%", "15%"]} fontWeight={"bold"}>
-              Email:
-            </Text>
-            <Input
-              type="email"
-              value={session?.user.email}
-              w={["80%", "80%", "85%"]}
-              placeholder="Email"
-              size="lg"
-              variant="filled"
-              disabled
-            />
-          </HStack>
+          <VStack w={"50%"} gap={3} align={"center"}>
+            <HStack w={"full"}>
+              <Text w={["25%", "25%", "15%"]} fontWeight={"bold"}>
+                Email:
+              </Text>
+              <Input
+                type="email"
+                value={session?.user.email}
+                w={["80%", "80%", "85%"]}
+                placeholder="Email"
+                size="lg"
+                variant="filled"
+                disabled
+              />
+            </HStack>
 
-          <HStack w={"full"}>
-            <Text w={["25%", "25%", "15%"]} fontWeight={"bold"}>
-              Name:
-            </Text>
-            <Input
-              onChange={(e) => setUpdateName(e.target.value)}
-              w={["80%", "80%", "85%"]}
-              type="text"
-              placeholder="Name"
-              value={updateName}
-              size="lg"
-              variant="filled"
-            />
-          </HStack>
+            <HStack w={"full"}>
+              <Text w={["25%", "25%", "15%"]} fontWeight={"bold"}>
+                Name:
+              </Text>
+              <Input
+                onChange={(e) => setUpdateName(e.target.value)}
+                w={["80%", "80%", "85%"]}
+                type="text"
+                placeholder="Name"
+                value={updateName}
+                size="lg"
+                variant="filled"
+              />
+            </HStack>
 
-          {/* <HStack w={"full"}>
+            {/* <HStack w={"full"}>
             <Text w={["25%", "25%", "15%"]} fontWeight={"bold"}>
               Password:
             </Text>
@@ -197,21 +198,22 @@ const Profile = () => {
             />
           </HStack> */}
 
-          <Button
-            onClick={handleUpdateCredentials}
-            // isLoading={isUserUpdating}
-            // isDisabled={!isDirty && !selectedFile && !updatePassword.trim()}
-            size="lg"
-            variant="solid"
-            // colorScheme=""
-            bgColor={"gray.600"}
-            _hover={{ bgColor: "gray.900" }}
-            color={"white"}
-            w={"30%"}
-            mt={"5"}
-          >
-            Save
-          </Button>
+            <Button
+              onClick={handleUpdateCredentials}
+              // isLoading={isUserUpdating}
+              // isDisabled={!isDirty && !selectedFile && !updatePassword.trim()}
+              size="lg"
+              variant="solid"
+              // colorScheme=""
+              bgColor={"orange.600"}
+              _hover={{ bgColor: "orange.700" }}
+              color={"white"}
+              w={"30%"}
+              mt={"5"}
+            >
+              Save
+            </Button>
+          </VStack>
         </VStack>
       </VStack>
     </>

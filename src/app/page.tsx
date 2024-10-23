@@ -70,12 +70,14 @@ export default function Home() {
     setIsShowing(!isShowing);
   };
 
+  
+
   return (
     <>
       <Auth />
       <Header />
       <Sidebar />
-      <div className="ml-64 flex flex-col gap-5 justify-center items-center mt-6">
+      <div className="ml-64 flex flex-col gap-5 justify-center items-center pt-6 bg-black">
         {loading ? (
           // Loading
           <div
@@ -84,7 +86,7 @@ export default function Home() {
           >
             <svg
               aria-hidden="true"
-              className="w-20 h-20 text-gray-200 animate-spin dark:text-gray-600 fill-gray-400"
+              className="w-20 h-20 text-gray-200 animate-spin dark:text-orange-600 fill-orange-200"
               viewBox="0 0 100 101"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -101,7 +103,7 @@ export default function Home() {
             <span className="sr-only">Loading...</span>
           </div>
         ) : userData.length === 0 ? (
-          <div className="w-full p-6 mb-4 text-xl flex items-center justify-center gap-2">
+          <div className="w-full p-6 mb-4 text-xl flex text-orange-600 items-center justify-center gap-2">
             <PiEmpty />
             No Posts are added
           </div>
@@ -118,7 +120,7 @@ export default function Home() {
                     onClick={() => handleVotes(post.uuid)}
                     className={`flex gap-2 items-center px-3 py-3 text-sm font-medium text-center 
                       text-white
-                     bg-gray-800 rounded-lg hover:bg-gray-900`}
+                     bg-orange-800 rounded-lg hover:bg-orange-900`}
                   >
                     <GoArrowUp />
                   </button>
@@ -128,21 +130,18 @@ export default function Home() {
                   <button
                     className={`flex gap-2 items-center px-3 py-3 text-sm font-medium text-center 
                       text-white
-                     bg-gray-800 rounded-lg hover:bg-gray-900`}
+                     bg-orange-800 rounded-lg hover:bg-orange-900`}
                     onClick={() => handleVotes(post.uuid, true)}
                   >
                     <GoArrowDown />
                   </button>
                 </div>
 
-                <div className="w-full">
+                <div className="w-full space-y-4">
                   {/* User name, time and Image of post */}
                   <div className="flex items-center gap-2 mb-4 text-white">
-                    <Avatar
-                      src={post.user_image}
-                      name={post.post_added_by}
-                    />
-                    <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    <Avatar src={post.user_image} name={post.post_added_by} />
+                    <h5 className="text-xl font-bold tracking-tight text-orange-900 dark:text-orange-600">
                       {post.post_added_by}
                     </h5>
                     <p className="text-sm text-gray-400">{post.created_at}</p>
@@ -158,18 +157,21 @@ export default function Home() {
                       // height={"200"}
                     />
                   )}
-                  <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-gray-200">
-                    {post.post_title}
-                  </h5>
-                  <p className="mb-3 font-normal text-gray-700 dark:text-gray-300">
-                    {post.description}
-                  </p>
+
+                  <div>
+                    <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-gray-200">
+                      {post.post_title}
+                    </h5>
+                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-300">
+                      {post.description}
+                    </p>
+                  </div>
 
                   {/* Comments section area */}
                   <div className="flex gap-5">
                     <button
                       onClick={() => handleModal(post.uuid)}
-                      className="flex gap-2 w-fit items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-700 rounded-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-950"
+                      className="flex gap-2 w-fit items-center px-3 py-2 text-sm font-medium text-center text-white bg-orange-700 rounded-lg hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-orange-800 dark:hover:bg-orange-900 dark:focus:ring-orange-950"
                     >
                       Comments
                       <svg

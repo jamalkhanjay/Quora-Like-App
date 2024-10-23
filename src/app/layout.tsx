@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Auth from "./Auth";
-import Header from "@/components/shared/Header";
-import { ChakraProvider } from "@chakra-ui/react";
+// import Header from "@/components/shared/Header";
+// import { ChakraProvider } from "@chakra-ui/react";
 import { Providers } from "./providers";
 
 const geistSans = localFont({
