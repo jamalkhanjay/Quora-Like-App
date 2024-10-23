@@ -112,7 +112,7 @@ export default function AddNewPost() {
         <div className="flex min-h-full w-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
           <DialogPanel
             transition
-            className="relative transform h-[90vh] w-[50%] p-4 flex flex-col justify-between overflow-hidden rounded-lg bg-gray-200 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8  data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
+            className="relative transform h-[90vh] w-[50%] p-4 flex flex-col justify-between overflow-hidden rounded-lg bg-gray-800 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8  data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
           >
             <div className="my-10 flex flex-col justify-center items-center">
               <div className="w-[80%] space-y-5 text-orange-600 rounded-xl">

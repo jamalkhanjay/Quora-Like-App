@@ -11,12 +11,17 @@ import { GoArrowDown, GoArrowUp } from "react-icons/go";
 import toast, { Toaster } from "react-hot-toast";
 import { Avatar } from "@chakra-ui/react";
 import CommentsModal from "@/components/CommentsModal";
+import supabaseClient from "@/services/supabase";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [isShowing, setIsShowing] = useState(false);
   const [postID, setPostID] = useState("");
   const { setUserData, userData, session } = clientStore();
+
+  const router = useRouter();
 
   // Post fetching logic
   useEffect(() => {
@@ -32,6 +37,30 @@ export default function Home() {
     };
     fetchingPostData();
   }, []);
+
+  // subscribing the realtime
+  useEffect(() => {
+    const channel = supabaseClient
+      .channel("post channel")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "posts",
+        },
+        (payload) => {
+          console.log("payload is ", payload, "payload.new is ", payload.new);
+          // setUserData((prevPosts) => [payload.new as Data, ...prevPosts])
+          router.refresh();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabaseClient.removeChannel(channel);
+    };
+  }, [supabaseClient, router]);
 
   // ----- * A Toast for notifying a user * -----------
   const duplicateVote = () =>
@@ -74,7 +103,7 @@ export default function Home() {
       <Auth />
       <Header />
       <Sidebar />
-      <div className="ml-64 flex flex-col gap-5 justify-center items-center pt-6 bg-black h-[91vh]">
+      <div className="ml-64 flex flex-col gap-5 justify-center items-center pt-6 bg-black overflow-y-auto">
         {loading ? (
           // Loading
           <div
@@ -114,11 +143,15 @@ export default function Home() {
                 <div className="w-full space-y-4">
                   {/* User name, time and Image of post */}
                   <div className="flex items-center gap-2 mb-4 text-white">
-                    <Avatar src={post.user_image} name={post.post_added_by} />
-                    <h5 className="text-xl font-bold tracking-tight text-orange-900 dark:text-orange-600">
-                      {post.post_added_by}
-                    </h5>
-                    <p className="text-sm text-gray-400">{post.created_at.split(".")[0]}</p>
+                    <Link href={`${post.user_id}`} className="flex gap-2 items-center">
+                      <Avatar src={post.user_image} name={post.post_added_by} />
+                      <h5 className="text-xl font-bold tracking-tight text-orange-900 dark:text-orange-600">
+                        {post.post_added_by}
+                      </h5>
+                    </Link>
+                    <p className="text-sm text-gray-400">
+                      {post.created_at.split(".")[0]}
+                    </p>
                   </div>
 
                   {/* Post Image */}

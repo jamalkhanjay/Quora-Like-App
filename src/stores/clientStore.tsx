@@ -6,6 +6,7 @@ interface Data {
   created_at: string;
   post_title: string;
   description: string;
+  user_id: string,
   post_added_by: string,
   post_img_url: string,
   user_image: string,
@@ -17,7 +18,6 @@ interface clientStore {
   setSession: (session: Session | null) => void;
   userData: Data[];
   setUserData: (userData: Data[]) => void;
-
 }
 
 export const clientStore = create<clientStore>((set) => ({

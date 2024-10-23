@@ -14,6 +14,23 @@ export const getPostData = async () => {
   return data;
 };
 
+// Specific user data
+export const fetchSpecificUsers = async (user_id?: string) => {
+  const { data, error } = await supabaseClient
+    .from("posts")
+    .select("*")
+    .eq("user_id", user_id);
+
+  if (error) {
+    console.log("Error while fetching the post for current user");
+    throw error;
+  }
+
+  if (data) {
+    return data;
+  }
+};
+
 // ----------------- *** Adding a new post *** -------------------------------------
 export const addPost = async (
   title?: string,
@@ -109,18 +126,18 @@ export const addComment = async (
   user_id: string | undefined,
   contents: string,
   commented_by: string,
-  user_image: string,
+  user_image: string
 ) => {
   const { error } = await supabaseClient
     .from("comments")
-    .insert({ post_id, user_id, contents, commented_by, user_image});
+    .insert({ post_id, user_id, contents, commented_by, user_image });
 
   if (error) {
     console.log("Error while fetching comments", error.message);
   }
 };
 
-// Fetching comments 
+// Fetching comments
 export const fetchComments = async (post_id: string) => {
   const { data, error } = await supabaseClient
     .from("comments")
