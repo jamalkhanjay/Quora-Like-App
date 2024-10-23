@@ -1,12 +1,14 @@
 import supabaseClient from "@/services/supabase";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 // import toast, { Toaster } from "react-hot-toast";
 import { FaPlus } from "react-icons/fa";
 import { GoHome, GoSignOut } from "react-icons/go";
+import AddNewPost from "../AddNewPost";
 
 const Sidebar = () => {
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // const notify = () => toast.success("Signed Out Successfully");
 
@@ -19,8 +21,12 @@ const Sidebar = () => {
     // notify();
   };
 
+  const handleNewPostModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
   return (
-    <div> 
+    <div>
       <button
         data-drawer-target="default-sidebar"
         data-drawer-toggle="default-sidebar"
@@ -51,18 +57,18 @@ const Sidebar = () => {
       >
         <div className="h-full flex flex-col justify-between px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
           <ul className="space-y-2 font-medium">
-            <li onClick={() => router.push("/new-post")} className="cursor-pointer">
+            <li onClick={handleNewPostModal} className="cursor-pointer">
               <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <FaPlus className="text-orange-600" />
                 <span className="ms-2 text-orange-600">Add new Post</span>
               </a>
             </li>
             <li onClick={() => router.push("/")} className="cursor-pointer">
-              <a
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-              >
+              <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <GoHome className="text-orange-600" />
-                <span className="flex-1 ms-2 whitespace-nowrap text-orange-600">Feed</span>
+                <span className="flex-1 ms-2 whitespace-nowrap text-orange-600">
+                  Feed
+                </span>
                 <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-orange-600">
                   Feed
                 </span>
@@ -81,6 +87,8 @@ const Sidebar = () => {
           </div>
         </div>
       </aside>
+
+      {isModalOpen && <AddNewPost />}
     </div>
   );
 };

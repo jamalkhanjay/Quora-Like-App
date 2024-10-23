@@ -9,8 +9,6 @@ import { PiEmpty } from "react-icons/pi";
 import Auth from "./Auth";
 import { GoArrowDown, GoArrowUp } from "react-icons/go";
 import toast, { Toaster } from "react-hot-toast";
-import Comments from "@/components/Comments";
-import Image from "next/image";
 import { Avatar } from "@chakra-ui/react";
 import CommentsModal from "@/components/CommentsModal";
 
@@ -60,7 +58,6 @@ export default function Home() {
       voteAdded();
     } else if (!vote) {
       voteRemoved();
-      1;
     } else {
       errorAddingVote();
     }
@@ -77,7 +74,7 @@ export default function Home() {
       <Auth />
       <Header />
       <Sidebar />
-      <div className="ml-64 flex flex-col gap-5 justify-center items-center pt-6 bg-black">
+      <div className="ml-64 flex flex-col gap-5 justify-center items-center pt-6 bg-black h-[91vh]">
         {loading ? (
           // Loading
           <div
@@ -121,7 +118,7 @@ export default function Home() {
                     <h5 className="text-xl font-bold tracking-tight text-orange-900 dark:text-orange-600">
                       {post.post_added_by}
                     </h5>
-                    <p className="text-sm text-gray-400">{post.created_at}</p>
+                    <p className="text-sm text-gray-400">{post.created_at.split(".")[0]}</p>
                   </div>
 
                   {/* Post Image */}
