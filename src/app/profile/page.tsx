@@ -125,8 +125,8 @@ const Profile = () => {
     <>
       <Header />
       <Sidebar />
-      <VStack ml={"64"} py={"6"} bgColor={"black"} >
-        <VStack spacing={"10"} w={"90%"} bgColor={"gray.600"} py={"20"} textColor={"red.500"} rounded={"2xl"}>
+      <VStack ml={"64"} py={"6"} bgColor={"gray.200"} >
+        <VStack spacing={"10"} w={"90%"} bgColor={"gray.300"} py={"20"} textColor={"red.500"} rounded={"2xl"} shadow={"xl"}>
           <Heading>Profile</Heading>
           <VStack position={"relative"}>
             <Avatar size="2xl" src={previewAvatarUrl || avatarUrl} />
@@ -206,6 +206,7 @@ const Profile = () => {
               color={"white"}
               w={"30%"}
               mt={"5"}
+              disabled={!updateName}
             >
               Save
             </Button>

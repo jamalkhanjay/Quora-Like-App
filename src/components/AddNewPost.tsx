@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  Dialog,
-  DialogBackdrop,
-  DialogPanel,
-} from "@headlessui/react";
+import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { addPost, getPostData } from "@/lib/supabaseMethods";
 import { clientStore } from "@/stores/clientStore";
 import React, { useRef, useState } from "react";
@@ -115,10 +111,10 @@ export default function AddNewPost() {
         <div className="flex min-h-full w-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
           <DialogPanel
             transition
-            className="relative transform h-[90vh] w-[50%] p-4 flex flex-col justify-between overflow-hidden rounded-lg bg-gray-800 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8  data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
+            className="relative transform h-[90vh] w-[50%] p-4 flex flex-col justify-between overflow-hidden rounded-lg bg-gray-100 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8  data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
           >
             <div className="my-10 flex flex-col justify-center items-center">
-              <div className="w-[80%] space-y-5 text-red-600 rounded-xl">
+              <div className="w-[90%] space-y-5 text-red-600 rounded-xl">
                 <div>
                   <h1 className="text-2xl font-bold">Add New Post</h1>
                 </div>
@@ -170,15 +166,16 @@ export default function AddNewPost() {
                     className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   />
                 </div>
-
-                <button
-                  className="cursor-pointer disabled:cursor-not-allowed disabled:bg-red-600 bg-red-900 text-white px-4 py-2 rounded-md"
-                  disabled={!title && !description && !fileSelect}
-                  onClick={handleSubmit}
-                >
-                  Submit
-                  <Toaster />
-                </button>
+                <div className="w-full text-center">
+                  <button
+                    className="cursor-pointer disabled:cursor-not-allowed disabled:bg-gray-600 bg-red-700 text-white px-4 py-2 rounded-md"
+                    disabled={!title && !description && !fileSelect}
+                    onClick={handleSubmit}
+                  >
+                    Submit
+                    <Toaster />
+                  </button>
+                </div>
               </div>
             </div>
           </DialogPanel>

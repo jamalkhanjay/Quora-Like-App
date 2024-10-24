@@ -18,7 +18,7 @@ export const getPostData = async () => {
 export const fetchSpecificUsers = async (user_id?: string) => {
   const { data, error } = await supabaseClient
     .from("posts")
-    .select("*")
+    .select("*, votes(*), comments(*)")
     .eq("user_id", user_id);
 
   if (error) {

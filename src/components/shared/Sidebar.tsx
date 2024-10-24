@@ -77,7 +77,7 @@ const Sidebar = () => {
           </ul>
           <div className="w-full">
             <button
-              className="flex w-full items-center p-2 text-gray-200 rounded-lg dark:text-white hover:bg-red-950 dark:hover:bg-red-950 group"
+              className="flex w-full items-center p-2 text-gray-200 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group"
               onClick={signMeOut}
             >
               {/* <Toaster toastOptions={{ duration: 7000 }} /> */}

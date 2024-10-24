@@ -75,12 +75,12 @@ const SpecificUser = ({ params }: { params: { userId: string } }) => {
       <Auth />
       <Header />
       <Sidebar />
-      <div className="w-full flex flex-col items-center bg-black">
+      <div className="w-full flex flex-col items-center bg-gray-200">
         {loading ? (
           // Loading
           <div
             role="status"
-            className="h-[80vh] flex items-center justify-center"
+            className="h-[90vh] flex items-center justify-center"
           >
             <svg
               aria-hidden="true"
@@ -100,14 +100,14 @@ const SpecificUser = ({ params }: { params: { userId: string } }) => {
             </svg>
           </div>
         ) : userPosts?.length === 0 ? (
-          <div className="w-full p-6 mb-4 text-xl flex text-red-600 items-center justify-center gap-2">
+          <div className="w-full h-[90vh] p-6 mb-4 text-xl flex text-red-600 items-center justify-center gap-2">
             <PiEmpty />
             No Posts are added
           </div>
         ) : (
           userPosts?.map((post) => (
             <div
-              className="ml-64 my-4 w-[60%] flex flex-col items-center gap-5 p-6 mb-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-700 dark:border-gray-950"
+              className="ml-64 my-4 w-[60%] flex flex-col items-center gap-5 p-6 mb-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-100 dark:border-gray-100"
               key={post.uuid}
             >
               <div className="flex gap-5 items-center w-full">
@@ -140,10 +140,10 @@ const SpecificUser = ({ params }: { params: { userId: string } }) => {
                   )}
 
                   <div>
-                    <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-gray-200">
+                    <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-black">
                       {post.post_title}
                     </h5>
-                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-300">
+                    <p className="mb-3 font-normal text-gray-700 dark:text-black">
                       {post.description}
                     </p>
                   </div>
@@ -159,7 +159,7 @@ const SpecificUser = ({ params }: { params: { userId: string } }) => {
                         <GoArrowUp />
                       </button>
                       <Toaster />
-                      <span>{post?.votes?.length}</span>
+                      <span className="text-black">{post?.votes?.length}</span>
 
                       <button
                         className={`flex gap-2 items-center px-3 py-3 text-sm font-medium text-center 
