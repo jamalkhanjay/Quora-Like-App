@@ -6,7 +6,7 @@ import {
   DialogPanel,
   DialogTitle,
 } from "@headlessui/react";
-import { addPost } from "@/lib/supabaseMethods";
+import { addPost, getPostData } from "@/lib/supabaseMethods";
 import { clientStore } from "@/stores/clientStore";
 import React, { useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
@@ -25,7 +25,7 @@ export default function AddNewPost() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { session } = clientStore();
+  const { setUserData, session } = clientStore();
 
   const userId = session?.user.id;
   const userName = session?.user.user_metadata.userName;
@@ -76,6 +76,8 @@ export default function AddNewPost() {
         // setNewImageUrl("");
         setTitle("");
         setDescription("");
+        const fetchData = await getPostData();
+        setUserData(fetchData)
       }
     } catch (error: any) {
       console.log("Error is detected");

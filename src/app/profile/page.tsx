@@ -129,7 +129,7 @@ const Profile = () => {
     <>
       <Header />
       <Sidebar />
-      <VStack ml={"64"} mt={"5"} >
+      <VStack ml={"64"} py={"6"} bgColor={"black"} >
         <VStack spacing={"10"} w={"90%"} bgColor={"gray.600"} py={"20"} textColor={"orange.500"} rounded={"2xl"}>
           <Heading>Profile</Heading>
           <VStack position={"relative"}>

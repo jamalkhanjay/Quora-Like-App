@@ -11,7 +11,7 @@ import { GoArrowDown, GoArrowUp } from "react-icons/go";
 import toast, { Toaster } from "react-hot-toast";
 import { Avatar } from "@chakra-ui/react";
 import CommentsModal from "@/components/CommentsModal";
-import supabaseClient from "@/services/supabase";
+// import supabaseClient from "@/services/supabase";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -21,7 +21,7 @@ export default function Home() {
   const [postID, setPostID] = useState("");
   const { setUserData, userData, session } = clientStore();
 
-  const router = useRouter();
+  // const router = useRouter();
 
   // Post fetching logic
   useEffect(() => {
@@ -38,29 +38,29 @@ export default function Home() {
     fetchingPostData();
   }, []);
 
-  // subscribing the realtime
-  useEffect(() => {
-    const channel = supabaseClient
-      .channel("post channel")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "posts",
-        },
-        (payload) => {
-          console.log("payload is ", payload, "payload.new is ", payload.new);
-          // setUserData((prevPosts) => [payload.new as Data, ...prevPosts])
-          router.refresh();
-        }
-      )
-      .subscribe();
+  // // subscribing the realtime
+  // useEffect(() => {
+  //   const channel = supabaseClient
+  //     .channel("post channel")
+  //     .on(
+  //       "postgres_changes",
+  //       {
+  //         event: "*",
+  //         schema: "public",
+  //         table: "posts",
+  //       },
+  //       (payload) => {
+  //         console.log("payload is ", payload, "payload.new is ", payload.new);
+  //         // setUserData((prevPosts) => [payload.new as Data, ...prevPosts])
+  //         router.refresh();
+  //       }
+  //     )
+  //     .subscribe();
 
-    return () => {
-      supabaseClient.removeChannel(channel);
-    };
-  }, [supabaseClient, router]);
+  //   return () => {
+  //     supabaseClient.removeChannel(channel);
+  //   };
+  // }, [supabaseClient, router]);
 
   // ----- * A Toast for notifying a user * -----------
   const duplicateVote = () =>
@@ -79,6 +79,8 @@ export default function Home() {
     }
 
     const vote = await manageVotes(post_id, userId, remove);
+    const fetchData = await getPostData();
+    setUserData(fetchData)
 
     // Toaster
     if (vote === "23505") {
@@ -108,7 +110,7 @@ export default function Home() {
           // Loading
           <div
             role="status"
-            className="h-[80vh] flex items-center justify-center"
+            className="h-[90vh] flex items-center justify-center"
           >
             <svg
               aria-hidden="true"
@@ -129,7 +131,7 @@ export default function Home() {
             <span className="sr-only">Loading...</span>
           </div>
         ) : userData.length === 0 ? (
-          <div className="w-full p-6 mb-4 text-xl flex text-orange-600 items-center justify-center gap-2">
+          <div className="h-[90vh] w-full p-6 mb-4 text-xl flex text-orange-600 items-center justify-center gap-2">
             <PiEmpty />
             No Posts are added
           </div>
