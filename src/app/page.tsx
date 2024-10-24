@@ -38,30 +38,6 @@ export default function Home() {
     fetchingPostData();
   }, []);
 
-  // // subscribing the realtime
-  // useEffect(() => {
-  //   const channel = supabaseClient
-  //     .channel("post channel")
-  //     .on(
-  //       "postgres_changes",
-  //       {
-  //         event: "*",
-  //         schema: "public",
-  //         table: "posts",
-  //       },
-  //       (payload) => {
-  //         console.log("payload is ", payload, "payload.new is ", payload.new);
-  //         // setUserData((prevPosts) => [payload.new as Data, ...prevPosts])
-  //         router.refresh();
-  //       }
-  //     )
-  //     .subscribe();
-
-  //   return () => {
-  //     supabaseClient.removeChannel(channel);
-  //   };
-  // }, [supabaseClient, router]);
-
   // ----- * A Toast for notifying a user * -----------
   const duplicateVote = () =>
     toast.error("You have already voted for this post");

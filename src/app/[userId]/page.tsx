@@ -51,6 +51,8 @@ const SpecificUser = ({ params }: { params: { userId: string } }) => {
     }
 
     const vote = await manageVotes(post_id, userId, remove);
+    const user = await fetchSpecificUsers(params.userId);
+    setUserPosts(user);
 
     // Toaster
     if (vote === "23505") {
