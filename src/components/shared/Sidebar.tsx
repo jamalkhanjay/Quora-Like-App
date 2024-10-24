@@ -52,24 +52,24 @@ const Sidebar = () => {
 
       <aside
         id="default-sidebar"
-        className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 border-r"
+        className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-gray-300 dark:bg-gray-300 border-r border-gray-400"
         aria-label="Sidebar"
       >
-        <div className="h-full flex flex-col justify-between px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+        <div className="h-full flex flex-col justify-between px-3 py-4 overflow-y-aut">
           <ul className="space-y-2 font-medium">
             <li onClick={handleNewPostModal} className="cursor-pointer">
-              <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                <FaPlus className="text-orange-600" />
-                <span className="ms-2 text-orange-600">Add new Post</span>
+              <a className="flex items-center p-2 text-red-600 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">
+                <FaPlus className="text-red-600" />
+                <span className="ms-2 text-red-600 text-xl">Add new Post</span>
               </a>
             </li>
             <li onClick={() => router.push("/")} className="cursor-pointer">
-              <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                <GoHome className="text-orange-600" />
-                <span className="flex-1 ms-2 whitespace-nowrap text-orange-600">
+              <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">
+                <GoHome className="text-red-600 text-xl" />
+                <span className="flex-1 ms-2 whitespace-nowrap text-red-600 text-xl">
                   Feed
                 </span>
-                <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-orange-600">
+                <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-3100 dark:text-red-600">
                   Feed
                 </span>
               </a>
@@ -77,12 +77,12 @@ const Sidebar = () => {
           </ul>
           <div className="w-full">
             <button
-              className="flex w-full items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              className="flex w-full items-center p-2 text-gray-200 rounded-lg dark:text-white hover:bg-red-950 dark:hover:bg-red-950 group"
               onClick={signMeOut}
             >
               {/* <Toaster toastOptions={{ duration: 7000 }} /> */}
-              <GoSignOut className="text-orange-600" />
-              <span className="ms-2 text-orange-600">Sign Out</span>
+              <GoSignOut className="text-red-600 text-xl" />
+              <span className="ms-2 text-red-600 text-xl">Sign Out</span>
             </button>
           </div>
         </div>

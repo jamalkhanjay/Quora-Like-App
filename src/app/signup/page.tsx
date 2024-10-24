@@ -70,7 +70,7 @@ const SignUp = () => {
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
                 placeholder="Full Name"
-                className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -92,7 +92,7 @@ const SignUp = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
-                className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -116,7 +116,7 @@ const SignUp = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 placeholder="Password"
-                className="block w-full rounded-md border-0 py-1.5  px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 py-1.5  px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -124,7 +124,7 @@ const SignUp = () => {
           <div>
             <button
               // type="submit"
-              className="flex w-full justify-center rounded-md bg-orange-600 disabled:cursor-not-allowed disabled:bg-orange-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+              className="flex w-full justify-center rounded-md bg-red-600 disabled:cursor-not-allowed disabled:bg-red-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
               onClick={createAccount}
               disabled={!userName || !email || !password}
             >
@@ -138,7 +138,7 @@ const SignUp = () => {
             Already have an account.
             <button
               onClick={() => router.push("/signin")}
-              className="font-semibold leading-6 text-orange-600 hover:text-orange-500"
+              className="font-semibold leading-6 text-red-600 hover:text-red-500"
             >
               Sign In
             </button>

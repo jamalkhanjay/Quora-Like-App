@@ -60,7 +60,7 @@ const SignIn = () => {
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -76,7 +76,7 @@ const SignIn = () => {
               <div className="text-sm">
                 <a
                   href="#"
-                  className="font-semibold text-orange-600 hover:text-orange-500"
+                  className="font-semibold text-red-600 hover:text-red-500"
                 >
                   Forgot password?
                 </a>
@@ -91,7 +91,7 @@ const SignIn = () => {
                 type="password"
                 required
                 placeholder="Password"
-                className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -100,7 +100,7 @@ const SignIn = () => {
             <button
               // type="submit"
               onClick={handleSignIn}
-              className="flex w-full justify-center rounded-md bg-orange-800 disabled:bg-orange-500 disabled:cursor-not-allowed px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+              className="flex w-full justify-center rounded-md bg-red-800 disabled:bg-red-500 disabled:cursor-not-allowed px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
               disabled={!email || !password}
             >
               Sign in
@@ -112,7 +112,7 @@ const SignIn = () => {
             Don't have any account?{" "}
             <button
               onClick={() => router.push("/signup")}
-              className="font-semibold leading-6 text-orange-600 hover:text-orange-500"
+              className="font-semibold leading-6 text-red-600 hover:text-red-500"
             >
               Sign up
             </button>

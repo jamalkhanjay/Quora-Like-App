@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogBackdrop,
   DialogPanel,
-  DialogTitle,
 } from "@headlessui/react";
 import { addPost, getPostData } from "@/lib/supabaseMethods";
 import { clientStore } from "@/stores/clientStore";
@@ -31,7 +30,8 @@ export default function AddNewPost() {
   const userName = session?.user.user_metadata.userName;
   const profileImgUrl = session?.user.user_metadata.avatar_url;
 
-  const notify = () => toast.success("Post Added Successfully");
+  // const notify = () => toast.success("Post Added Successfully");
+  const toastInfo = () => toast.success("Post Successfully added!");
 
   let newImageUrl: string = "";
 
@@ -70,14 +70,15 @@ export default function AddNewPost() {
       }
 
       if (isPostAdded) {
-        notify();
+        // notify();
+        toastInfo();
         setPreviewImageUrl(null);
         setFileSelect(null);
         // setNewImageUrl("");
         setTitle("");
         setDescription("");
-        const fetchData = await getPostData();
-        setUserData(fetchData)
+        // const fetchData = await getPostData();
+        // setUserData(fetchData)
       }
     } catch (error: any) {
       console.log("Error is detected");
@@ -117,7 +118,7 @@ export default function AddNewPost() {
             className="relative transform h-[90vh] w-[50%] p-4 flex flex-col justify-between overflow-hidden rounded-lg bg-gray-800 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8  data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
           >
             <div className="my-10 flex flex-col justify-center items-center">
-              <div className="w-[80%] space-y-5 text-orange-600 rounded-xl">
+              <div className="w-[80%] space-y-5 text-red-600 rounded-xl">
                 <div>
                   <h1 className="text-2xl font-bold">Add New Post</h1>
                 </div>
@@ -141,7 +142,7 @@ export default function AddNewPost() {
                 </div>
 
                 <div>
-                  <label className="block mb-2 text-sm font-medium text-orange-600 dark:text-orange-600">
+                  <label className="block mb-2 text-sm font-medium text-red-600 dark:text-red-600">
                     Post Title
                   </label>
                   <input
@@ -156,7 +157,7 @@ export default function AddNewPost() {
                 </div>
 
                 <div className="mb-5">
-                  <label className="block mb-2 text-sm font-medium text-orange-600 dark:text-orange-600">
+                  <label className="block mb-2 text-sm font-medium text-red-600 dark:text-red-600">
                     Description
                   </label>
                   <input
@@ -171,7 +172,7 @@ export default function AddNewPost() {
                 </div>
 
                 <button
-                  className="cursor-pointer disabled:cursor-not-allowed disabled:bg-gray-600 bg-gray-900 text-white px-4 py-2 rounded-md"
+                  className="cursor-pointer disabled:cursor-not-allowed disabled:bg-red-600 bg-red-900 text-white px-4 py-2 rounded-md"
                   disabled={!title && !description && !fileSelect}
                   onClick={handleSubmit}
                 >

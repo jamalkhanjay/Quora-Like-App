@@ -61,7 +61,6 @@ const Profile = () => {
   const handleUpdateCredentials = async () => {
     try {
       if (updateName.trim()) {
-        // setIsUserUpdating(true);
         let newAvatarUrl = avatarUrl;
 
         // Handle file upload if a new file is selected
@@ -121,16 +120,13 @@ const Profile = () => {
       });
     }
   };
-  // finally {
-  //   setIsUserUpdating(false);
-  // }
 
   return (
     <>
       <Header />
       <Sidebar />
       <VStack ml={"64"} py={"6"} bgColor={"black"} >
-        <VStack spacing={"10"} w={"90%"} bgColor={"gray.600"} py={"20"} textColor={"orange.500"} rounded={"2xl"}>
+        <VStack spacing={"10"} w={"90%"} bgColor={"gray.600"} py={"20"} textColor={"red.500"} rounded={"2xl"}>
           <Heading>Profile</Heading>
           <VStack position={"relative"}>
             <Avatar size="2xl" src={previewAvatarUrl || avatarUrl} />
@@ -139,7 +135,7 @@ const Profile = () => {
               bottom={"0"}
               right={"0"}
               icon={<MdEditSquare />}
-              colorScheme="orange"
+              colorScheme="red"
               border={"3px solid white"}
               aria-label="Change Profile image"
               onClick={handleProfileImage}
@@ -205,8 +201,8 @@ const Profile = () => {
               size="lg"
               variant="solid"
               // colorScheme=""
-              bgColor={"orange.600"}
-              _hover={{ bgColor: "orange.700" }}
+              bgColor={"red.600"}
+              _hover={{ bgColor: "red.700" }}
               color={"white"}
               w={"30%"}
               mt={"5"}

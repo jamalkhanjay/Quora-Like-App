@@ -41,7 +41,7 @@ const Header = () => {
   ];
 
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-gray-300 dark:bg-gray-300 shadow border-b border-b-gray-400">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -63,7 +63,7 @@ const Header = () => {
             <div className="flex flex-shrink-0 items-center">
               <img
                 alt="Your Company"
-                src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500"
+                src="https://tailwindui.com/plus/img/logos/mark.svg?color=red&shade=500"
                 className="h-8 w-auto"
               />
             </div>
@@ -85,7 +85,7 @@ const Header = () => {
             </div> */}
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <div className="text-orange-600">
+            <div className="text-red-600 text-xl font-bold">
               {session?.user.user_metadata.userName}
             </div>
 
@@ -96,7 +96,7 @@ const Header = () => {
                   <Avatar
                     name={session?.user.user_metadata.userName}
                     src={session?.user.user_metadata.avatar_url || upload_placeholder}
-                    className="h-8 w-8 rounded-full bg-orange-600 text-white"
+                    className="h-8 w-8 rounded-full bg-red-600 text-white"
                   />
                 </MenuButton>
               </div>

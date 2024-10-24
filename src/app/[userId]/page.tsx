@@ -84,7 +84,7 @@ const SpecificUser = ({ params }: { params: { userId: string } }) => {
           >
             <svg
               aria-hidden="true"
-              className="w-20 h-20 text-gray-200 animate-spin dark:text-orange-600 fill-orange-200"
+              className="w-20 h-20 text-gray-200 animate-spin dark:text-red-600 fill-red-200"
               viewBox="0 0 100 101"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -100,7 +100,7 @@ const SpecificUser = ({ params }: { params: { userId: string } }) => {
             </svg>
           </div>
         ) : userPosts?.length === 0 ? (
-          <div className="w-full p-6 mb-4 text-xl flex text-orange-600 items-center justify-center gap-2">
+          <div className="w-full p-6 mb-4 text-xl flex text-red-600 items-center justify-center gap-2">
             <PiEmpty />
             No Posts are added
           </div>
@@ -119,7 +119,7 @@ const SpecificUser = ({ params }: { params: { userId: string } }) => {
                       className="flex gap-2 items-center"
                     >
                       <Avatar src={post.user_image} name={post.post_added_by} />
-                      <h5 className="text-xl font-bold tracking-tight text-orange-900 dark:text-orange-600">
+                      <h5 className="text-xl font-bold tracking-tight text-red-900 dark:text-red-600">
                         {post.post_added_by}
                       </h5>
                     </Link>
@@ -154,7 +154,7 @@ const SpecificUser = ({ params }: { params: { userId: string } }) => {
                       <button
                         onClick={() => handleVotes(post.uuid)}
                         className={`flex gap-2 items-center px-3 py-3 text-sm font-medium text-center 
-                      text-white bg-orange-800 rounded-lg hover:bg-orange-900`}
+                      text-white bg-red-800 rounded-lg hover:bg-red-900`}
                       >
                         <GoArrowUp />
                       </button>
@@ -164,7 +164,7 @@ const SpecificUser = ({ params }: { params: { userId: string } }) => {
                       <button
                         className={`flex gap-2 items-center px-3 py-3 text-sm font-medium text-center 
                       text-white
-                     bg-orange-800 rounded-lg hover:bg-orange-900`}
+                     bg-red-800 rounded-lg hover:bg-red-900`}
                         onClick={() => handleVotes(post.uuid, true)}
                       >
                         <GoArrowDown />
@@ -172,7 +172,7 @@ const SpecificUser = ({ params }: { params: { userId: string } }) => {
                     </div>
                     <button
                       onClick={() => handleModal(post.uuid)}
-                      className="flex gap-2 w-fit items-center px-3 py-2 text-sm font-medium text-center text-white bg-orange-700 rounded-lg hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-orange-800 dark:hover:bg-orange-900 dark:focus:ring-orange-950"
+                      className="flex gap-2 w-fit items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-red-800 dark:hover:bg-red-900 dark:focus:ring-red-950"
                     >
                       Comments
                       <svg
