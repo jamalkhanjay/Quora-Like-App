@@ -8,7 +8,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { GoArrowDown, GoArrowUp } from "react-icons/go";
-import Auth from "../Auth";
+import Auth from "@/app/Auth";
 import Header from "@/components/shared/Header";
 import Sidebar from "@/components/shared/Sidebar";
 import { PiEmpty } from "react-icons/pi";
@@ -27,7 +27,7 @@ const SpecificUser = ({ params }: { params: { userId: string } }) => {
     const postsData = async () => {
       setLoading(true);
       const user = await fetchSpecificUsers(params.userId);
-      setUserPosts(user);
+      setUserPosts(user?.reverse());
       setLoading(false);
     };
     postsData();
@@ -117,7 +117,7 @@ const SpecificUser = ({ params }: { params: { userId: string } }) => {
                   {/* User name, time and Image of post */}
                   <div className="flex items-center gap-2 mb-4 text-white">
                     <Link
-                      href={`${post.user_id}`}
+                      href={`/profile/${post.user_id}`}
                       className="flex gap-2 items-center"
                     >
                       <Avatar src={post.user_image} name={post.post_added_by} />

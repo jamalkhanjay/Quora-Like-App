@@ -56,7 +56,7 @@ export default function Home() {
 
     const vote = await manageVotes(post_id, userId, remove);
     const fetchData = await getPostData();
-    setUserData(fetchData)
+    setUserData(fetchData.reverse())
 
     // Toaster
     if (vote === "23505") {
@@ -121,7 +121,7 @@ export default function Home() {
                 <div className="w-full space-y-4">
                   {/* User name, time and Image of post */}
                   <div className="flex items-center gap-2 mb-4 text-white">
-                    <Link href={`${post.user_id}`} className="flex gap-2 items-center">
+                    <Link href={`/profile/${post.user_id}`} className="flex gap-2 items-center">
                       <Avatar src={post.user_image} name={post.post_added_by} />
                       <h5 className="text-xl font-bold tracking-tight text-red-900 dark:text-red-600">
                         {post.post_added_by}
