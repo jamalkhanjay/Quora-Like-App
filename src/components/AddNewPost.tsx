@@ -3,14 +3,15 @@
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { addPost, getPostData } from "@/lib/supabaseMethods";
 import { clientStore } from "@/stores/clientStore";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, Dispatch, SetStateAction  } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import upload_placeholder from "@/assets/upload_placeholder.jpg";
 import Image from "next/image";
 import supabaseClient from "@/services/supabase";
 
-export default function AddNewPost() {
-  const [open, setOpen] = useState(true);
+
+export default function AddNewPost({isModalOpen, setIsModalOpen}: {isModalOpen: boolean; setIsModalOpen: Dispatch<SetStateAction<boolean>> }) {
+  const [open, setOpen] = useState(isModalOpen);
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
   const [previewImageUrl, setPreviewImageUrl] = useState<string | null>("");
@@ -101,7 +102,7 @@ export default function AddNewPost() {
   };
 
   return (
-    <Dialog open={open} onClose={setOpen} className="relative z-10">
+    <Dialog open={isModalOpen} onClose={setIsModalOpen} className="relative z-10">
       <DialogBackdrop
         transition
         className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"

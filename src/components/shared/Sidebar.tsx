@@ -88,7 +88,7 @@ const Sidebar = () => {
         </div>
       </aside>
 
-      {isModalOpen && <AddNewPost />}
+      {isModalOpen && <AddNewPost isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />}
     </div>
   );
 };
