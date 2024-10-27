@@ -3,12 +3,16 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 // import toast, { Toaster } from "react-hot-toast";
 import { FaPlus } from "react-icons/fa";
-import { GoHome, GoSignOut } from "react-icons/go";
+import { GoDeviceCameraVideo, GoHome, GoSignOut,  } from "react-icons/go";
 import AddNewPost from "../AddNewPost";
+import WebcamRecording from "../WebcamRecording";
+import { IoMdVideocam } from "react-icons/io";
+import { IoHome } from "react-icons/io5";
 
 const Sidebar = () => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isWebCamModalOpen, setIsWebCamModalOpen] = useState(false);
 
   // const notify = () => toast.success("Signed Out Successfully");
 
@@ -23,6 +27,10 @@ const Sidebar = () => {
 
   const handleNewPostModal = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  const handleRecording = () => {
+    setIsWebCamModalOpen(!isWebCamModalOpen);
   };
 
   return (
@@ -63,15 +71,23 @@ const Sidebar = () => {
                 <span className="ms-2 text-red-600 text-xl">Add new Post</span>
               </a>
             </li>
+            <li onClick={handleRecording} className="cursor-pointer">
+              <a className="flex items-center p-2 text-red-600 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">
+                <IoMdVideocam className="text-red-600 text-xl" />
+                <span className="ms-2 text-red-600 text-xl">
+                  Record Video
+                </span>
+              </a>
+            </li>
             <li onClick={() => router.push("/")} className="cursor-pointer">
               <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">
-                <GoHome className="text-red-600 text-xl" />
+                <IoHome className="text-red-600 text-xl"/>
                 <span className="flex-1 ms-2 whitespace-nowrap text-red-600 text-xl">
                   Feed
                 </span>
-                <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-3100 dark:text-red-600">
+                {/* <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-3100 dark:text-red-600">
                   Feed
-                </span>
+                </span> */}
               </a>
             </li>
           </ul>
@@ -88,7 +104,15 @@ const Sidebar = () => {
         </div>
       </aside>
 
-      {isModalOpen && <AddNewPost isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />}
+      {isModalOpen && (
+        <AddNewPost isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      )}
+      {isWebCamModalOpen && (
+        <WebcamRecording
+          isWebCamModalOpen={isWebCamModalOpen}
+          setIsWebCamModalOpen={setIsWebCamModalOpen}
+        />
+      )}
     </div>
   );
 };

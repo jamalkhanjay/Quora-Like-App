@@ -38,7 +38,8 @@ export const addPost = async (
   uuid?: string | undefined,
   username?: string | undefined,
   imageUrl?: string,
-  profileImgUrl?: string
+  profileImgUrl?: string,
+  videoUrl?: string,
 ) => {
   const { error } = await supabaseClient.from("posts").insert({
     post_title: title,
@@ -47,6 +48,7 @@ export const addPost = async (
     post_added_by: username,
     post_img_url: imageUrl,
     user_image: profileImgUrl,
+    post_videos_url: videoUrl
   });
 
   if (error) {

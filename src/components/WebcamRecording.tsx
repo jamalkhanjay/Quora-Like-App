@@ -11,25 +11,18 @@ import React, {
   useCallback,
 } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import upload_placeholder from "@/assets/upload_placeholder.jpg";
-import Image from "next/image";
 import supabaseClient from "@/services/supabase";
 import Webcam from "react-webcam";
-// import WebCam from "./WebCam";
 
-export default function AddNewPost({
-  isModalOpen,
-  setIsModalOpen,
+export default function WebcamRecording({
+  isWebCamModalOpen,
+  setIsWebCamModalOpen,
 }: {
-  isModalOpen: boolean;
-  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+  isWebCamModalOpen: boolean;
+  setIsWebCamModalOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
-  const [previewImageUrl, setPreviewImageUrl] = useState<string | null>("");
-  // const [newImageUrl, setNewImageUrl] = useState("");
-  const [imageId, setImageId] = useState<number>(0);
-  const [fileSelect, setFileSelect] = useState<File | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -39,6 +32,8 @@ export default function AddNewPost({
   const [capturing, setCapturing] = useState<boolean>(false);
   const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
   const [isWebcamShowing, setIsWebcamShowing] = useState<boolean>(false);
+  const [isCamOpen, setIsCamOpen] = useState<boolean>(false);
+  // const [videoUrl, setVideoUrl] = useState<string>("");
 
   const { session } = clientStore();
 
@@ -49,35 +44,81 @@ export default function AddNewPost({
   const toastInfo = () => toast.success("Post Successfully added!");
 
   let newImageUrl: string = "";
+  let videoUrl: string = "";
+
+  const handleStartCaptureClick = useCallback(() => {
+    if (webcamRef.current && webcamRef.current.stream) {
+      setCapturing(true);
+      mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
+        mimeType: "video/webm",
+      });
+      mediaRecorderRef.current.addEventListener(
+        "dataavailable",
+        handleDataAvailable
+      );
+      mediaRecorderRef.current.start();
+    } else {
+      console.error("Webcam stream is not available.");
+    }
+  }, [webcamRef, setCapturing]);
+
+  const handleDataAvailable = useCallback(
+    ({ data }: { data: Blob }) => {
+      if (data.size > 0) {
+        setRecordedChunks((prev) => prev.concat(data));
+      }
+    },
+    [setRecordedChunks]
+  );
+
+  const handleStopCaptureClick = useCallback(() => {
+    mediaRecorderRef.current!.stop();
+    uploadVideoToSupabase();
+    setCapturing(false);
+    setIsCamOpen(false);
+  }, [mediaRecorderRef, setCapturing]);
+
+  // Upload videos to URL
+  const uploadVideoToSupabase = useCallback(async () => {
+    if (recordedChunks.length) {
+      const blob = new Blob(recordedChunks, { type: "video/webm" });
+
+      // Create a unique filename for the video
+      const fileName = `recorded-video-${Date.now()}.webm`;
+
+      // Upload to Supabase storage
+      const { error } = await supabaseClient.storage
+        .from("post_videos")
+        .upload(fileName, blob, {
+          contentType: "video/webm",
+        });
+
+      if (error) {
+        console.error("Error uploading video:", error.message);
+      }
+
+      // retriving public url
+      const { data } = supabaseClient.storage
+        .from("post_images")
+        .getPublicUrl(fileName);
+      videoUrl = data.publicUrl;
+    } else {
+      console.log("Video is not recorded");
+    }
+  }, [recordedChunks]);
+
+  // ***************************
 
   const handleSubmit = async () => {
     try {
-      if (fileSelect) {
-        const fileExt = fileSelect.name.split(".").pop();
-        const fileName = `${Math.random()}.${fileExt}`;
-
-        setImageId(imageId + 1);
-        // storing the file in storage bucket
-        const { error } = await supabaseClient.storage
-          .from("post_images")
-          .upload(`${imageId}/${fileName}`, fileSelect);
-
-        if (error) throw error;
-
-        // Retriving the public image URL from storage bucket
-        const { data } = supabaseClient.storage
-          .from("post_images")
-          .getPublicUrl(`${imageId}/${fileName}`);
-        newImageUrl = data.publicUrl;
-      }
-
       const { isPostAdded, error } = await addPost(
         title,
         description,
         userId,
         userName,
         newImageUrl,
-        profileImgUrl
+        profileImgUrl,
+        videoUrl,
       );
 
       if (error) {
@@ -87,46 +128,22 @@ export default function AddNewPost({
       if (isPostAdded) {
         // notify();
         toastInfo();
-        setPreviewImageUrl(null);
-        setFileSelect(null);
-        // setNewImageUrl("");
         setTitle("");
         setDescription("");
-        // const fetchData = await getPostData();
-        // setUserData(fetchData)
       }
     } catch (error: any) {
       console.log("Error is detected");
     }
   };
 
-  const handlePostImage = () => {
-    fileInputRef.current?.click();
+  const handleOpeningCam = () => {
+    setIsCamOpen(!isCamOpen);
   };
 
-  // Handle image upload
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // 1- To get a single image
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    setFileSelect(file);
-
-    // 2- Store the temp url
-    const previewUrl = URL.createObjectURL(file);
-    console.log("Preview Url when first image is uploaded", previewUrl);
-    // 3 - Stored in state
-    setPreviewImageUrl(previewUrl);
-  };
-
-  // Handling webcam modal
-  const handleModal = () => {
-    setIsWebcamShowing(!isWebcamShowing);
-  };
   return (
     <Dialog
-      open={isModalOpen}
-      onClose={setIsModalOpen}
+      open={isWebCamModalOpen}
+      onClose={setIsWebCamModalOpen}
       className="relative z-10"
     >
       <DialogBackdrop
@@ -137,7 +154,7 @@ export default function AddNewPost({
         <div className="flex min-h-full w-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
           <DialogPanel
             transition
-            className="relative transform h-[90vh] w-[50%] p-4 flex flex-col justify-between overflow-hidden rounded-lg bg-gray-100 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8  data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
+            className="relative overflow-y-auto transform h-[90vh] w-[50%] p-4 flex flex-col justify-between overflow-hidden rounded-lg bg-gray-100 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8  data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
           >
             <div className="my-10 flex flex-col justify-center items-center">
               <div className="w-[90%] space-y-5 text-red-600 rounded-xl">
@@ -147,30 +164,46 @@ export default function AddNewPost({
 
                 {/* Image to upload and video*/}
                 <div className="flex justify-around  items-center rounded-md">
-                  <div className="flex flex-col">
-                    <Image
-                      src={previewImageUrl || upload_placeholder}
-                      alt="Upload a post"
-                      height={"100"}
-                      width={"100"}
-                      className="rounded-xl"
-                      onClick={handlePostImage}
-                    />
-                    <input
-                      className="w-52"
-                      size={2}
-                      type="file"
-                      onChange={handleFileChange}
-                      ref={fileInputRef}
-                      accept="image/*"
-                    />
-                    {/* <span>Post a photo</span> */}
-                  </div>
-                  {/* <span>OR</span> */}
+                  {/* Webcam recording functionality */}
+                  <div className="flex flex-col gap-4">
+                    {isCamOpen ? (
+                      <Webcam
+                        audio={true}
+                        ref={webcamRef}
+                        width={"500"}
+                        height={"300"}
+                        className="rounded-lg"
+                      />
+                    ) : (
+                      <video width="500" height="500" controls>
+                        <source src={videoUrl} type="video/webm" />
+                      </video>
+                    )}
 
-                  <button className="" onClick={handleModal}>
-                    Open Webcam
-                  </button>
+                    {/* Open camera button */}
+                    {!isCamOpen ? (
+                      <button
+                        onClick={handleOpeningCam}
+                        className="bg-red-600 text-white px-3 py-2 rounded-md"
+                      >
+                        Open Camera
+                      </button>
+                    ) : capturing ? (
+                      <button
+                        onClick={handleStopCaptureClick}
+                        className="bg-red-600 text-white px-3 py-2 rounded-md"
+                      >
+                        Stop Recording
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handleStartCaptureClick}
+                        className="bg-red-600 text-white px-3 py-2 rounded-md"
+                      >
+                        Start Recording
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 {/* Post Title and input */}
@@ -208,7 +241,7 @@ export default function AddNewPost({
                 <div className="w-full text-center">
                   <button
                     className="cursor-pointer disabled:cursor-not-allowed disabled:bg-gray-600 bg-red-700 text-white px-4 py-2 rounded-md"
-                    disabled={!title && !description && !fileSelect}
+                    // disabled={!title && !description && !fileSelect}
                     onClick={handleSubmit}
                   >
                     Submit
@@ -220,7 +253,6 @@ export default function AddNewPost({
           </DialogPanel>
         </div>
       </div>
-      {/* {isWebcamShowing && <WebCam />} */}
     </Dialog>
   );
 }

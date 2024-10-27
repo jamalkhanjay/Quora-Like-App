@@ -10,6 +10,7 @@ interface Data {
   post_added_by: string,
   post_img_url: string,
   user_image: string,
+  post_videos_url: string,
   votes: [],
 }
 
