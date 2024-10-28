@@ -2,6 +2,8 @@
 import { insertMessage } from "@/lib/supabaseMethods";
 import { clientStore } from "@/stores/clientStore";
 import React from "react";
+import { FiSend } from "react-icons/fi";
+
 
 const ChatInput = () => {
   const { session } = clientStore();
@@ -15,9 +17,9 @@ const ChatInput = () => {
   };
 
   return (
-    <div className="w-full p-5">
+    <div className="w-full p-5 border-t flex gap-4 items-center">
       <input
-        className="w-full"
+        className="w-full p-3 bg-gray-200 rounded-lg"
         placeholder="Send message"
         onKeyDown={(e) => {
           if (e.key === "Enter") {
@@ -27,6 +29,7 @@ const ChatInput = () => {
           }
         }}
       />
+      <FiSend className="text-red-700 cursor-pointer disabled:text-gray-500  hover:text-red-900 text-3xl" />
     </div>
   );
 };

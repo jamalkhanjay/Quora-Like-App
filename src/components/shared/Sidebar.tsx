@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 // import toast, { Toaster } from "react-hot-toast";
 import { FaPlus } from "react-icons/fa";
-import { GoDeviceCameraVideo, GoHome, GoSignOut,  } from "react-icons/go";
+import { GoDeviceCameraVideo, GoHome, GoSignOut } from "react-icons/go";
 import AddNewPost from "../AddNewPost";
 import WebcamRecording from "../WebcamRecording";
 import { IoMdVideocam } from "react-icons/io";
@@ -42,7 +42,7 @@ const Sidebar = () => {
         data-drawer-toggle="default-sidebar"
         aria-controls="default-sidebar"
         type="button"
-        className="absolute inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+        className="absolute inline-flex items-center p-2 mt-2 ms-3 text-sm text-orange-500 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:text-orange-600 dark:hover:bg-gray-300 dark:focus:ring-gray-300"
         onClick={() => setIsOpenSidebar(!isOpenSidebar)}
       >
         <span className="sr-only">Open sidebar</span>
@@ -63,11 +63,17 @@ const Sidebar = () => {
 
       <aside
         id="default-sidebar"
-        className={`fixed top-0 left-0 z-40 w-64 h-screen ${isOpenSidebar ? "block" : "hidden"} transition-transform -translate-x-full sm:translate-x-0 bg-gray-300 dark:bg-gray-300 border-r border-gray-400`}
+        className={`fixed top-0 left-0 z-40 w-64 h-screen ${
+          isOpenSidebar ? "block" : "hidden"
+        } transition-transform translate-x-0 bg-gray-300 dark:bg-gray-300 border-r border-gray-400`}
         aria-label="Sidebar"
       >
-        {/* <ImCancelCircle /> */}
-        <div className="h-full flex flex-col justify-between px-3 py-4 overflow-y-aut">
+        <ImCancelCircle
+          size={30}
+          className="absolute right-0 text-orange-700 m-2 cursor-pointer hover:text-orange-800"
+          onClick={() => setIsOpenSidebar(!isOpenSidebar)}
+        />
+        <div className="h-full flex flex-col justify-between px-3 py-4 overflow-y-auto mt-8">
           <ul className="space-y-2 font-medium">
             <li onClick={handleNewPostModal} className="cursor-pointer">
               <a className="flex items-center p-2 text-red-600 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">
@@ -78,14 +84,12 @@ const Sidebar = () => {
             <li onClick={handleRecording} className="cursor-pointer">
               <a className="flex items-center p-2 text-red-600 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">
                 <IoMdVideocam className="text-red-600 text-xl" />
-                <span className="ms-2 text-red-600 text-xl">
-                  Record Video
-                </span>
+                <span className="ms-2 text-red-600 text-xl">Record Video</span>
               </a>
             </li>
             <li onClick={() => router.push("/")} className="cursor-pointer">
               <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">
-                <IoHome className="text-red-600 text-xl"/>
+                <IoHome className="text-red-600 text-xl" />
                 <span className="flex-1 ms-2 whitespace-nowrap text-red-600 text-xl">
                   Feed
                 </span>

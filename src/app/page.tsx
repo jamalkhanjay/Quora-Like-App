@@ -81,7 +81,7 @@ export default function Home() {
       <Auth />
       <Header />
       <Sidebar />
-      <div className="ml-64 flex flex-col gap-5 justify-center items-center pt-6 bg-gray-200 overflow-y-auto">
+      <div className="flex flex-col gap-5 justify-center items-center pt-6 bg-gray-200 overflow-y-auto">
         {loading ? (
           // Loading
           <div

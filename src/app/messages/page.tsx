@@ -14,8 +14,8 @@ const Messages = () => {
       <Auth />
       <Header />
       <Sidebar />
-      <div className="max-w-3xl mx-auto md:py-10 h-screen">
-        <div className="h-full border rounded-md flex flex-col ">
+      <div className="md:py-2 h-screen w-full bg-gray-200 flex flex-col items-center justify-center" >
+        <div className="w-[70%] h-full border rounded-md flex flex-col bg-white">
           <ChatHeader />
           <ChatMessages />
           <ChatInput />
