@@ -39,7 +39,7 @@ export const addPost = async (
   username?: string | undefined,
   imageUrl?: string,
   profileImgUrl?: string,
-  videoUrl?: string,
+  videoUrl?: string
 ) => {
   const { error } = await supabaseClient.from("posts").insert({
     post_title: title,
@@ -48,7 +48,7 @@ export const addPost = async (
     post_added_by: username,
     post_img_url: imageUrl,
     user_image: profileImgUrl,
-    post_videos_url: videoUrl
+    post_videos_url: videoUrl,
   });
 
   if (error) {
@@ -182,4 +182,32 @@ export const updateCredentials = async (
     return { isUserUpdated: false, error };
   }
   return { isUserUpdated: true, error: null };
+};
+
+// Fetch all messages
+export const fetchMessages = async () => {
+  const { data: messages, error } = await supabaseClient
+    .from("messages")
+    .select("*");
+
+  if (error) {
+    console.log("Error while fetching messages data");
+    throw error;
+  }
+
+  return messages;
+};
+
+export const insertMessage = async (
+  message: string,
+  userName: string,
+  userImage: string
+) => {
+  const { error } = await supabaseClient
+    .from("messages")
+    .insert({ content: message, user_name: userName, user_image: userImage });
+
+  if (error) {
+    console.log("error while adding new message");
+  }
 };

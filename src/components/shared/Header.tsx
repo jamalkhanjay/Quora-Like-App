@@ -15,7 +15,9 @@ import supabaseClient from "@/services/supabase";
 import { useRouter } from "next/navigation";
 import { clientStore } from "@/stores/clientStore";
 import upload_placeholder from "@/assets/upload_placeholder.jpg";
+import logo_image from "@/assets/logo-image.png";
 import { Avatar } from "@chakra-ui/react";
+import Image from "next/image";
 
 const Header = () => {
   const { session } = clientStore();
@@ -41,12 +43,22 @@ const Header = () => {
   ];
 
   return (
-    <Disclosure as="nav" className="bg-gray-300 dark:bg-gray-300 shadow border-b border-b-gray-400">
+    <Disclosure
+      as="nav"
+      className="bg-gray-300 dark:bg-gray-300 shadow border-b border-b-gray-400"
+    >
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
+          <Image
+            src={logo_image}
+            alt="Quora Logo"
+            className="object-cover cursor-pointer"
+            width={100}
+            onClick={() => router.push("/")}
+          />
           {/* <div className="absolute inset-y-0 left-0 flex items-center sm:hidden"> */}
-            {/* Mobile menu button*/}
-            {/* <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+          {/* Mobile menu button*/}
+          {/* <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
               <span className="absolute -inset-0.5" />
               <span className="sr-only">Open main menu</span>
               <Bars3Icon
@@ -95,7 +107,10 @@ const Header = () => {
                 <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                   <Avatar
                     name={session?.user.user_metadata.userName}
-                    src={session?.user.user_metadata.avatar_url || upload_placeholder}
+                    src={
+                      session?.user.user_metadata.avatar_url ||
+                      upload_placeholder
+                    }
                     className="h-8 w-8 rounded-full bg-red-600 text-white"
                   />
                 </MenuButton>

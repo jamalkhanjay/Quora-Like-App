@@ -8,11 +8,13 @@ import AddNewPost from "../AddNewPost";
 import WebcamRecording from "../WebcamRecording";
 import { IoMdVideocam } from "react-icons/io";
 import { IoHome } from "react-icons/io5";
+import { ImCancelCircle } from "react-icons/im";
 
 const Sidebar = () => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isWebCamModalOpen, setIsWebCamModalOpen] = useState(false);
+  const [isOpenSidebar, setIsOpenSidebar] = useState(false);
 
   // const notify = () => toast.success("Signed Out Successfully");
 
@@ -40,7 +42,8 @@ const Sidebar = () => {
         data-drawer-toggle="default-sidebar"
         aria-controls="default-sidebar"
         type="button"
-        className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+        className="absolute inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+        onClick={() => setIsOpenSidebar(!isOpenSidebar)}
       >
         <span className="sr-only">Open sidebar</span>
         <svg
@@ -60,9 +63,10 @@ const Sidebar = () => {
 
       <aside
         id="default-sidebar"
-        className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 bg-gray-300 dark:bg-gray-300 border-r border-gray-400"
+        className={`fixed top-0 left-0 z-40 w-64 h-screen ${isOpenSidebar ? "block" : "hidden"} transition-transform -translate-x-full sm:translate-x-0 bg-gray-300 dark:bg-gray-300 border-r border-gray-400`}
         aria-label="Sidebar"
       >
+        {/* <ImCancelCircle /> */}
         <div className="h-full flex flex-col justify-between px-3 py-4 overflow-y-aut">
           <ul className="space-y-2 font-medium">
             <li onClick={handleNewPostModal} className="cursor-pointer">
