@@ -81,8 +81,8 @@ export default function AddNewPost({
         setTitle("");
         setDescription("");
       }
-    } catch (error: any) {
-      console.log("Error is detected");
+    } catch (error) {
+      console.log("Error is detected", error);
     }
   };
 

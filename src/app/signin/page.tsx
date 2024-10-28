@@ -32,13 +32,9 @@ const SignIn = () => {
     <div className="flex h-screen">
       <div className="w-1/2 flex flex-col justify-center items-center">
         <div className="flex flex-col item-center gap-4">
-          <Image
-            className="object-cover w-52"
-            src={logo}
-            alt="Quora Logo"
-          />
+          <Image className="object-cover w-52" src={logo} alt="Quora Logo" />
           <h2 className="text-center text-4xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign in 
+            Sign in
           </h2>
         </div>
 
@@ -107,7 +103,7 @@ const SignIn = () => {
           </div>
 
           <p className="mt-10 text-center text-sm text-gray-500">
-            Don't have any account?
+            Don&apos;t have an account?
             <button
               onClick={() => router.push("/signup")}
               className="font-semibold leading-6 text-red-600 hover:text-red-500"

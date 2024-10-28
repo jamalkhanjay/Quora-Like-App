@@ -13,8 +13,23 @@ import Header from "@/components/shared/Header";
 import Sidebar from "@/components/shared/Sidebar";
 import { PiEmpty } from "react-icons/pi";
 
+interface Post {
+  uuid: string;
+  user_id: string;
+  post_id: string;
+  post_added_by: string;
+  created_by: string;
+  user_image: string;
+  created_at: string;
+  post_img_url: string;
+  post_title: string;
+  description: string;
+  votes: [],
+  // Add any other properties your posts contain
+}
+
 const SpecificUser = ({ params }: { params: { userId: string } }) => {
-  const [userPosts, setUserPosts] = useState<any[] | undefined>([]);
+  const [userPosts, setUserPosts] = useState<Post[] | undefined>([]);
   const [isShowing, setIsShowing] = useState(false);
   const [postID, setPostID] = useState("");
   const [loading, setLoading] = useState(false);
