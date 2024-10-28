@@ -9,7 +9,11 @@ import { Avatar } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { FiSend } from "react-icons/fi";
 
-export default function CommentsModal(props: any) {
+interface CommentsModalProps {
+  postID: string;
+}
+
+export default function CommentsModal( { postID }: CommentsModalProps) {
   const [open, setOpen] = useState(true);
   const [comment, setComment] = useState("");
   // const [refatchComments, setRefatchComments] = useState
@@ -23,7 +27,7 @@ export default function CommentsModal(props: any) {
   const profileImgUrl = session?.user.user_metadata.avatar_url;
 
   const sumbitComment = async () => {
-    await addComment(props.postID, userID, comment, commentedBy, profileImgUrl);
+    await addComment(postID, userID, comment, commentedBy, profileImgUrl);
     // const fetched = await fetchComments(props.postID);
     // setComments(fetched || []);
     setComment("");
@@ -31,7 +35,7 @@ export default function CommentsModal(props: any) {
 
   useEffect(() => {
     const fetchingComments = async () => {
-      const fetched = await fetchComments(props.postID);
+      const fetched = await fetchComments(postID);
       setComments(fetched || []);
       console.log("fetched comments - ", comments);
     };

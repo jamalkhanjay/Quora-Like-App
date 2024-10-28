@@ -109,15 +109,19 @@ const Profile = () => {
           position: "top",
         });
       }
-    } catch (error: any) {
-      console.log("The error is here", error.message);
-      toast({
-        title: error.message,
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-        position: "top",
-      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.log("The error is here", error.message);
+        toast({
+          title: error.message,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top",
+        });
+      } else {
+        console.log("An unknown error occurred");
+      }
     }
   };
 
@@ -125,8 +129,16 @@ const Profile = () => {
     <>
       <Header />
       <Sidebar />
-      <VStack py={"6"} bgColor={"gray.200"} >
-        <VStack spacing={"10"} w={"90%"} bgColor={"gray.300"} py={"20"} textColor={"red.500"} rounded={"2xl"} shadow={"xl"}>
+      <VStack py={"6"} bgColor={"gray.200"}>
+        <VStack
+          spacing={"10"}
+          w={"90%"}
+          bgColor={"gray.300"}
+          py={"20"}
+          textColor={"red.500"}
+          rounded={"2xl"}
+          shadow={"xl"}
+        >
           <Heading>Profile</Heading>
           <VStack position={"relative"}>
             <Avatar size="2xl" src={previewAvatarUrl || avatarUrl} />
@@ -179,7 +191,7 @@ const Profile = () => {
                 variant="filled"
               />
             </HStack>
-        
+
             <Button
               onClick={handleUpdateCredentials}
               // isLoading={isUserUpdating}

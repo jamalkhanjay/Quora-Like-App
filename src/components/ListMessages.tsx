@@ -5,8 +5,15 @@ import supabaseClient from "@/services/supabase";
 import { Avatar } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
+interface Chat {
+  user_image: string;
+  user_name: string;
+  created_at: string;
+  content: string;
+}
+
 const ListMessages = () => {
-  const [messages, setMessages] = useState<any[]>([]);
+  const [messages, setMessages] = useState<Chat[]>([]);
 
   useEffect(() => {
     const fetchingMessages = async () => {
@@ -26,7 +33,7 @@ const ListMessages = () => {
         { event: "INSERT", schema: "public", table: "messages" },
         (payload) => {
           console.log("Change received!", payload);
-          setMessages((prevMessages) => [...prevMessages, payload.new]);
+          setMessages((prevMessages) => [...prevMessages, payload.new as Chat]);
         }
       )
       .subscribe();

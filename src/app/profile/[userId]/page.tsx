@@ -16,7 +16,6 @@ import { PiEmpty } from "react-icons/pi";
 interface Post {
   uuid: string;
   user_id: string;
-  post_id: string;
   post_added_by: string;
   created_by: string;
   user_image: string;
@@ -25,7 +24,6 @@ interface Post {
   post_title: string;
   description: string;
   votes: [],
-  // Add any other properties your posts contain
 }
 
 const SpecificUser = ({ params }: { params: { userId: string } }) => {

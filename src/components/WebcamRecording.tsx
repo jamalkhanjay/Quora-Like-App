@@ -132,8 +132,8 @@ export default function WebcamRecording({
         setTitle("");
         setDescription("");
       }
-    } catch (error: any) {
-      console.log("Error is detected", error.message);
+    } catch (error) {
+      console.log("Error is detected", error);
     }
   };
 
