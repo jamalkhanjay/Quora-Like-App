@@ -9,6 +9,7 @@ import WebcamRecording from "../WebcamRecording";
 import { IoMdVideocam } from "react-icons/io";
 import { IoHome } from "react-icons/io5";
 import { ImCancelCircle } from "react-icons/im";
+import { SiGooglemessages } from "react-icons/si";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -93,9 +94,15 @@ const Sidebar = () => {
                 <span className="flex-1 ms-2 whitespace-nowrap text-red-600 text-xl">
                   Feed
                 </span>
-                {/* <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-3100 dark:text-red-600">
-                  Feed
-                </span> */}
+              </a>
+            </li>
+            <li onClick={() => router.push("/messages")} className="cursor-pointer">
+              <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">
+                <SiGooglemessages className="text-red-600 text-xl" />
+                <span className="flex-1 ms-2 whitespace-nowrap text-red-600 text-xl">
+                  Messages
+                </span>
+                
               </a>
             </li>
           </ul>
