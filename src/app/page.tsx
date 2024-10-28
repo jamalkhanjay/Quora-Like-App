@@ -11,8 +11,6 @@ import { GoArrowDown, GoArrowUp } from "react-icons/go";
 import toast, { Toaster } from "react-hot-toast";
 import { Avatar } from "@chakra-ui/react";
 import CommentsModal from "@/components/CommentsModal";
-// import supabaseClient from "@/services/supabase";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function Home() {
@@ -21,8 +19,6 @@ export default function Home() {
   const [postID, setPostID] = useState("");
   const { setUserData, userData, session } = clientStore();
 
-  // const router = useRouter();
-
   // Post fetching logic
   useEffect(() => {
     const fetchingPostData = async () => {
@@ -30,7 +26,6 @@ export default function Home() {
       const fetchedData = await getPostData();
       if (fetchedData) {
         const postData = fetchedData.reverse();
-        // console.log("The post data is recieving", postData[0].comments)
         setUserData(postData);
         setLoading(false);
       }
@@ -138,8 +133,6 @@ export default function Home() {
                       className="text-xs bg-black w-full h-96 object-cover rounded-xl"
                       src={post.post_img_url}
                       alt="user"
-                      // width={"200"}
-                      // height={"200"}
                     />
                   )}
 
@@ -204,7 +197,6 @@ export default function Home() {
           ))
         )}
       </div>
-      {/* {isShowing && <CommentsModal post_id={postID}/>} */}
     </>
   );
 }

@@ -109,7 +109,7 @@ const SpecificUser = ({ params }: { params: { userId: string } }) => {
         ) : (
           userPosts?.map((post) => (
             <div
-              className="ml-64 my-4 w-[60%] flex flex-col items-center gap-5 p-6 mb-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-100 dark:border-gray-100"
+              className="my-4 w-[60%] flex flex-col items-center gap-5 p-6 mb-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-100 dark:border-gray-100"
               key={post.uuid}
             >
               <div className="flex gap-5 items-center w-full">
@@ -136,8 +136,6 @@ const SpecificUser = ({ params }: { params: { userId: string } }) => {
                       className="text-xs bg-black w-full h-96 object-cover rounded-xl"
                       src={post.post_img_url}
                       alt="user"
-                      // width={"200"}
-                      // height={"200"}
                     />
                   )}
 

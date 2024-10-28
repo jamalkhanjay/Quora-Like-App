@@ -1,21 +1,18 @@
 "use client";
 
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
-import { addPost, getPostData } from "@/lib/supabaseMethods";
+import { addPost } from "@/lib/supabaseMethods";
 import { clientStore } from "@/stores/clientStore";
 import React, {
   useRef,
   useState,
   Dispatch,
   SetStateAction,
-  useCallback,
 } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import upload_placeholder from "@/assets/upload_placeholder.jpg";
 import Image from "next/image";
 import supabaseClient from "@/services/supabase";
-import Webcam from "react-webcam";
-// import WebCam from "./WebCam";
 
 export default function AddNewPost({
   isModalOpen,
@@ -78,15 +75,11 @@ export default function AddNewPost({
       }
 
       if (isPostAdded) {
-        // notify();
         toastInfo();
         setPreviewImageUrl(null);
         setFileSelect(null);
-        // setNewImageUrl("");
         setTitle("");
         setDescription("");
-        // const fetchData = await getPostData();
-        // setUserData(fetchData)
       }
     } catch (error: any) {
       console.log("Error is detected");
@@ -188,6 +181,7 @@ export default function AddNewPost({
                     className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   />
                 </div>
+
                 {/* Submit button */}
                 <div className="w-full text-center">
                   <button
@@ -204,7 +198,6 @@ export default function AddNewPost({
           </DialogPanel>
         </div>
       </div>
-      {/* {isWebcamShowing && <WebCam />} */}
     </Dialog>
   );
 }

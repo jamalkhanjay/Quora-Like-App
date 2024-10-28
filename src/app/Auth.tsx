@@ -5,11 +5,10 @@ import { clientStore } from "@/stores/clientStore";
 import { useEffect } from "react";
 
 const Auth = () => {
-  const { setSession, session } = clientStore();
+  const { setSession } = clientStore();
 
   const getMeSession = async () => {
     const { data, error } = await supabaseClient.auth.getSession();
-    // console.log(data.session);
     
     if (error) {
       console.log("Error while Fetching session");
@@ -22,17 +21,6 @@ const Auth = () => {
   useEffect(() => {
     getMeSession();
   }, []);
-
-  // const gettingSession = async () => {
-  //   await getMeSession();
-  //   if (gettingSession) {
-  //     setSession(gettingSession);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   gettingSession();
-  // });
 
   return null;
 };

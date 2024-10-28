@@ -1,9 +1,8 @@
 import supabaseClient from "@/services/supabase";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-// import toast, { Toaster } from "react-hot-toast";
 import { FaPlus } from "react-icons/fa";
-import { GoDeviceCameraVideo, GoHome, GoSignOut } from "react-icons/go";
+import { GoSignOut } from "react-icons/go";
 import AddNewPost from "../AddNewPost";
 import WebcamRecording from "../WebcamRecording";
 import { IoMdVideocam } from "react-icons/io";
@@ -17,15 +16,12 @@ const Sidebar = () => {
   const [isWebCamModalOpen, setIsWebCamModalOpen] = useState(false);
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
 
-  // const notify = () => toast.success("Signed Out Successfully");
-
   const signMeOut = async () => {
     const { error } = await supabaseClient.auth.signOut();
     if (error) {
       throw error;
     }
     router.push("/signin");
-    // notify();
   };
 
   const handleNewPostModal = () => {
@@ -74,7 +70,7 @@ const Sidebar = () => {
           className="absolute right-0 text-orange-700 m-2 cursor-pointer hover:text-orange-800"
           onClick={() => setIsOpenSidebar(!isOpenSidebar)}
         />
-        <div className="h-full flex flex-col justify-between px-3 py-4 overflow-y-auto mt-8">
+        <div className="h-full flex flex-col justify-between px-3 py-4 overflow-y-auto pt-12">
           <ul className="space-y-2 font-medium">
             <li onClick={handleNewPostModal} className="cursor-pointer">
               <a className="flex items-center p-2 text-red-600 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">

@@ -1,7 +1,7 @@
 "use client";
 
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
-import { addPost, getPostData } from "@/lib/supabaseMethods";
+import { addPost } from "@/lib/supabaseMethods";
 import { clientStore } from "@/stores/clientStore";
 import React, {
   useRef,
@@ -24,14 +24,11 @@ export default function WebcamRecording({
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
   // * For webcam start*
   const webcamRef = useRef<Webcam | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const [capturing, setCapturing] = useState<boolean>(false);
   const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
-  const [isWebcamShowing, setIsWebcamShowing] = useState<boolean>(false);
   const [isCamOpen, setIsCamOpen] = useState<boolean>(false);
   // const [videoUrl, setVideoUrl] = useState<string>("");
 
@@ -43,7 +40,6 @@ export default function WebcamRecording({
 
   const toastInfo = () => toast.success("Post Successfully added!");
 
-  let newImageUrl: string = "";
   let videoUrl: string = "";
 
   const handleStartCaptureClick = useCallback(() => {
@@ -122,7 +118,6 @@ export default function WebcamRecording({
         description,
         userId,
         userName,
-        newImageUrl,
         profileImgUrl,
         videoUrl,
       );
@@ -138,7 +133,7 @@ export default function WebcamRecording({
         setDescription("");
       }
     } catch (error: any) {
-      console.log("Error is detected");
+      console.log("Error is detected", error.message);
     }
   };
 

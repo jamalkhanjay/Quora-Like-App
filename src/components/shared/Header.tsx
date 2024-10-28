@@ -10,7 +10,6 @@ import {
   MenuItem,
   MenuItems,
 } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import supabaseClient from "@/services/supabase";
 import { useRouter } from "next/navigation";
 import { clientStore } from "@/stores/clientStore";

@@ -18,8 +18,6 @@ export default function CommentsModal(props: any) {
 
   const { comments, setComments } = commentStore();
 
-  // let fetched: any[] = [] |;
-
   const userID = session?.user.id;
   const commentedBy = session?.user.user_metadata.userName;
   const profileImgUrl = session?.user.user_metadata.avatar_url;
@@ -57,7 +55,6 @@ export default function CommentsModal(props: any) {
               <h3 className="font-bold text-2xl border-b text-red-600 border-b-gray-300 pb-2">
                 Comments
               </h3>
-              {/* <div> */}
               {!comments ? (
                 <div>
                   <p>No comments!</p>
@@ -80,7 +77,6 @@ export default function CommentsModal(props: any) {
                   </div>
                 ))
               )}
-              {/* </div> */}
 
               <div className="fixed bottom-0 left-0 right-0 bg-white w-full p-4 rounded-md border-t">
                 <div className="flex items-center justify-between gap-2">

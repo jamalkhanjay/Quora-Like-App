@@ -1,7 +1,6 @@
 "use client";
 
 import supabaseClient from "@/services/supabase";
-import { clientStore } from "@/stores/clientStore";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import mainImg from "@/assets/quora image.jpeg";
@@ -104,12 +103,11 @@ const SignIn = () => {
               disabled={!email || !password}
             >
               Sign in
-              {/* <Toaster toastOptions={{ duration: 5000 }} /> */}
             </button>
           </div>
 
           <p className="mt-10 text-center text-sm text-gray-500">
-            Don't have any account?{" "}
+            Don't have any account?
             <button
               onClick={() => router.push("/signup")}
               className="font-semibold leading-6 text-red-600 hover:text-red-500"

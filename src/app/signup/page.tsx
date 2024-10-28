@@ -3,8 +3,6 @@
 import supabaseClient from "@/services/supabase";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { clientStore } from "@/stores/clientStore";
-import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
 import mainImg from "@/assets/quora image.jpeg";
 import logo from "@/assets/quora.jpg";
@@ -14,10 +12,6 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
   const router = useRouter();
-
-  // const { userId, setUserId } = clientStore();
-
-  // const notify = () => toast.success("Account Created Successfully");
 
   const createAccount = async () => {
     const { data, error } = await supabaseClient.auth.signUp({
@@ -38,7 +32,6 @@ const SignUp = () => {
       setPassword("");
       setUserName("");
       router.push("/signin");
-      // notify();
     }
   };
 
@@ -129,10 +122,8 @@ const SignUp = () => {
               disabled={!userName || !email || !password}
             >
               Sign Up
-              {/* <Toaster toastOptions={{ duration: 5000 }} /> */}
             </button>
           </div>
-          {/* </form> */}
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Already have an account.

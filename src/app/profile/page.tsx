@@ -110,7 +110,7 @@ const Profile = () => {
         });
       }
     } catch (error: any) {
-      console.log("The error is here");
+      console.log("The error is here", error.message);
       toast({
         title: error.message,
         status: "error",
@@ -125,7 +125,7 @@ const Profile = () => {
     <>
       <Header />
       <Sidebar />
-      <VStack ml={"64"} py={"6"} bgColor={"gray.200"} >
+      <VStack py={"6"} bgColor={"gray.200"} >
         <VStack spacing={"10"} w={"90%"} bgColor={"gray.300"} py={"20"} textColor={"red.500"} rounded={"2xl"} shadow={"xl"}>
           <Heading>Profile</Heading>
           <VStack position={"relative"}>
@@ -179,21 +179,7 @@ const Profile = () => {
                 variant="filled"
               />
             </HStack>
-
-            {/* <HStack w={"full"}>
-            <Text w={["25%", "25%", "15%"]} fontWeight={"bold"}>
-              Password:
-            </Text>
-            <Input
-              // onChange={(e) => setUpdatePassword(e.target.value)}
-              w={["80%", "80%", "85%"]}
-              type="password"
-              placeholder="Password"
-              size="lg"
-              variant="filled"
-            />
-          </HStack> */}
-
+        
             <Button
               onClick={handleUpdateCredentials}
               // isLoading={isUserUpdating}
@@ -215,10 +201,6 @@ const Profile = () => {
       </VStack>
     </>
   );
-
-  // return (
-  //    <h1>Hello</h1>
-  // )
 };
 
 export default Profile;
