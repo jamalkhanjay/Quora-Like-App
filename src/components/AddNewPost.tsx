@@ -33,13 +33,6 @@ export default function AddNewPost({
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // * For webcam start*
-  const webcamRef = useRef<Webcam | null>(null);
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const [capturing, setCapturing] = useState<boolean>(false);
-  const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
-  const [isWebcamShowing, setIsWebcamShowing] = useState<boolean>(false);
-
   const { session } = clientStore();
 
   const userId = session?.user.id;
@@ -119,10 +112,6 @@ export default function AddNewPost({
     setPreviewImageUrl(previewUrl);
   };
 
-  // Handling webcam modal
-  const handleModal = () => {
-    setIsWebcamShowing(!isWebcamShowing);
-  };
   return (
     <Dialog
       open={isModalOpen}
@@ -146,8 +135,8 @@ export default function AddNewPost({
                 </div>
 
                 {/* Image to upload and video*/}
-                <div className="flex justify-around  items-center rounded-md">
-                  <div className="flex flex-col">
+                <div className="flex justify-around items-center rounded-md">
+                  <div className="flex flex-col gap-2">
                     <Image
                       src={previewImageUrl || upload_placeholder}
                       alt="Upload a post"
@@ -166,11 +155,6 @@ export default function AddNewPost({
                     />
                     {/* <span>Post a photo</span> */}
                   </div>
-                  {/* <span>OR</span> */}
-
-                  <button className="" onClick={handleModal}>
-                    Open Webcam
-                  </button>
                 </div>
 
                 {/* Post Title and input */}

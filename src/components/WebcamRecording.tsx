@@ -48,6 +48,7 @@ export default function WebcamRecording({
 
   const handleStartCaptureClick = useCallback(() => {
     if (webcamRef.current && webcamRef.current.stream) {
+      console.log("1- capturing started")
       setCapturing(true);
       mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
         mimeType: "video/webm",
@@ -64,7 +65,9 @@ export default function WebcamRecording({
 
   const handleDataAvailable = useCallback(
     ({ data }: { data: Blob }) => {
+      console.log("Data size is", data.size)
       if (data.size > 0) {
+        console.log("2- Getting data from cam")
         setRecordedChunks((prev) => prev.concat(data));
       }
     },
@@ -80,7 +83,9 @@ export default function WebcamRecording({
 
   // Upload videos to URL
   const uploadVideoToSupabase = useCallback(async () => {
+    console.log("2.5- Recorded chunks are- ", recordedChunks.length);
     if (recordedChunks.length) {
+      console.log("3- chunks recorded")
       const blob = new Blob(recordedChunks, { type: "video/webm" });
 
       // Create a unique filename for the video
@@ -102,6 +107,7 @@ export default function WebcamRecording({
         .from("post_images")
         .getPublicUrl(fileName);
       videoUrl = data.publicUrl;
+      console.log("Video url is ", videoUrl);
     } else {
       console.log("Video is not recorded");
     }
@@ -175,7 +181,7 @@ export default function WebcamRecording({
                         className="rounded-lg"
                       />
                     ) : (
-                      <video width="500" height="500" controls>
+                      <video width="500" height="500" controls className="rounded-md">
                         <source src={videoUrl} type="video/webm" />
                       </video>
                     )}
