@@ -3,7 +3,7 @@
 import CommentsModal from "@/components/CommentsModal";
 import { fetchSpecificUsers, manageVotes } from "@/lib/supabaseMethods";
 import { clientStore } from "@/stores/clientStore";
-import { Avatar, useSlider } from "@chakra-ui/react";
+import { Avatar } from "@chakra-ui/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
