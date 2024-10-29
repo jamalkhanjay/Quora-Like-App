@@ -7,6 +7,7 @@ import Header from "@/components/shared/Header";
 import Sidebar from "@/components/shared/Sidebar";
 import Auth from "@/app/Auth";
 import ChatMessages from "@/components/ChatMessages";
+import withAuth from "@/components/HOC/withAuth";
 
 const Messages = () => {
   return (
@@ -25,4 +26,4 @@ const Messages = () => {
   );
 };
 
-export default Messages;
+export default withAuth(Messages);

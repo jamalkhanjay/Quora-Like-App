@@ -19,6 +19,7 @@ import { MdEditSquare } from "react-icons/md";
 import upload_placeholder from "@/assets/upload_placeholder.jpg";
 import { updateCredentials } from "@/lib/supabaseMethods";
 import supabaseClient from "@/services/supabase";
+import withAuth from "@/components/HOC/withAuth";
 
 const Profile = () => {
   const [updateName, setUpdateName] = useState("");
@@ -215,4 +216,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default withAuth(Profile);

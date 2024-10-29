@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import mainImg from "@/assets/quora image.jpeg";
 import logo from "@/assets/quora.jpg";
 import Image from "next/image";
+import withAuth from "@/components/HOC/withAuth";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -119,4 +120,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default withAuth(SignIn);

@@ -12,8 +12,9 @@ import toast, { Toaster } from "react-hot-toast";
 import { Avatar } from "@chakra-ui/react";
 import CommentsModal from "@/components/CommentsModal";
 import Link from "next/link";
+import withAuth from "@/components/HOC/withAuth";
 
-export default function Home() {
+const Home =() => {
   const [loading, setLoading] = useState(false);
   const [isShowing, setIsShowing] = useState(false);
   const [postID, setPostID] = useState("");
@@ -200,3 +201,5 @@ export default function Home() {
     </>
   );
 }
+
+export default withAuth(Home);
