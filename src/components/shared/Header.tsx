@@ -12,9 +12,8 @@ import supabaseClient from "@/services/supabase";
 import { useRouter } from "next/navigation";
 import { clientStore } from "@/stores/clientStore";
 import upload_placeholder from "@/assets/upload_placeholder.jpg";
-import logo_image from "@/assets/logo-image.png";
 import { Avatar } from "@chakra-ui/react";
-import Image from "next/image";
+
 
 const Header = () => {
   const { session } = clientStore();
@@ -35,13 +34,7 @@ const Header = () => {
     >
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-end">
-          {/* <Image
-            src={logo_image}
-            alt="Quora Logo"
-            className="object-cover cursor-pointer"
-            width={100}
-            onClick={() => router.push("/")}
-          /> */}
+      
 
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <div className="text-red-600 text-xl font-bold">
