@@ -134,11 +134,9 @@ const Profile = () => {
         <VStack
           spacing={"10"}
           w={"90%"}
-          bgColor={"gray.300"}
           py={"20"}
           textColor={"red.500"}
           rounded={"2xl"}
-          shadow={"xl"}
         >
           <Heading>Profile</Heading>
           <VStack position={"relative"}>
@@ -174,6 +172,8 @@ const Profile = () => {
                 placeholder="Email"
                 size="lg"
                 variant="filled"
+                bgColor={"white"}
+                _hover={{ bgColor: "none" }}
                 disabled
               />
             </HStack>
@@ -188,6 +188,8 @@ const Profile = () => {
                 type="text"
                 placeholder="Name"
                 value={updateName}
+                bgColor={"white"}
+                _hover={{ bgColor: "none" }}
                 size="lg"
                 variant="filled"
               />

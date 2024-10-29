@@ -101,6 +101,15 @@ const Sidebar = () => {
                 
               </a>
             </li>
+            <li onClick={() => router.push("/chat")} className="cursor-pointer">
+              <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">
+                <SiGooglemessages className="text-red-600 text-xl" />
+                <span className="flex-1 ms-2 whitespace-nowrap text-red-600 text-xl">
+                  Chat
+                </span>
+                
+              </a>
+            </li>
           </ul>
           <div className="w-full">
             <button

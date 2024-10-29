@@ -34,8 +34,6 @@ const SpecificUser = ({ params }: { params: { userId: string } }) => {
 
   const { session } = clientStore();
 
-  console.log("The user id is", params.userId);
-
   useEffect(() => {
     const postsData = async () => {
       setLoading(true);

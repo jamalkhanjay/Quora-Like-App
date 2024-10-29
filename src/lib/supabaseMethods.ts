@@ -211,3 +211,46 @@ export const insertMessage = async (
     console.log("error while adding new message");
   }
 };
+
+// ------------- *** USERS Tables Calls *** -----------------
+// Fetch users
+export const retrieveUsers = async (userName: string) => {
+  const { data, error } = await supabaseClient
+    .from("users")
+    .select("*")
+    .neq("user_name", userName);
+
+  if (error) {
+    console.log("Error while fetching users from Users tables", error.message);
+  }
+
+  if (data) {
+    return data;
+  }
+};
+
+// Users table insertion
+export const insertUser = async (userName: string) => {
+  const { error } = await supabaseClient
+    .from("users")
+    .insert({ user_name: userName });
+  if (error) {
+    console.log("Error while inserting the user", error.message);
+  }
+};
+
+// -------------- *** Conversation Tables Calls *** ---------------
+// create conversation
+// export const createConversation = async (
+//   currentUserId: string | undefined,
+//   chatUserId: number
+// ) => {
+//   const { error } = await supabaseClient
+//     .from("conversation")
+//     .insert({ current_user_id: currentUserId, user2_id: chatUserId });
+
+//     if(error) {
+//       console.log("Error while fetching data");
+//       return error.message;
+//     }
+// };

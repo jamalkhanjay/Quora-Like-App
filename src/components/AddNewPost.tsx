@@ -145,8 +145,9 @@ export default function AddNewPost({
                       onChange={handleFileChange}
                       ref={fileInputRef}
                       accept="image/*"
+                      // style={{display: "none"}}
                     />
-                    {/* <span>Post a photo</span> */}
+
                   </div>
                 </div>
 

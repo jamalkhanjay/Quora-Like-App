@@ -7,6 +7,7 @@ import Image from "next/image";
 import mainImg from "@/assets/quora image.jpeg";
 import logo from "@/assets/quora.jpg";
 import withAuth from "@/components/HOC/withAuth";
+import { insertUser } from "@/lib/supabaseMethods";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -29,6 +30,9 @@ const SignUp = () => {
     }
 
     if (data) {
+      // Insert that user to User Table
+      insertUser(userName);
+      
       setEmail("");
       setPassword("");
       setUserName("");
