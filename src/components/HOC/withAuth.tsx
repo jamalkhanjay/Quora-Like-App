@@ -12,7 +12,7 @@ const withAuth = (WrappedComponent: React.ComponentType) => {
     const router = useRouter();
     const { session, setSession } = clientStore();
     const pathname = usePathname();
-    const isAccessGranted = true; // can add additional checks of access of a specific page other than just authentication
+    // const isAccessGranted = true; // can add additional checks of access of a specific page other than just authentication
 
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
     const [isAllowed, setIsAllowed] = useState<boolean>(false);
@@ -60,16 +60,6 @@ const withAuth = (WrappedComponent: React.ComponentType) => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAuthenticated, pathname, router]);
 
-    // if (isAuthenticated === null || !isAllowed) {
-    //   if (pathname === '/signin' || pathname === '/signup') return null;
-    //   return (
-    //     <Box h="100vh">
-    //       <AbsoluteCenter>
-    //         <RiseLoader color="#437B45" size={20} />
-    //       </AbsoluteCenter>
-    //     </Box>
-    //   );
-    // }
     return isAuthenticated && isAllowed ? <WrappedComponent {...props} /> : null;
   };
   return WithAuthComponent;
