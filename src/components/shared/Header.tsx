@@ -34,14 +34,14 @@ const Header = () => {
       className="bg-gray-300 dark:bg-gray-300 shadow border-b border-b-gray-400"
     >
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div className="relative flex h-16 items-center justify-between">
-          <Image
+        <div className="relative flex h-16 items-center justify-end">
+          {/* <Image
             src={logo_image}
             alt="Quora Logo"
             className="object-cover cursor-pointer"
             width={100}
             onClick={() => router.push("/")}
-          />
+          /> */}
 
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <div className="text-red-600 text-xl font-bold">

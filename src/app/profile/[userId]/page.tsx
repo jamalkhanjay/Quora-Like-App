@@ -3,7 +3,7 @@
 import CommentsModal from "@/components/CommentsModal";
 import { fetchSpecificUsers, manageVotes } from "@/lib/supabaseMethods";
 import { clientStore } from "@/stores/clientStore";
-import { Avatar } from "@chakra-ui/react";
+import { Avatar, useSlider } from "@chakra-ui/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
@@ -12,6 +12,7 @@ import Auth from "@/app/Auth";
 import Header from "@/components/shared/Header";
 import Sidebar from "@/components/shared/Sidebar";
 import { PiEmpty } from "react-icons/pi";
+import { useSidebarStore } from "@/stores/sidebarStore";
 
 interface Post {
   uuid: string;
@@ -23,7 +24,7 @@ interface Post {
   post_img_url: string;
   post_title: string;
   description: string;
-  votes: [],
+  votes: [];
 }
 
 const SpecificUser = ({ params }: { params: { userId: string } }) => {
@@ -33,6 +34,7 @@ const SpecificUser = ({ params }: { params: { userId: string } }) => {
   const [loading, setLoading] = useState(false);
 
   const { session } = clientStore();
+  const { isOpen } = useSidebarStore();
 
   useEffect(() => {
     const postsData = async () => {
@@ -88,7 +90,11 @@ const SpecificUser = ({ params }: { params: { userId: string } }) => {
       <Auth />
       <Header />
       <Sidebar />
-      <div className="w-full flex flex-col items-center bg-gray-200">
+      <div
+        className={`w-full flex flex-col items-center bg-gray-200 duration-300 ease-in-out ${
+          isOpen ? "ml-60" : "ml-0"
+        }`}
+      >
         {loading ? (
           // Loading
           <div

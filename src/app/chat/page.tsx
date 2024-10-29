@@ -5,6 +5,7 @@ import Sidebar from "@/components/shared/Sidebar";
 import { retrieveUsers } from "@/lib/supabaseMethods";
 import supabaseClient from "@/services/supabase";
 import { clientStore } from "@/stores/clientStore";
+import { useSidebarStore } from "@/stores/sidebarStore";
 import { Avatar } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -20,6 +21,8 @@ const Chat = () => {
   const router = useRouter();
 
   const { session } = clientStore();
+  const { isOpen } = useSidebarStore();
+
   const currentUserId = session?.user.id;
   const userName = session?.user.user_metadata.userName;
 
@@ -49,7 +52,9 @@ const Chat = () => {
     <>
       <Header />
       <Sidebar />
-      <div className="h-[90vh] w-1/4 overflow-y-auto py-4 mx-16 border-r">
+      <div className={`h-[90vh] w-1/4 overflow-y-auto py-4 border-r duration-300 ease-in-out ${
+          isOpen ? "ml-64" : "ml-16"
+        }`}>
         {users?.map((value) => (
           <div
             key={value.id}

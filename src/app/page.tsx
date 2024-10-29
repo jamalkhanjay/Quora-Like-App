@@ -13,12 +13,14 @@ import { Avatar } from "@chakra-ui/react";
 import CommentsModal from "@/components/CommentsModal";
 import Link from "next/link";
 import withAuth from "@/components/HOC/withAuth";
+import { useSidebarStore } from "@/stores/sidebarStore";
 
-const Home =() => {
+const Home = () => {
   const [loading, setLoading] = useState(false);
   const [isShowing, setIsShowing] = useState(false);
   const [postID, setPostID] = useState("");
   const { setUserData, userData, session } = clientStore();
+  const { isOpen } = useSidebarStore();
 
   // Post fetching logic
   useEffect(() => {
@@ -52,7 +54,7 @@ const Home =() => {
 
     const vote = await manageVotes(post_id, userId, remove);
     const fetchData = await getPostData();
-    setUserData(fetchData.reverse())
+    setUserData(fetchData.reverse());
 
     // Toaster
     if (vote === "23505") {
@@ -77,7 +79,12 @@ const Home =() => {
       <Auth />
       <Header />
       <Sidebar />
-      <div className="flex flex-col gap-5 justify-center items-center pt-6 bg-gray-200 overflow-y-auto">
+      {/* <div className="flex flex-col gap-5 justify-center items-center pt-6 bg-gray-200 overflow-y-auto"> */}
+      <div
+        className={`flex-1 flex flex-col gap-5 justify-center items-center pt-6 bg-gray-200 overflow-y-auto duration-300 ease-in-out ${
+          isOpen ? "ml-60" : "ml-0"
+        }`}
+      >
         {loading ? (
           // Loading
           <div
@@ -117,7 +124,10 @@ const Home =() => {
                 <div className="w-full space-y-4">
                   {/* User name, time and Image of post */}
                   <div className="flex items-center gap-2 mb-4 text-white">
-                    <Link href={`/profile/${post.user_id}`} className="flex gap-2 items-center">
+                    <Link
+                      href={`/profile/${post.user_id}`}
+                      className="flex gap-2 items-center"
+                    >
                       <Avatar src={post.user_image} name={post.post_added_by} />
                       <h5 className="text-xl font-bold tracking-tight text-red-900 dark:text-red-600">
                         {post.post_added_by}
@@ -200,6 +210,6 @@ const Home =() => {
       </div>
     </>
   );
-}
+};
 
 export default withAuth(Home);

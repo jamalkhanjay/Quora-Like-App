@@ -9,12 +9,15 @@ import { IoMdVideocam } from "react-icons/io";
 import { IoHome } from "react-icons/io5";
 import { ImCancelCircle } from "react-icons/im";
 import { SiGooglemessages } from "react-icons/si";
+import { useSidebarStore } from "@/stores/sidebarStore";
 
 const Sidebar = () => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isWebCamModalOpen, setIsWebCamModalOpen] = useState(false);
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
+
+  const { isOpen, toggle } = useSidebarStore();
 
   const signMeOut = async () => {
     const { error } = await supabaseClient.auth.signOut();
@@ -40,7 +43,9 @@ const Sidebar = () => {
         aria-controls="default-sidebar"
         type="button"
         className="absolute inline-flex items-center p-2 mt-2 ms-3 text-sm text-orange-500 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:text-orange-600 dark:hover:bg-gray-300 dark:focus:ring-gray-300"
-        onClick={() => setIsOpenSidebar(!isOpenSidebar)}
+        
+        // onClick={() => setIsOpenSidebar(!isOpenSidebar)}
+        onClick={toggle}       
       >
         <span className="sr-only">Open sidebar</span>
         <svg
@@ -58,17 +63,35 @@ const Sidebar = () => {
         </svg>
       </button>
 
+      {/* <button
+        className="text-black focus:outline-none mb-4"
+        // onClick={() => setIsOpenSidebar(!isOpenSidebar)}
+        onClick={toggle}
+      >
+        Close Sidebar
+      </button> */}
+
       <aside
         id="default-sidebar"
-        className={`fixed top-0 left-0 z-40 w-64 h-screen ${
-          isOpenSidebar ? "block" : "hidden"
-        } transition-transform translate-x-0 bg-gray-300 dark:bg-gray-300 border-r border-gray-400`}
+        className={`fixed top-0 left-0 h-full bg-gray-300 p-5 text-white transform ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 ease-in-out`}
+        style={{ width: "256px" }}
+        // className={`fixed top-0 left-0 z-40 w-64 h-screen ${
+        //   isOpenSidebar ? "block" : "tranparent"
+        // } transition-transform translate-x-0 bg-gray-300 dark:bg-gray-300 border-r border-gray-400`}
         aria-label="Sidebar"
       >
+        {/* <button
+          className="p-4 bg-blue-500 text-white"
+          onClick={toggle}
+        >
+          Toggle Sidebar
+        </button> */}
         <ImCancelCircle
           size={30}
           className="absolute right-0 text-orange-700 m-2 cursor-pointer hover:text-orange-800"
-          onClick={() => setIsOpenSidebar(!isOpenSidebar)}
+          onClick={toggle}
         />
         <div className="h-full flex flex-col justify-between px-3 py-4 overflow-y-auto pt-12">
           <ul className="space-y-2 font-medium">
@@ -92,13 +115,15 @@ const Sidebar = () => {
                 </span>
               </a>
             </li>
-            <li onClick={() => router.push("/messages")} className="cursor-pointer">
+            <li
+              onClick={() => router.push("/messages")}
+              className="cursor-pointer"
+            >
               <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">
                 <SiGooglemessages className="text-red-600 text-xl" />
                 <span className="flex-1 ms-2 whitespace-nowrap text-red-600 text-xl">
                   Messages
                 </span>
-                
               </a>
             </li>
             <li onClick={() => router.push("/chat")} className="cursor-pointer">
@@ -107,7 +132,6 @@ const Sidebar = () => {
                 <span className="flex-1 ms-2 whitespace-nowrap text-red-600 text-xl">
                   Chat
                 </span>
-                
               </a>
             </li>
           </ul>

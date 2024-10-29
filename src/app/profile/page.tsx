@@ -20,6 +20,7 @@ import upload_placeholder from "@/assets/upload_placeholder.jpg";
 import { updateCredentials } from "@/lib/supabaseMethods";
 import supabaseClient from "@/services/supabase";
 import withAuth from "@/components/HOC/withAuth";
+import { useSidebarStore } from "@/stores/sidebarStore";
 
 const Profile = () => {
   const [updateName, setUpdateName] = useState("");
@@ -30,6 +31,7 @@ const Profile = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { session } = clientStore();
+  const { isOpen } = useSidebarStore();
 
   const toast = useToast();
 
@@ -130,7 +132,7 @@ const Profile = () => {
     <>
       <Header />
       <Sidebar />
-      <VStack py={"6"} bgColor={"gray.200"}>
+      <VStack py={"6"} bgColor={"gray.200"} ml={`${isOpen ? "64" : "0"}`} transition="all 0.3s ease-in-out">
         <VStack
           spacing={"10"}
           w={"90%"}
