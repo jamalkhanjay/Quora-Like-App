@@ -46,7 +46,7 @@ const Sidebar = () => {
         data-drawer-toggle="default-sidebar"
         aria-controls="default-sidebar"
         type="button"
-        className="absolute inline-flex items-center p-2 mt-2 ms-3 text-sm text-orange-500 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:text-orange-600 dark:hover:bg-gray-300 dark:focus:ring-gray-300"
+        className="absolute left-20 inline-flex items-center p-2 mt-2 ms-3 text-sm text-orange-500 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:text-orange-600 dark:hover:bg-gray-300 dark:focus:ring-gray-300"
         // onClick={() => setIsOpenSidebar(!isOpenSidebar)}
         onClick={toggle}
       >
@@ -66,20 +66,12 @@ const Sidebar = () => {
         </svg>
       </button>
 
-      {/* <button
-        className="text-black focus:outline-none mb-4"
-        // onClick={() => setIsOpenSidebar(!isOpenSidebar)}
-        onClick={toggle}
-      >
-        Close Sidebar
-      </button> */}
-
       <aside
         id="default-sidebar"
         className={`fixed top-0 left-0 h-full bg-gray-300 text-white transform ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
+          isOpen ? "translate-x-0 w-64" : "-translate-x-0 w-20"
         } transition-transform duration-300 ease-in-out`}
-        style={{ width: "256px" }}
+        // style={{ width: "256px" }}
         aria-label="Sidebar"
       >
         <div className="h-[10%] flex justify-between items-center w-full border-b border-gray-400 px-4">
@@ -90,28 +82,28 @@ const Sidebar = () => {
           />
           <ImCancelCircle
             size={30}
-            className="text-orange-700 m-2 cursor-pointer hover:text-orange-800"
+            className={`text-orange-700 m-2 ${isOpen ? "" : "hidden"} cursor-pointer  hover:text-orange-800`}
             onClick={toggle}
           />
         </div>
-        <div className="h-[90%] py-4 px-4 flex flex-col justify-between overflow-y-auto">
+        <div className="h-[90%] py-4 px-4 flex flex-col items-start justify-between overflow-y-auto">
           <ul className="space-y-2 font-medium">
             <li onClick={handleNewPostModal} className="cursor-pointer">
               <a className="flex items-center p-2 text-red-600 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">
-                <FaPlus className="text-red-600" />
-                <span className="ms-2 text-red-600 text-xl">Add new Post</span>
+                <FaPlus className="text-red-600 text-2xl" />
+                <span className={`ms-2 text-red-600 ${isOpen ? "" : "hidden"} text-xl`}>Add new Post</span>
               </a>
             </li>
             <li onClick={handleRecording} className="cursor-pointer">
-              <a className="flex items-center p-2 text-red-600 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">
-                <IoMdVideocam className="text-red-600 text-xl" />
-                <span className="ms-2 text-red-600 text-xl">Record Video</span>
+              <a className="flex items-center  p-2 text-red-600 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">
+                <IoMdVideocam className="text-red-600 text-2xl" />
+                <span className={`ms-2 text-red-600 ${isOpen ? "" : "hidden"} text-xl`}>Record Video</span>
               </a>
             </li>
             <li onClick={() => router.push("/")} className="cursor-pointer">
               <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">
-                <IoHome className="text-red-600 text-xl" />
-                <span className="flex-1 ms-2 whitespace-nowrap text-red-600 text-xl">
+                <IoHome className="text-red-600 text-2xl" />
+                <span className={`ms-2 text-red-600 ${isOpen ? "" : "hidden"} text-xl`}>
                   Feed
                 </span>
               </a>
@@ -121,16 +113,16 @@ const Sidebar = () => {
               className="cursor-pointer"
             >
               <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">
-                <SiGooglemessages className="text-red-600 text-xl" />
-                <span className="flex-1 ms-2 whitespace-nowrap text-red-600 text-xl">
+                <SiGooglemessages className="text-red-600 text-2xl" />
+                <span className={`ms-2 text-red-600 ${isOpen ? "" : "hidden"} text-xl`}>
                   Messages
                 </span>
               </a>
             </li>
             <li onClick={() => router.push("/chat")} className="cursor-pointer">
               <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">
-                <SiGooglemessages className="text-red-600 text-xl" />
-                <span className="flex-1 ms-2 whitespace-nowrap text-red-600 text-xl">
+                <SiGooglemessages className="text-red-600 text-2xl" />
+                <span className={`ms-2 text-red-600 ${isOpen ? "" : "hidden"} text-xl`}>
                   Chat
                 </span>
               </a>
@@ -142,8 +134,10 @@ const Sidebar = () => {
               onClick={signMeOut}
             >
               {/* <Toaster toastOptions={{ duration: 7000 }} /> */}
-              <GoSignOut className="text-red-600 text-xl" />
-              <span className="ms-2 text-red-600 text-xl">Sign Out</span>
+              <GoSignOut className="text-red-600 text-2xl" />
+              <span className={`ms-2 text-red-600 font-bold ${isOpen ? "" : "hidden"} text-xl`}>
+                Sign Out
+              </span>
             </button>
           </div>
         </div>
