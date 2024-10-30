@@ -7,13 +7,17 @@ import Image from "next/image";
 import mainImg from "@/assets/quora image.jpeg";
 import logo from "@/assets/quora.jpg";
 import withAuth from "@/components/HOC/withAuth";
-import { insertUser } from "@/lib/supabaseMethods";
+import { userProfileStore } from "@/stores/userProfileStore";
+
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
+  // const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
+
+  const { setUser } = userProfileStore();
 
   const createAccount = async () => {
     const { data, error } = await supabaseClient.auth.signUp({
@@ -29,10 +33,23 @@ const SignUp = () => {
       throw error;
     }
 
-    if (data) {
-      // Insert that user to User Table
-      insertUser(userName);
-      
+    console.log("Before if")
+    if (data.user) {
+      const newProfile = {
+        id: data.user.id,
+        username: userName,
+        avatar_url: null,
+      };
+
+      console.log("inside if")
+
+      const { error: profileError } = await supabaseClient
+        .from("profiles")
+        .insert([newProfile]);
+
+      if (profileError) throw profileError;
+
+      setUser(newProfile);
       setEmail("");
       setPassword("");
       setUserName("");

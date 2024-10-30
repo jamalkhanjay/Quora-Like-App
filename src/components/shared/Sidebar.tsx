@@ -74,11 +74,12 @@ const Sidebar = () => {
         // style={{ width: "256px" }}
         aria-label="Sidebar"
       >
-        <div className="h-[10%] flex justify-between items-center w-full border-b border-gray-400 px-4">
+        <div className="h-[10%] flex justify-between items-center w-full px-4">
           <BsQuora
             size={"50"}
             color="#c40404"
             onClick={() => router.push("/")}
+            className="cursor-pointer"
           />
           <ImCancelCircle
             size={30}

@@ -3,7 +3,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Auth from "./Auth";
 // import Header from "@/components/shared/Header";
-// import { ChakraProvider } from "@chakra-ui/react";
 import { Providers } from "./providers";
 
 const geistSans = localFont({
@@ -19,7 +18,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Quora Clone App",
-  description: "This is a Quora clone app which is has similar features with Quara",
+  description: "This is a Quora clone app which is has similar features with Quora",
 };
 
 export default function RootLayout({

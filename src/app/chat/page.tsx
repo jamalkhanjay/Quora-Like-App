@@ -1,73 +1,86 @@
 "use client";
 
-import Header from "@/components/shared/Header";
-import Sidebar from "@/components/shared/Sidebar";
-import { retrieveUsers } from "@/lib/supabaseMethods";
-import supabaseClient from "@/services/supabase";
-import { clientStore } from "@/stores/clientStore";
-import { useSidebarStore } from "@/stores/sidebarStore";
-import { Avatar } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useState, useCallback } from "react";
+// import { useAuth } from "@/providers/AuthProvider";
+import { MessageList } from "@/components/chat/MessagesList";
+import { MessageInput } from "@/components/chat/MessageInput";
+import { ChatList } from "@/components/chat/ChatList";
+// import { User } from "@/types";
+// import { LogOut } from "lucide-react";
+import { userProfileStore } from "@/stores/userProfileStore";
 
-interface Users {
-  id: number;
-  user_name: string;
-  user_image: string;
+interface User {
+  id: string;
+  username: string;
+  avatar_url?: string | null;
 }
 
-const Chat = () => {
-  const [users, setUsers] = useState<Users[] | undefined>();
-  const router = useRouter();
+export default function ChatPage() {
+  //   const { user, signOut } = useAuth();
+  const { user } = userProfileStore();
+  const [selectedChat, setSelectedChat] = useState<{
+    chatId: number;
+    otherUser: User;
+  } | null>(null);
 
-  const { session } = clientStore();
-  const { isOpen } = useSidebarStore();
-
-  const currentUserId = session?.user.id;
-  const userName = session?.user.user_metadata.userName;
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const usersData = await retrieveUsers(userName);
-      setUsers(usersData);
-    };
-    fetchUsers();
+  const handleChatSelect = useCallback((chatId: number, otherUser: User) => {
+    setSelectedChat({ chatId, otherUser });
   }, []);
 
-  const hanldePrivateChat = async (chatUserId: number) => {
-    // If no conversation created , create one
-
-    const { error } = await supabaseClient
-      .from("conversation")
-      .insert({ current_user_id: currentUserId, user2_id: chatUserId });
-    router.push(`/chat/${chatUserId}`);
-
-    if (error) {
-      console.log("Error while fetching data");
-      router.push(`/chat/${chatUserId}`);
-    }
-  };
+  if (!user) {
+    return null;
+  }
 
   return (
-    <>
-      <Header />
-      <Sidebar />
-      <div className={`h-[90vh] w-1/4 overflow-y-auto py-4 border-r duration-300 ease-in-out ${
-          isOpen ? "ml-64" : "ml-16"
-        }`}>
-        {users?.map((value) => (
-          <div
-            key={value.id}
-            className="flex items-center gap-2 border-b py-2 pl-2 cursor-pointer hover:bg-gray-200"
-            onClick={() => hanldePrivateChat(value.id)}
-          >
-            <Avatar src={value.user_image} name={value.user_name} />
-            <h1>{value.user_name}</h1>
+    <div className="flex h-screen bg-gray-100">
+      <div className="w-80 bg-white border-r flex flex-col">
+        <div className="p-4 border-b flex items-center justify-between">
+          <div>
+            <h1 className="text-lg font-semibold">Chat App</h1>
+            <p className="text-sm text-gray-500">{user.username}</p>
           </div>
-        ))}
-      </div>
-    </>
-  );
-};
+        </div>
 
-export default Chat;
+        <ChatList
+          currentUser={user}
+          onSelectChat={handleChatSelect}
+          selectedChatId={selectedChat?.chatId}
+        />
+      </div>
+
+      {selectedChat ? (
+        <div className="flex-1 flex flex-col">
+          <div className="p-4 bg-white border-b">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
+                {selectedChat.otherUser.username[0].toUpperCase()}
+              </div>
+              <div>
+                <h2 className="font-semibold">
+                  {selectedChat.otherUser.username}
+                </h2>
+              </div>
+            </div>
+          </div>
+          {selectedChat.chatId && selectedChat.otherUser && (
+            <div className="flex-1 flex flex-col">
+              <MessageList
+                currentUser={user}
+                chatId={selectedChat.chatId}
+                otherUser={selectedChat.otherUser}
+              />
+              <MessageInput currentUser={user} chatId={selectedChat.chatId} />
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="flex-1 flex items-center justify-center bg-white">
+          <div className="text-center text-gray-500">
+            <p className="text-xl font-semibold">Welcome to Chat</p>
+            <p className="mt-2">Select a conversation to start messaging</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

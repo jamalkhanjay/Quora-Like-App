@@ -187,7 +187,7 @@ export const updateCredentials = async (
 // Fetch all messages
 export const fetchMessages = async () => {
   const { data: messages, error } = await supabaseClient
-    .from("messages")
+    .from("chating")
     .select("*");
 
   if (error) {
@@ -204,7 +204,7 @@ export const insertMessage = async (
   userImage: string
 ) => {
   const { error } = await supabaseClient
-    .from("messages")
+    .from("chating")
     .insert({ content: message, user_name: userName, user_image: userImage });
 
   if (error) {
@@ -230,27 +230,62 @@ export const retrieveUsers = async (userName: string) => {
 };
 
 // Users table insertion
-export const insertUser = async (userName: string) => {
-  const { error } = await supabaseClient
-    .from("users")
-    .insert({ user_name: userName });
-  if (error) {
-    console.log("Error while inserting the user", error.message);
-  }
-};
+// export const insertUser = async (userName: string) => {
+//   const { error } = await supabaseClient
+//     .from("users")
+//     .insert({ user_name: userName });
+//   if (error) {
+//     console.log("Error while inserting the user", error.message);
+//   }
+// };
 
 // -------------- *** Conversation Tables Calls *** ---------------
 // create conversation
-// export const createConversation = async (
-//   currentUserId: string | undefined,
-//   chatUserId: number
-// ) => {
-//   const { error } = await supabaseClient
-//     .from("conversation")
-//     .insert({ current_user_id: currentUserId, user2_id: chatUserId });
+export const createConversation = async (
+  currentUserId: string | undefined,
+  chatUserId: number
+) => {
+  const { error } = await supabaseClient
+    .from("conversation")
+    .insert({ current_user_id: currentUserId, user2_id: chatUserId });
 
-//     if(error) {
-//       console.log("Error while fetching data");
-//       return error.message;
-//     }
-// };
+  if (error) {
+    console.log("Error while fetching data");
+    return error.message;
+  }
+};
+
+// Fetching the messages of specific user
+export const retrieveMessages = async (chatUserId: number) => {
+  const { data, error } = await supabaseClient
+    .from("conversation")
+    .select("messages")
+    .eq("user2_id", chatUserId)
+    .single();
+
+    if (error) {
+      console.log("Error while fetching messages column from converstion table", error.message)
+      throw error;
+    }
+
+    if (data) { 
+      return data.messages;
+    }
+};
+
+// interface DataOfMessage {
+//   senderId: string | undefined;
+//   content: string;
+// }
+
+export const updateColumn = async (dataToBeSent: any[], chatUserId: number) => {
+  const { error } = await supabaseClient
+    .from("conversation")
+    .update({ messages: dataToBeSent })
+    .eq("user2_id", chatUserId)
+    .select();
+
+  if (error) {
+    console.log("Error while sending the message", error.message);
+  }
+};
