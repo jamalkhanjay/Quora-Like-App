@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-// import { supabase } from "@/lib/supabaseClient";
-// import { User } from "@/types";
-import { UserPlus } from "lucide-react";
+import { Users } from "lucide-react";
 import supabaseClient from "@/services/supabase";
 
 export interface User {
@@ -28,6 +26,7 @@ export const ChatList: React.FC<ChatListProps> = ({
   const [showNewChat, setShowNewChat] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  // Load from chats table
   const loadChats = async () => {
     try {
       const { data } = await supabaseClient
@@ -40,7 +39,6 @@ export const ChatList: React.FC<ChatListProps> = ({
         `
         )
         .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`)
-        // .order("last_message_at", { ascending: false });
 
       setChats(data || []);
       setLoading(false);
@@ -149,7 +147,7 @@ export const ChatList: React.FC<ChatListProps> = ({
           onClick={() => setShowNewChat(!showNewChat)}
           className="p-2 text-gray-500 hover:text-gray-700 rounded-full hover:bg-gray-100"
         >
-          <UserPlus size={20} />
+          <Users size={20} />
         </button>
       </div>
 

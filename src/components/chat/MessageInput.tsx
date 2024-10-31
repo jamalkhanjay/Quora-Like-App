@@ -73,21 +73,12 @@ export const MessageInput: React.FC<MessageInputProps> = ({
   return (
     <form onSubmit={sendMessage} className="p-4 border-t bg-white">
       <div className="flex items-center gap-2">
-        <button
-          type="button"
-          onClick={() => fileInputRef.current?.click()}
-          className="p-2 text-gray-500 hover:text-gray-700 rounded-full hover:bg-gray-100"
-          title="Attach file"
-        >
-          <Paperclip size={20} />
-        </button>
-
         <input
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyPress={handleKeyPress}
-          className="flex-1 p-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-1 p-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500"
           placeholder="Type a message..."
           disabled={sending}
         />
@@ -95,7 +86,7 @@ export const MessageInput: React.FC<MessageInputProps> = ({
         <button
           type="submit"
           disabled={sending || !message.trim()}
-          className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-2 bg-orange-700 text-white rounded-full hover:bg-orange-800 disabled:opacity-50 disabled:cursor-not-allowed"
           title="Send message"
         >
           {sending ? (

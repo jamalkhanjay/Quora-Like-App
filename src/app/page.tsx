@@ -80,7 +80,7 @@ const Home = () => {
       <Header />
       <Sidebar />
       <div
-        className={`flex-1 flex flex-col gap-5 justify-center items-center pt-6 bg-gray-200 overflow-y-auto duration-300 ease-in-out ${
+        className={`flex-1 flex flex-col gap-5 justify-center items-center pt-6 bg-gray-200 overflow-y-auto transition-all duration-300 ease-in-out ${
           isOpen ? "ml-60" : "ml-0"
         }`}
       >

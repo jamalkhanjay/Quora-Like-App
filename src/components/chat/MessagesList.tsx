@@ -112,8 +112,8 @@ export const MessageList: React.FC<MessageListProps> = ({
             <div
               className={`max-w-[70%] rounded-lg p-3 ${
                 message.sender_id === currentUser.id
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-100"
+                  ? "bg-orange-600 text-white"
+                  : "bg-orange-200"
               }`}
             >
               <div className="text-sm break-words">{message.content}</div>
