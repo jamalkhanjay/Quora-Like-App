@@ -7,13 +7,14 @@ import AddNewPost from "../AddNewPost";
 import WebcamRecording from "../WebcamRecording";
 import { IoMdVideocam } from "react-icons/io";
 import { IoHome } from "react-icons/io5";
-import { ImCancelCircle } from "react-icons/im";
 import { SiGooglemessages } from "react-icons/si";
 import { useSidebarStore } from "@/stores/sidebarStore";
 // import Image from "next/image";
 // import logo_image from "@/assets/logo-image.png";
 // import logo from "@/assets/quora.jpg";
 import { BsQuora } from "react-icons/bs";
+import { FoldHorizontal, UnfoldHorizontal } from "lucide-react";
+import { BiSolidMessageCheck } from "react-icons/bi";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -41,89 +42,90 @@ const Sidebar = () => {
 
   return (
     <div>
-      <button
-        data-drawer-target="default-sidebar"
-        data-drawer-toggle="default-sidebar"
-        aria-controls="default-sidebar"
-        type="button"
-        className="absolute left-20 inline-flex items-center p-2 mt-2 ms-3 text-sm text-orange-500 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:text-orange-600 dark:hover:bg-gray-300 dark:focus:ring-gray-300"
-        // onClick={() => setIsOpenSidebar(!isOpenSidebar)}
-        onClick={toggle}
-      >
-        <span className="sr-only">Open sidebar</span>
-        <svg
-          className="w-6 h-6"
-          aria-hidden="true"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            clipRule="evenodd"
-            fillRule="evenodd"
-            d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
-          ></path>
-        </svg>
-      </button>
-
       <aside
         id="default-sidebar"
-        className={`fixed top-0 left-0 h-full bg-gray-300 text-white transform ${
-          isOpen ? "translate-x-0 w-64" : "-translate-x-0 w-20"
-        } transition-transform duration-300 ease-in-out`}
-        // style={{ width: "256px" }}
+        className={`fixed top-0 left-0 h-full flex flex-col gap-4 justify-center bg-gray-300 text-white transform ${
+          isOpen ? "translate-x-0 w-60" : "-translate-x-0 w-20"
+        } transition-transform duration-200 ease-in-out`}
         aria-label="Sidebar"
       >
-        <div className="h-[10%] flex justify-between items-center w-full px-4">
+        <div className="h-[10%] flex justify-center items-center px-4">
           <BsQuora
             size={"50"}
             color="#c40404"
             onClick={() => router.push("/")}
-            className="cursor-pointer"
-          />
-          <ImCancelCircle
-            size={30}
-            className={`text-orange-700 m-2 ${isOpen ? "" : "hidden"} cursor-pointer  hover:text-orange-800`}
-            onClick={toggle}
+            className="cursor-pointer h-12"
           />
         </div>
+        <div className="text-orange-700 hover:text-orange-800 cursor-pointer flex justify-center">
+          {!isOpen ? (
+            <UnfoldHorizontal onClick={toggle} size={30} />
+          ) : (
+            <FoldHorizontal onClick={toggle} size={30} />
+          )}
+        </div>
+
         <div className="h-[90%] py-4 px-4 flex flex-col items-start justify-between overflow-y-auto">
           <ul className="space-y-2 font-medium">
-            <li onClick={handleNewPostModal} className="cursor-pointer">
+            <li onClick={handleNewPostModal} className="cursor-pointer h-12">
               <a className="flex items-center p-2 text-red-600 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">
                 <FaPlus className="text-red-600 text-2xl" />
-                <span className={`ms-2 text-red-600 ${isOpen ? "" : "hidden"} text-xl`}>Add new Post</span>
+                <span
+                  className={`ms-2 text-red-600 ${
+                    isOpen ? "" : "hidden"
+                  } text-xl`}
+                >
+                  Add new Post
+                </span>
               </a>
             </li>
-            <li onClick={handleRecording} className="cursor-pointer">
+            <li onClick={handleRecording} className="cursor-pointer h-12">
               <a className="flex items-center  p-2 text-red-600 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">
                 <IoMdVideocam className="text-red-600 text-2xl" />
-                <span className={`ms-2 text-red-600 ${isOpen ? "" : "hidden"} text-xl`}>Record Video</span>
+                <span
+                  className={`ms-2 text-red-600 ${
+                    isOpen ? "" : "hidden"
+                  } text-xl`}
+                >
+                  Record Video
+                </span>
               </a>
             </li>
-            <li onClick={() => router.push("/")} className="cursor-pointer">
+            <li onClick={() => router.push("/")} className="cursor-pointer h-12">
               <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">
                 <IoHome className="text-red-600 text-2xl" />
-                <span className={`ms-2 text-red-600 ${isOpen ? "" : "hidden"} text-xl`}>
+                <span
+                  className={`ms-2 text-red-600 ${
+                    isOpen ? "" : "hidden"
+                  } text-xl`}
+                >
                   Feed
                 </span>
               </a>
             </li>
             <li
               onClick={() => router.push("/messages")}
-              className="cursor-pointer"
+              className="cursor-pointer h-12"
             >
               <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">
                 <SiGooglemessages className="text-red-600 text-2xl" />
-                <span className={`ms-2 text-red-600 ${isOpen ? "" : "hidden"} text-xl`}>
+                <span
+                  className={`ms-2 text-red-600 ${
+                    isOpen ? "" : "hidden"
+                  } text-xl`}
+                >
                   Messages
                 </span>
               </a>
             </li>
-            <li onClick={() => router.push("/chat")} className="cursor-pointer">
+            <li onClick={() => router.push("/chat")} className="cursor-pointer h-12">
               <a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group">
-                <SiGooglemessages className="text-red-600 text-2xl" />
-                <span className={`ms-2 text-red-600 ${isOpen ? "" : "hidden"} text-xl`}>
+                <BiSolidMessageCheck className="text-red-600 text-2xl" />
+                <span
+                  className={`ms-2 text-red-600 ${
+                    isOpen ? "" : "hidden"
+                  } text-xl`}
+                >
                   Chat
                 </span>
               </a>
@@ -134,9 +136,12 @@ const Sidebar = () => {
               className="flex w-full items-center p-2 text-gray-200 rounded-lg dark:text-white hover:bg-gray-400 dark:hover:bg-gray-400 group"
               onClick={signMeOut}
             >
-              {/* <Toaster toastOptions={{ duration: 7000 }} /> */}
               <GoSignOut className="text-red-600 text-2xl" />
-              <span className={`ms-2 text-red-600 font-bold ${isOpen ? "" : "hidden"} text-xl`}>
+              <span
+                className={`ms-2 text-red-600 font-bold ${
+                  isOpen ? "" : "hidden"
+                } text-xl`}
+              >
                 Sign Out
               </span>
             </button>

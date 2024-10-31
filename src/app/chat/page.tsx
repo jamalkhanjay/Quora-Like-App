@@ -44,7 +44,7 @@ export default function ChatPage() {
         <div className="w-80 bg-white border-r flex flex-col">
           <div className="p-4 border-b flex items-center justify-between">
             <div>
-              <h1 className="text-lg font-semibold">Messages</h1>
+              <h1 className="text-xl font-bold">Messages</h1>
               <p className="text-sm text-gray-500">{user.username}</p>
             </div>
           </div>

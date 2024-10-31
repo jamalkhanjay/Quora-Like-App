@@ -35,6 +35,7 @@ export default function AddNewPost({
   const userId = session?.user.id;
   const userName = session?.user.user_metadata.userName;
   const profileImgUrl = session?.user.user_metadata.avatar_url;
+  console.log("profile img url", profileImgUrl);
 
   const toastInfo = () => toast.success("Post Successfully added!");
 
