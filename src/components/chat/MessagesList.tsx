@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import supabaseClient from "@/services/supabase";
-// import { supabaseClient } from "@/lib/supabaseClient";
 
 interface Message {
   id: number;

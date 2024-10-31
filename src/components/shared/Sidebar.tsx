@@ -9,9 +9,6 @@ import { IoMdVideocam } from "react-icons/io";
 import { IoHome } from "react-icons/io5";
 import { SiGooglemessages } from "react-icons/si";
 import { useSidebarStore } from "@/stores/sidebarStore";
-// import Image from "next/image";
-// import logo_image from "@/assets/logo-image.png";
-// import logo from "@/assets/quora.jpg";
 import { BsQuora } from "react-icons/bs";
 import { FoldHorizontal, UnfoldHorizontal } from "lucide-react";
 import { BiSolidMessageCheck } from "react-icons/bi";
@@ -20,7 +17,6 @@ const Sidebar = () => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isWebCamModalOpen, setIsWebCamModalOpen] = useState(false);
-  // const [isOpenSidebar, setIsOpenSidebar] = useState(false);
 
   const { isOpen, toggle } = useSidebarStore();
 

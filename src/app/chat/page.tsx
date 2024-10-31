@@ -1,12 +1,9 @@
 "use client";
 
 import { useState, useCallback } from "react";
-// import { useAuth } from "@/providers/AuthProvider";
 import { MessageList } from "@/components/chat/MessagesList";
 import { MessageInput } from "@/components/chat/MessageInput";
 import { ChatList } from "@/components/chat/ChatList";
-// import { User } from "@/types";
-// import { LogOut } from "lucide-react";
 import { userProfileStore } from "@/stores/userProfileStore";
 import Header from "@/components/shared/Header";
 import Sidebar from "@/components/shared/Sidebar";
@@ -19,7 +16,6 @@ interface User {
 }
 
 export default function ChatPage() {
-  //   const { user, signOut } = useAuth();
   const { user } = userProfileStore();
   const [selectedChat, setSelectedChat] = useState<{
     chatId: number;
@@ -44,7 +40,7 @@ export default function ChatPage() {
         <div className="w-80 bg-white border-r flex flex-col">
           <div className="p-4 border-b flex items-center justify-between">
             <div>
-              <h1 className="text-xl font-bold">Messages</h1>
+              <h1 className="text-2xl font-bold">Messages</h1>
               <p className="text-sm text-gray-500">{user.username}</p>
             </div>
           </div>

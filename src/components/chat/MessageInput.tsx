@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Paperclip, Send, X } from "lucide-react";
+import { Send } from "lucide-react";
 import supabaseClient from "@/services/supabase";
 
 interface User {
@@ -41,15 +41,6 @@ export const MessageInput: React.FC<MessageInputProps> = ({
 
       if (messageError) throw messageError;
 
-      // Then update the chat's last_message_at
-      //   const { error: chatError } = await supabaseClient
-      //     .from("chats")
-      //     .update({ last_message_at: new Date().toISOString() })
-      //     .eq("id", chatId);
-
-      //   if (chatError) throw chatError;
-
-      // Clear the input only after successful send
       setMessage("");
 
       // Clear the file input
